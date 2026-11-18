@@ -1,0 +1,2120 @@
+{
+  "meta": {
+    "country": "SE",
+    "taxYear": 2026,
+    "version": "2026.1",
+    "currency": "SEK",
+    "createdAt": "2026-11-16T00:00:00.000Z",
+    "effectiveDate": "2026-01-01",
+    "approvedAt": "2026-11-16T00:00:00.000Z",
+    "lastVerified": "2026-11-16",
+    "verificationStatus": "verified",
+    "description": "Initial 2026 dataset following Skatteverket technical description SKV 433 (edition 36) and the official municipal tax-rate dataset.",
+    "previousVersion": null,
+    "sources": [
+      {
+        "title": "Teknisk beskrivning för skattetabeller 2026 (SKV 433, utgåva 36)",
+        "authority": "Skatteverket",
+        "url": "https://skatteverket.se/download/18.1522bf3f19aea8075ba55c/1766385913260/teknisk-beskrivning-skv-433-2026-utgava-36.pdf"
+      },
+      {
+        "title": "Belopp och procent – inkomstår 2026",
+        "authority": "Skatteverket",
+        "url": "https://www.skatteverket.se/privat/skatter/beloppochprocent/2026"
+      },
+      {
+        "title": "Skattesatser per kommun och församling (open data API)",
+        "authority": "Skatteverket",
+        "url": "https://skatteverket.entryscape.net/rowstore/dataset/c67b320b-ffee-4876-b073-dd9236cd2a99"
+      }
+    ],
+    "unverified": [
+      "The national-average church fee (1.0%) is an approximation; pick a municipality for its actual average parish rate."
+    ],
+    "limitations": [
+      "People aged 66 or over (higher basic allowance, different job tax credit) are not modelled.",
+      "Church and burial fees use the average of the parishes in the municipality.",
+      "Deductions for commuting, interest, RUT/ROT and private pension are not modelled; SINK non-resident tax is not modelled."
+    ]
+  },
+  "rules": {
+    "priceBaseAmount": 59200,
+    "incomeBaseAmount": 83400,
+    "stateTax": {
+      "rate": 0.2,
+      "threshold": 643000
+    },
+    "basicAllowance": {
+      "b1": 0.99,
+      "b2": 2.72,
+      "b3": 3.11,
+      "b4": 7.88,
+      "low": 0.423,
+      "riseRate": 0.2,
+      "high": 0.77,
+      "fallRate": 0.1,
+      "floor": 0.293
+    },
+    "earnedIncomeCredit": {
+      "b1": 0.91,
+      "b2": 3.24,
+      "b3": 8.08,
+      "rate2": 0.3874,
+      "base3": 1.813,
+      "rate3": 0.251,
+      "max": 3.027
+    },
+    "pensionFee": {
+      "rate": 0.07,
+      "ceilingInIncomeBaseAmounts": 8.07,
+      "minIncomeInPriceBaseAmounts": 0.423
+    },
+    "incomeTaxCredit": {
+      "lower": 40000,
+      "upper": 240000,
+      "rate": 0.0075,
+      "max": 1500
+    },
+    "publicServiceFee": {
+      "rate": 0.01,
+      "ceilingInIncomeBaseAmounts": 1.42
+    },
+    "average": {
+      "municipalRate": 32.38,
+      "burialRate": 0.292,
+      "churchRate": 1
+    },
+    "municipalities": [
+      {
+        "id": "ale",
+        "name": "Ale",
+        "municipalRate": 32.8,
+        "burialRate": 0.292,
+        "churchRate": 1.133
+      },
+      {
+        "id": "alingsaas",
+        "name": "Alingsås",
+        "municipalRate": 32.84,
+        "burialRate": 0.292,
+        "churchRate": 1.228
+      },
+      {
+        "id": "alvesta",
+        "name": "Alvesta",
+        "municipalRate": 33.42,
+        "burialRate": 0.292,
+        "churchRate": 1.297
+      },
+      {
+        "id": "aneby",
+        "name": "Aneby",
+        "municipalRate": 33.85,
+        "burialRate": 0.292,
+        "churchRate": 1.42
+      },
+      {
+        "id": "arboga",
+        "name": "Arboga",
+        "municipalRate": 33.29,
+        "burialRate": 0.292,
+        "churchRate": 1.31
+      },
+      {
+        "id": "arjeplog",
+        "name": "Arjeplog",
+        "municipalRate": 34.84,
+        "burialRate": 0.292,
+        "churchRate": 1.25
+      },
+      {
+        "id": "arvidsjaur",
+        "name": "Arvidsjaur",
+        "municipalRate": 34.14,
+        "burialRate": 0.292,
+        "churchRate": 1.25
+      },
+      {
+        "id": "arvika",
+        "name": "Arvika",
+        "municipalRate": 34.03,
+        "burialRate": 0.292,
+        "churchRate": 1.285
+      },
+      {
+        "id": "askersund",
+        "name": "Askersund",
+        "municipalRate": 34.15,
+        "burialRate": 0.292,
+        "churchRate": 1.1
+      },
+      {
+        "id": "avesta",
+        "name": "Avesta",
+        "municipalRate": 33.95,
+        "burialRate": 0.292,
+        "churchRate": 1.243
+      },
+      {
+        "id": "bengtsfors",
+        "name": "Bengtsfors",
+        "municipalRate": 34.4,
+        "burialRate": 0.292,
+        "churchRate": 1.533
+      },
+      {
+        "id": "berg",
+        "name": "Berg",
+        "municipalRate": 34.22,
+        "burialRate": 0.292,
+        "churchRate": 1.558
+      },
+      {
+        "id": "bjurholm",
+        "name": "Bjurholm",
+        "municipalRate": 35,
+        "burialRate": 0.292,
+        "churchRate": 1.01
+      },
+      {
+        "id": "bjuv",
+        "name": "Bjuv",
+        "municipalRate": 32.17,
+        "burialRate": 0.292,
+        "churchRate": 1.185
+      },
+      {
+        "id": "boden",
+        "name": "Boden",
+        "municipalRate": 33.94,
+        "burialRate": 0.292,
+        "churchRate": 0.95
+      },
+      {
+        "id": "bollebygd",
+        "name": "Bollebygd",
+        "municipalRate": 33.07,
+        "burialRate": 0.292,
+        "churchRate": 1.2
+      },
+      {
+        "id": "bollnaes",
+        "name": "Bollnäs",
+        "municipalRate": 33.37,
+        "burialRate": 0.292,
+        "churchRate": 1.02
+      },
+      {
+        "id": "borgholm",
+        "name": "Borgholm",
+        "municipalRate": 33.44,
+        "burialRate": 0.292,
+        "churchRate": 1.54
+      },
+      {
+        "id": "borlaenge",
+        "name": "Borlänge",
+        "municipalRate": 34.4,
+        "burialRate": 0.292,
+        "churchRate": 0.88
+      },
+      {
+        "id": "boraas",
+        "name": "Borås",
+        "municipalRate": 32.79,
+        "burialRate": 0.292,
+        "churchRate": 1.235
+      },
+      {
+        "id": "botkyrka",
+        "name": "Botkyrka",
+        "municipalRate": 32.23,
+        "burialRate": 0.292,
+        "churchRate": 0.98
+      },
+      {
+        "id": "boxholm",
+        "name": "Boxholm",
+        "municipalRate": 33.37,
+        "burialRate": 0.292,
+        "churchRate": 1.15
+      },
+      {
+        "id": "bromoella",
+        "name": "Bromölla",
+        "municipalRate": 33.74,
+        "burialRate": 0.292,
+        "churchRate": 1.09
+      },
+      {
+        "id": "braecke",
+        "name": "Bräcke",
+        "municipalRate": 35.09,
+        "burialRate": 0.292,
+        "churchRate": 1.5
+      },
+      {
+        "id": "burloev",
+        "name": "Burlöv",
+        "municipalRate": 31.27,
+        "burialRate": 0.292,
+        "churchRate": 0.85
+      },
+      {
+        "id": "baastad",
+        "name": "Båstad",
+        "municipalRate": 31.41,
+        "burialRate": 0.292,
+        "churchRate": 1.313
+      },
+      {
+        "id": "dals-ed",
+        "name": "Dals-Ed",
+        "municipalRate": 34.69,
+        "burialRate": 0.292,
+        "churchRate": 1.625
+      },
+      {
+        "id": "danderyd",
+        "name": "Danderyd",
+        "municipalRate": 30.58,
+        "burialRate": 0.292,
+        "churchRate": 0.73
+      },
+      {
+        "id": "degerfors",
+        "name": "Degerfors",
+        "municipalRate": 35.3,
+        "burialRate": 0.292,
+        "churchRate": 0.925
+      },
+      {
+        "id": "dorotea",
+        "name": "Dorotea",
+        "municipalRate": 35.65,
+        "burialRate": 0.292,
+        "churchRate": 1.3
+      },
+      {
+        "id": "eda",
+        "name": "Eda",
+        "municipalRate": 34.55,
+        "burialRate": 0.292,
+        "churchRate": 1.325
+      },
+      {
+        "id": "ekeroe",
+        "name": "Ekerö",
+        "municipalRate": 31.45,
+        "burialRate": 0.292,
+        "churchRate": 0.953
+      },
+      {
+        "id": "eksjoe",
+        "name": "Eksjö",
+        "municipalRate": 34.02,
+        "burialRate": 0.292,
+        "churchRate": 1.5
+      },
+      {
+        "id": "emmaboda",
+        "name": "Emmaboda",
+        "municipalRate": 33.82,
+        "burialRate": 0.292,
+        "churchRate": 1.2
+      },
+      {
+        "id": "enkoeping",
+        "name": "Enköping",
+        "municipalRate": 33.05,
+        "burialRate": 0.292,
+        "churchRate": 1.178
+      },
+      {
+        "id": "eskilstuna",
+        "name": "Eskilstuna",
+        "municipalRate": 32.85,
+        "burialRate": 0.292,
+        "churchRate": 1.031
+      },
+      {
+        "id": "esloev",
+        "name": "Eslöv",
+        "municipalRate": 31.72,
+        "burialRate": 0.292,
+        "churchRate": 1.038
+      },
+      {
+        "id": "essunga",
+        "name": "Essunga",
+        "municipalRate": 33.05,
+        "burialRate": 0.292,
+        "churchRate": 1.462
+      },
+      {
+        "id": "fagersta",
+        "name": "Fagersta",
+        "municipalRate": 32.99,
+        "burialRate": 0.292,
+        "churchRate": 1.21
+      },
+      {
+        "id": "falkenberg",
+        "name": "Falkenberg",
+        "municipalRate": 32.5,
+        "burialRate": 0.292,
+        "churchRate": 1.3
+      },
+      {
+        "id": "falkoeping",
+        "name": "Falköping",
+        "municipalRate": 33.43,
+        "burialRate": 0.292,
+        "churchRate": 1.51
+      },
+      {
+        "id": "falun",
+        "name": "Falun",
+        "municipalRate": 34.05,
+        "burialRate": 0.292,
+        "churchRate": 1.131
+      },
+      {
+        "id": "filipstad",
+        "name": "Filipstad",
+        "municipalRate": 34.55,
+        "burialRate": 0.292,
+        "churchRate": 1.365
+      },
+      {
+        "id": "finspaang",
+        "name": "Finspång",
+        "municipalRate": 33.7,
+        "burialRate": 0.292,
+        "churchRate": 1.15
+      },
+      {
+        "id": "flen",
+        "name": "Flen",
+        "municipalRate": 33.1,
+        "burialRate": 0.292,
+        "churchRate": 1.382
+      },
+      {
+        "id": "forshaga",
+        "name": "Forshaga",
+        "municipalRate": 34.63,
+        "burialRate": 0.292,
+        "churchRate": 1.105
+      },
+      {
+        "id": "faergelanda",
+        "name": "Färgelanda",
+        "municipalRate": 34.39,
+        "burialRate": 0.292,
+        "churchRate": 1.215
+      },
+      {
+        "id": "gagnef",
+        "name": "Gagnef",
+        "municipalRate": 34.27,
+        "burialRate": 0.292,
+        "churchRate": 1.23
+      },
+      {
+        "id": "gislaved",
+        "name": "Gislaved",
+        "municipalRate": 33.75,
+        "burialRate": 0.292,
+        "churchRate": 1.18
+      },
+      {
+        "id": "gnesta",
+        "name": "Gnesta",
+        "municipalRate": 32.95,
+        "burialRate": 0.292,
+        "churchRate": 1.315
+      },
+      {
+        "id": "gnosjoe",
+        "name": "Gnosjö",
+        "municipalRate": 34,
+        "burialRate": 0.292,
+        "churchRate": 1.46
+      },
+      {
+        "id": "gotland",
+        "name": "Gotland",
+        "municipalRate": 33.6,
+        "burialRate": 0.292,
+        "churchRate": 1.717
+      },
+      {
+        "id": "grums",
+        "name": "Grums",
+        "municipalRate": 34.78,
+        "burialRate": 0.292,
+        "churchRate": 1.295
+      },
+      {
+        "id": "graestorp",
+        "name": "Grästorp",
+        "municipalRate": 33.47,
+        "burialRate": 0.292,
+        "churchRate": 1.155
+      },
+      {
+        "id": "gullspaang",
+        "name": "Gullspång",
+        "municipalRate": 33.97,
+        "burialRate": 0.292,
+        "churchRate": 1.305
+      },
+      {
+        "id": "gaellivare",
+        "name": "Gällivare",
+        "municipalRate": 33.89,
+        "burialRate": 0.292,
+        "churchRate": 0.92
+      },
+      {
+        "id": "gaevle",
+        "name": "Gävle",
+        "municipalRate": 33.77,
+        "burialRate": 0.292,
+        "churchRate": 0.998
+      },
+      {
+        "id": "goeteborg",
+        "name": "Göteborg",
+        "municipalRate": 32.6,
+        "burialRate": 0.292,
+        "churchRate": 0.85
+      },
+      {
+        "id": "goetene",
+        "name": "Götene",
+        "municipalRate": 33.6,
+        "burialRate": 0.292,
+        "churchRate": 1.365
+      },
+      {
+        "id": "habo",
+        "name": "Habo",
+        "municipalRate": 33.93,
+        "burialRate": 0.292,
+        "churchRate": 1.185
+      },
+      {
+        "id": "hagfors",
+        "name": "Hagfors",
+        "municipalRate": 34.3,
+        "burialRate": 0.292,
+        "churchRate": 1.195
+      },
+      {
+        "id": "hallsberg",
+        "name": "Hallsberg",
+        "municipalRate": 33.85,
+        "burialRate": 0.292,
+        "churchRate": 1.163
+      },
+      {
+        "id": "hallstahammar",
+        "name": "Hallstahammar",
+        "municipalRate": 32.69,
+        "burialRate": 0.292,
+        "churchRate": 1.12
+      },
+      {
+        "id": "halmstad",
+        "name": "Halmstad",
+        "municipalRate": 32.38,
+        "burialRate": 0.292,
+        "churchRate": 1.251
+      },
+      {
+        "id": "hammaroe",
+        "name": "Hammarö",
+        "municipalRate": 35.05,
+        "burialRate": 0.292,
+        "churchRate": 0.825
+      },
+      {
+        "id": "haninge",
+        "name": "Haninge",
+        "municipalRate": 31.28,
+        "burialRate": 0.292,
+        "churchRate": 0.85
+      },
+      {
+        "id": "haparanda",
+        "name": "Haparanda",
+        "municipalRate": 33.84,
+        "burialRate": 0.292,
+        "churchRate": 1.03
+      },
+      {
+        "id": "heby",
+        "name": "Heby",
+        "municipalRate": 34.21,
+        "burialRate": 0.292,
+        "churchRate": 1.311
+      },
+      {
+        "id": "hedemora",
+        "name": "Hedemora",
+        "municipalRate": 34.15,
+        "burialRate": 0.292,
+        "churchRate": 1.35
+      },
+      {
+        "id": "helsingborg",
+        "name": "Helsingborg",
+        "municipalRate": 31.39,
+        "burialRate": 0.292,
+        "churchRate": 1.043
+      },
+      {
+        "id": "herrljunga",
+        "name": "Herrljunga",
+        "municipalRate": 33.62,
+        "burialRate": 0.292,
+        "churchRate": 1.373
+      },
+      {
+        "id": "hjo",
+        "name": "Hjo",
+        "municipalRate": 33.48,
+        "burialRate": 0.292,
+        "churchRate": 1.125
+      },
+      {
+        "id": "hofors",
+        "name": "Hofors",
+        "municipalRate": 34.37,
+        "burialRate": 0.292,
+        "churchRate": 1.31
+      },
+      {
+        "id": "huddinge",
+        "name": "Huddinge",
+        "municipalRate": 31.71,
+        "burialRate": 0.292,
+        "churchRate": 0.8
+      },
+      {
+        "id": "hudiksvall",
+        "name": "Hudiksvall",
+        "municipalRate": 33.12,
+        "burialRate": 0.292,
+        "churchRate": 1.1
+      },
+      {
+        "id": "hultsfred",
+        "name": "Hultsfred",
+        "municipalRate": 33.77,
+        "burialRate": 0.292,
+        "churchRate": 1.4
+      },
+      {
+        "id": "hylte",
+        "name": "Hylte",
+        "municipalRate": 33.85,
+        "burialRate": 0.292,
+        "churchRate": 1.62
+      },
+      {
+        "id": "haabo",
+        "name": "Håbo",
+        "municipalRate": 33.3,
+        "burialRate": 0.292,
+        "churchRate": 1.12
+      },
+      {
+        "id": "haellefors",
+        "name": "Hällefors",
+        "municipalRate": 34.35,
+        "burialRate": 0.292,
+        "churchRate": 1.46
+      },
+      {
+        "id": "haerjedalen",
+        "name": "Härjedalen",
+        "municipalRate": 34.17,
+        "burialRate": 0.292,
+        "churchRate": 1.85
+      },
+      {
+        "id": "haernoesand",
+        "name": "Härnösand",
+        "municipalRate": 34.63,
+        "burialRate": 0.292,
+        "churchRate": 1.47
+      },
+      {
+        "id": "haerryda",
+        "name": "Härryda",
+        "municipalRate": 31.98,
+        "burialRate": 0.292,
+        "churchRate": 1.098
+      },
+      {
+        "id": "haessleholm",
+        "name": "Hässleholm",
+        "municipalRate": 32.38,
+        "burialRate": 0.292,
+        "churchRate": 1.243
+      },
+      {
+        "id": "hoeganaes",
+        "name": "Höganäs",
+        "municipalRate": 30.91,
+        "burialRate": 0.292,
+        "churchRate": 1.06
+      },
+      {
+        "id": "hoegsby",
+        "name": "Högsby",
+        "municipalRate": 34.07,
+        "burialRate": 0.292,
+        "churchRate": 1.35
+      },
+      {
+        "id": "hoerby",
+        "name": "Hörby",
+        "municipalRate": 32.26,
+        "burialRate": 0.292,
+        "churchRate": 1.13
+      },
+      {
+        "id": "hoeoer",
+        "name": "Höör",
+        "municipalRate": 32.63,
+        "burialRate": 0.292,
+        "churchRate": 1.23
+      },
+      {
+        "id": "jokkmokk",
+        "name": "Jokkmokk",
+        "municipalRate": 34.29,
+        "burialRate": 0.292,
+        "churchRate": 1.3
+      },
+      {
+        "id": "jaerfaella",
+        "name": "Järfälla",
+        "municipalRate": 31.52,
+        "burialRate": 0.292,
+        "churchRate": 0.69
+      },
+      {
+        "id": "joenkoeping",
+        "name": "Jönköping",
+        "municipalRate": 33.4,
+        "burialRate": 0.292,
+        "churchRate": 1.297
+      },
+      {
+        "id": "kalix",
+        "name": "Kalix",
+        "municipalRate": 33.89,
+        "burialRate": 0.292,
+        "churchRate": 0.98
+      },
+      {
+        "id": "kalmar",
+        "name": "Kalmar",
+        "municipalRate": 33.67,
+        "burialRate": 0.292,
+        "churchRate": 1.23
+      },
+      {
+        "id": "karlsborg",
+        "name": "Karlsborg",
+        "municipalRate": 32.8,
+        "burialRate": 0.292,
+        "churchRate": 1.315
+      },
+      {
+        "id": "karlshamn",
+        "name": "Karlshamn",
+        "municipalRate": 33.8,
+        "burialRate": 0.292,
+        "churchRate": 1.047
+      },
+      {
+        "id": "karlskoga",
+        "name": "Karlskoga",
+        "municipalRate": 34.3,
+        "burialRate": 0.292,
+        "churchRate": 0.925
+      },
+      {
+        "id": "karlskrona",
+        "name": "Karlskrona",
+        "municipalRate": 33.69,
+        "burialRate": 0.292,
+        "churchRate": 1.061
+      },
+      {
+        "id": "karlstad",
+        "name": "Karlstad",
+        "municipalRate": 33.55,
+        "burialRate": 0.292,
+        "churchRate": 0.99
+      },
+      {
+        "id": "katrineholm",
+        "name": "Katrineholm",
+        "municipalRate": 32.95,
+        "burialRate": 0.292,
+        "churchRate": 1.305
+      },
+      {
+        "id": "kil",
+        "name": "Kil",
+        "municipalRate": 34.63,
+        "burialRate": 0.292,
+        "churchRate": 1.115
+      },
+      {
+        "id": "kinda",
+        "name": "Kinda",
+        "municipalRate": 33,
+        "burialRate": 0.292,
+        "churchRate": 1.317
+      },
+      {
+        "id": "kiruna",
+        "name": "Kiruna",
+        "municipalRate": 34.39,
+        "burialRate": 0.292,
+        "churchRate": 0.99
+      },
+      {
+        "id": "klippan",
+        "name": "Klippan",
+        "municipalRate": 31.93,
+        "burialRate": 0.292,
+        "churchRate": 1.15
+      },
+      {
+        "id": "knivsta",
+        "name": "Knivsta",
+        "municipalRate": 32.62,
+        "burialRate": 0.292,
+        "churchRate": 1.03
+      },
+      {
+        "id": "kramfors",
+        "name": "Kramfors",
+        "municipalRate": 34.43,
+        "burialRate": 0.292,
+        "churchRate": 1.6
+      },
+      {
+        "id": "kristianstad",
+        "name": "Kristianstad",
+        "municipalRate": 32.64,
+        "burialRate": 0.292,
+        "churchRate": 1.216
+      },
+      {
+        "id": "kristinehamn",
+        "name": "Kristinehamn",
+        "municipalRate": 34.25,
+        "burialRate": 0.292,
+        "churchRate": 1.175
+      },
+      {
+        "id": "krokom",
+        "name": "Krokom",
+        "municipalRate": 33.87,
+        "burialRate": 0.292,
+        "churchRate": 1.412
+      },
+      {
+        "id": "kumla",
+        "name": "Kumla",
+        "municipalRate": 33.84,
+        "burialRate": 0.292,
+        "churchRate": 1.03
+      },
+      {
+        "id": "kungsbacka",
+        "name": "Kungsbacka",
+        "municipalRate": 32.58,
+        "burialRate": 0.292,
+        "churchRate": 1.225
+      },
+      {
+        "id": "kungsoer",
+        "name": "Kungsör",
+        "municipalRate": 32.91,
+        "burialRate": 0.292,
+        "churchRate": 1.25
+      },
+      {
+        "id": "kungaelv",
+        "name": "Kungälv",
+        "municipalRate": 32.92,
+        "burialRate": 0.292,
+        "churchRate": 1.124
+      },
+      {
+        "id": "kaevlinge",
+        "name": "Kävlinge",
+        "municipalRate": 29.59,
+        "burialRate": 0.292,
+        "churchRate": 1.073
+      },
+      {
+        "id": "koeping",
+        "name": "Köping",
+        "municipalRate": 33.04,
+        "burialRate": 0.292,
+        "churchRate": 1.05
+      },
+      {
+        "id": "laholm",
+        "name": "Laholm",
+        "municipalRate": 32.8,
+        "burialRate": 0.292,
+        "churchRate": 1.253
+      },
+      {
+        "id": "landskrona",
+        "name": "Landskrona",
+        "municipalRate": 31.42,
+        "burialRate": 0.292,
+        "churchRate": 1.037
+      },
+      {
+        "id": "laxaa",
+        "name": "Laxå",
+        "municipalRate": 35,
+        "burialRate": 0.292,
+        "churchRate": 1.39
+      },
+      {
+        "id": "lekeberg",
+        "name": "Lekeberg",
+        "municipalRate": 33.73,
+        "burialRate": 0.292,
+        "churchRate": 1.13
+      },
+      {
+        "id": "leksand",
+        "name": "Leksand",
+        "municipalRate": 33.8,
+        "burialRate": 0.292,
+        "churchRate": 1.36
+      },
+      {
+        "id": "lerum",
+        "name": "Lerum",
+        "municipalRate": 32.03,
+        "burialRate": 0.292,
+        "churchRate": 1.053
+      },
+      {
+        "id": "lessebo",
+        "name": "Lessebo",
+        "municipalRate": 33.81,
+        "burialRate": 0.292,
+        "churchRate": 1.33
+      },
+      {
+        "id": "lidingoe",
+        "name": "Lidingö",
+        "municipalRate": 29.67,
+        "burialRate": 0.292,
+        "churchRate": 0.67
+      },
+      {
+        "id": "lidkoeping",
+        "name": "Lidköping",
+        "municipalRate": 32.74,
+        "burialRate": 0.292,
+        "churchRate": 1.442
+      },
+      {
+        "id": "lilla-edet",
+        "name": "Lilla Edet",
+        "municipalRate": 33.85,
+        "burialRate": 0.292,
+        "churchRate": 1.313
+      },
+      {
+        "id": "lindesberg",
+        "name": "Lindesberg",
+        "municipalRate": 34.6,
+        "burialRate": 0.292,
+        "churchRate": 1.38
+      },
+      {
+        "id": "linkoeping",
+        "name": "Linköping",
+        "municipalRate": 31.75,
+        "burialRate": 0.292,
+        "churchRate": 1.209
+      },
+      {
+        "id": "ljungby",
+        "name": "Ljungby",
+        "municipalRate": 33.07,
+        "burialRate": 0.292,
+        "churchRate": 1.348
+      },
+      {
+        "id": "ljusdal",
+        "name": "Ljusdal",
+        "municipalRate": 33.87,
+        "burialRate": 0.292,
+        "churchRate": 1.11
+      },
+      {
+        "id": "ljusnarsberg",
+        "name": "Ljusnarsberg",
+        "municipalRate": 33.8,
+        "burialRate": 0.292,
+        "churchRate": 1.38
+      },
+      {
+        "id": "lomma",
+        "name": "Lomma",
+        "municipalRate": 30.72,
+        "burialRate": 0.292,
+        "churchRate": 0.95
+      },
+      {
+        "id": "ludvika",
+        "name": "Ludvika",
+        "municipalRate": 34.05,
+        "burialRate": 0.292,
+        "churchRate": 1.155
+      },
+      {
+        "id": "luleaa",
+        "name": "Luleå",
+        "municipalRate": 33.84,
+        "burialRate": 0.292,
+        "churchRate": 1.043
+      },
+      {
+        "id": "lund",
+        "name": "Lund",
+        "municipalRate": 32.42,
+        "burialRate": 0.292,
+        "churchRate": 1.031
+      },
+      {
+        "id": "lycksele",
+        "name": "Lycksele",
+        "municipalRate": 34.9,
+        "burialRate": 0.292,
+        "churchRate": 1.3
+      },
+      {
+        "id": "lysekil",
+        "name": "Lysekil",
+        "municipalRate": 33.94,
+        "burialRate": 0.292,
+        "churchRate": 1.29
+      },
+      {
+        "id": "malmoe",
+        "name": "Malmö",
+        "municipalRate": 32.42,
+        "burialRate": 0.292,
+        "churchRate": 0.93
+      },
+      {
+        "id": "malung-saelen",
+        "name": "Malung-Sälen",
+        "municipalRate": 34.45,
+        "burialRate": 0.292,
+        "churchRate": 1.295
+      },
+      {
+        "id": "malaa",
+        "name": "Malå",
+        "municipalRate": 35.2,
+        "burialRate": 0.292,
+        "churchRate": 1.35
+      },
+      {
+        "id": "mariestad",
+        "name": "Mariestad",
+        "municipalRate": 32.74,
+        "burialRate": 0.292,
+        "churchRate": 1.275
+      },
+      {
+        "id": "mark",
+        "name": "Mark",
+        "municipalRate": 32.99,
+        "burialRate": 0.292,
+        "churchRate": 1.366
+      },
+      {
+        "id": "markaryd",
+        "name": "Markaryd",
+        "municipalRate": 33.31,
+        "burialRate": 0.292,
+        "churchRate": 1.31
+      },
+      {
+        "id": "mellerud",
+        "name": "Mellerud",
+        "municipalRate": 34.08,
+        "burialRate": 0.292,
+        "churchRate": 1.5
+      },
+      {
+        "id": "mjoelby",
+        "name": "Mjölby",
+        "municipalRate": 33.45,
+        "burialRate": 0.292,
+        "churchRate": 1.15
+      },
+      {
+        "id": "mora",
+        "name": "Mora",
+        "municipalRate": 34.32,
+        "burialRate": 0.292,
+        "churchRate": 1.13
+      },
+      {
+        "id": "motala",
+        "name": "Motala",
+        "municipalRate": 33.25,
+        "burialRate": 0.292,
+        "churchRate": 1.159
+      },
+      {
+        "id": "mullsjoe",
+        "name": "Mullsjö",
+        "municipalRate": 34.1,
+        "burialRate": 0.292,
+        "churchRate": 1.235
+      },
+      {
+        "id": "munkedal",
+        "name": "Munkedal",
+        "municipalRate": 34.86,
+        "burialRate": 0.292,
+        "churchRate": 1.31
+      },
+      {
+        "id": "munkfors",
+        "name": "Munkfors",
+        "municipalRate": 34.3,
+        "burialRate": 0.292,
+        "churchRate": 1.105
+      },
+      {
+        "id": "moelndal",
+        "name": "Mölndal",
+        "municipalRate": 31.99,
+        "burialRate": 0.292,
+        "churchRate": 0.823
+      },
+      {
+        "id": "moensteraas",
+        "name": "Mönsterås",
+        "municipalRate": 34.07,
+        "burialRate": 0.292,
+        "churchRate": 1.02
+      },
+      {
+        "id": "moerbylaanga",
+        "name": "Mörbylånga",
+        "municipalRate": 34.07,
+        "burialRate": 0.292,
+        "churchRate": 1.55
+      },
+      {
+        "id": "nacka",
+        "name": "Nacka",
+        "municipalRate": 30.11,
+        "burialRate": 0.292,
+        "churchRate": 0.86
+      },
+      {
+        "id": "nora",
+        "name": "Nora",
+        "municipalRate": 34.55,
+        "burialRate": 0.292,
+        "churchRate": 1.46
+      },
+      {
+        "id": "norberg",
+        "name": "Norberg",
+        "municipalRate": 33.54,
+        "burialRate": 0.292,
+        "churchRate": 1.39
+      },
+      {
+        "id": "nordanstig",
+        "name": "Nordanstig",
+        "municipalRate": 34.02,
+        "burialRate": 0.292,
+        "churchRate": 1.275
+      },
+      {
+        "id": "nordmaling",
+        "name": "Nordmaling",
+        "municipalRate": 35.1,
+        "burialRate": 0.292,
+        "churchRate": 1.2
+      },
+      {
+        "id": "norrkoeping",
+        "name": "Norrköping",
+        "municipalRate": 33.3,
+        "burialRate": 0.292,
+        "churchRate": 1.19
+      },
+      {
+        "id": "norrtaelje",
+        "name": "Norrtälje",
+        "municipalRate": 32.05,
+        "burialRate": 0.292,
+        "churchRate": 1.114
+      },
+      {
+        "id": "norsjoe",
+        "name": "Norsjö",
+        "municipalRate": 35.2,
+        "burialRate": 0.292,
+        "churchRate": 1.1
+      },
+      {
+        "id": "nybro",
+        "name": "Nybro",
+        "municipalRate": 34.19,
+        "burialRate": 0.292,
+        "churchRate": 1.17
+      },
+      {
+        "id": "nykvarn",
+        "name": "Nykvarn",
+        "municipalRate": 32.3,
+        "burialRate": 0.292,
+        "churchRate": 1.08
+      },
+      {
+        "id": "nykoeping",
+        "name": "Nyköping",
+        "municipalRate": 32.25,
+        "burialRate": 0.292,
+        "churchRate": 1.418
+      },
+      {
+        "id": "nynaeshamn",
+        "name": "Nynäshamn",
+        "municipalRate": 32.18,
+        "burialRate": 0.292,
+        "churchRate": 0.947
+      },
+      {
+        "id": "naessjoe",
+        "name": "Nässjö",
+        "municipalRate": 34.3,
+        "burialRate": 0.292,
+        "churchRate": 0.986
+      },
+      {
+        "id": "ockelbo",
+        "name": "Ockelbo",
+        "municipalRate": 34.27,
+        "burialRate": 0.292,
+        "churchRate": 1.21
+      },
+      {
+        "id": "olofstroem",
+        "name": "Olofström",
+        "municipalRate": 33.75,
+        "burialRate": 0.292,
+        "churchRate": 1.165
+      },
+      {
+        "id": "orsa",
+        "name": "Orsa",
+        "municipalRate": 34.3,
+        "burialRate": 0.292,
+        "churchRate": 1.38
+      },
+      {
+        "id": "orust",
+        "name": "Orust",
+        "municipalRate": 33.69,
+        "burialRate": 0.292,
+        "churchRate": 1.3
+      },
+      {
+        "id": "osby",
+        "name": "Osby",
+        "municipalRate": 33.99,
+        "burialRate": 0.292,
+        "churchRate": 1.07
+      },
+      {
+        "id": "oskarshamn",
+        "name": "Oskarshamn",
+        "municipalRate": 34.21,
+        "burialRate": 0.292,
+        "churchRate": 1.233
+      },
+      {
+        "id": "ovanaaker",
+        "name": "Ovanåker",
+        "municipalRate": 33.37,
+        "burialRate": 0.292,
+        "churchRate": 1.21
+      },
+      {
+        "id": "oxeloesund",
+        "name": "Oxelösund",
+        "municipalRate": 33.05,
+        "burialRate": 0.292,
+        "churchRate": 1.05
+      },
+      {
+        "id": "pajala",
+        "name": "Pajala",
+        "municipalRate": 34.74,
+        "burialRate": 0.292,
+        "churchRate": 1.257
+      },
+      {
+        "id": "partille",
+        "name": "Partille",
+        "municipalRate": 31.36,
+        "burialRate": 0.292,
+        "churchRate": 1.05
+      },
+      {
+        "id": "perstorp",
+        "name": "Perstorp",
+        "municipalRate": 31.99,
+        "burialRate": 0.292,
+        "churchRate": 1.2
+      },
+      {
+        "id": "piteaa",
+        "name": "Piteå",
+        "municipalRate": 33.59,
+        "burialRate": 0.292,
+        "churchRate": 1.007
+      },
+      {
+        "id": "ragunda",
+        "name": "Ragunda",
+        "municipalRate": 34.92,
+        "burialRate": 0.292,
+        "churchRate": 1.5
+      },
+      {
+        "id": "robertsfors",
+        "name": "Robertsfors",
+        "municipalRate": 35,
+        "burialRate": 0.292,
+        "churchRate": 1.17
+      },
+      {
+        "id": "ronneby",
+        "name": "Ronneby",
+        "municipalRate": 33.68,
+        "burialRate": 0.292,
+        "churchRate": 1.12
+      },
+      {
+        "id": "raettvik",
+        "name": "Rättvik",
+        "municipalRate": 33.8,
+        "burialRate": 0.292,
+        "churchRate": 1.32
+      },
+      {
+        "id": "sala",
+        "name": "Sala",
+        "municipalRate": 33.19,
+        "burialRate": 0.292,
+        "churchRate": 1.214
+      },
+      {
+        "id": "salem",
+        "name": "Salem",
+        "municipalRate": 32,
+        "burialRate": 0.292,
+        "churchRate": 0.849
+      },
+      {
+        "id": "sandviken",
+        "name": "Sandviken",
+        "municipalRate": 33.12,
+        "burialRate": 0.292,
+        "churchRate": 1.15
+      },
+      {
+        "id": "sigtuna",
+        "name": "Sigtuna",
+        "municipalRate": 31.83,
+        "burialRate": 0.292,
+        "churchRate": 0.968
+      },
+      {
+        "id": "simrishamn",
+        "name": "Simrishamn",
+        "municipalRate": 31.69,
+        "burialRate": 0.292,
+        "churchRate": 1.343
+      },
+      {
+        "id": "sjoebo",
+        "name": "Sjöbo",
+        "municipalRate": 32.1,
+        "burialRate": 0.292,
+        "churchRate": 1.12
+      },
+      {
+        "id": "skara",
+        "name": "Skara",
+        "municipalRate": 33.38,
+        "burialRate": 0.292,
+        "churchRate": 1.265
+      },
+      {
+        "id": "skellefteaa",
+        "name": "Skellefteå",
+        "municipalRate": 34.45,
+        "burialRate": 0.292,
+        "churchRate": 1.149
+      },
+      {
+        "id": "skinnskatteberg",
+        "name": "Skinnskatteberg",
+        "municipalRate": 33.34,
+        "burialRate": 0.292,
+        "churchRate": 1.35
+      },
+      {
+        "id": "skurup",
+        "name": "Skurup",
+        "municipalRate": 31.6,
+        "burialRate": 0.292,
+        "churchRate": 1.233
+      },
+      {
+        "id": "skoevde",
+        "name": "Skövde",
+        "municipalRate": 33.09,
+        "burialRate": 0.292,
+        "churchRate": 1.335
+      },
+      {
+        "id": "smedjebacken",
+        "name": "Smedjebacken",
+        "municipalRate": 34.44,
+        "burialRate": 0.292,
+        "churchRate": 1.228
+      },
+      {
+        "id": "sollefteaa",
+        "name": "Sollefteå",
+        "municipalRate": 34.68,
+        "burialRate": 0.292,
+        "churchRate": 1.47
+      },
+      {
+        "id": "sollentuna",
+        "name": "Sollentuna",
+        "municipalRate": 30.45,
+        "burialRate": 0.292,
+        "churchRate": 0.8
+      },
+      {
+        "id": "solna",
+        "name": "Solna",
+        "municipalRate": 29.7,
+        "burialRate": 0.292,
+        "churchRate": 0.69
+      },
+      {
+        "id": "sorsele",
+        "name": "Sorsele",
+        "municipalRate": 35.45,
+        "burialRate": 0.292,
+        "churchRate": 1.35
+      },
+      {
+        "id": "sotenaes",
+        "name": "Sotenäs",
+        "municipalRate": 33.47,
+        "burialRate": 0.292,
+        "churchRate": 1.33
+      },
+      {
+        "id": "staffanstorp",
+        "name": "Staffanstorp",
+        "municipalRate": 30.12,
+        "burialRate": 0.292,
+        "churchRate": 1.03
+      },
+      {
+        "id": "stenungsund",
+        "name": "Stenungsund",
+        "municipalRate": 33.12,
+        "burialRate": 0.292,
+        "churchRate": 1.2
+      },
+      {
+        "id": "stockholm",
+        "name": "Stockholm",
+        "municipalRate": 30.55,
+        "burialRate": 0.07,
+        "churchRate": 0.892
+      },
+      {
+        "id": "storfors",
+        "name": "Storfors",
+        "municipalRate": 34.98,
+        "burialRate": 0.292,
+        "churchRate": 1.335
+      },
+      {
+        "id": "storuman",
+        "name": "Storuman",
+        "municipalRate": 34.95,
+        "burialRate": 0.292,
+        "churchRate": 1.375
+      },
+      {
+        "id": "straengnaes",
+        "name": "Strängnäs",
+        "municipalRate": 32.5,
+        "burialRate": 0.292,
+        "churchRate": 1.258
+      },
+      {
+        "id": "stroemstad",
+        "name": "Strömstad",
+        "municipalRate": 33.39,
+        "burialRate": 0.292,
+        "churchRate": 1.22
+      },
+      {
+        "id": "stroemsund",
+        "name": "Strömsund",
+        "municipalRate": 34.92,
+        "burialRate": 0.292,
+        "churchRate": 1.5
+      },
+      {
+        "id": "sundbyberg",
+        "name": "Sundbyberg",
+        "municipalRate": 31.58,
+        "burialRate": 0.292,
+        "churchRate": 0.725
+      },
+      {
+        "id": "sundsvall",
+        "name": "Sundsvall",
+        "municipalRate": 33.88,
+        "burialRate": 0.292,
+        "churchRate": 1.34
+      },
+      {
+        "id": "sunne",
+        "name": "Sunne",
+        "municipalRate": 33.75,
+        "burialRate": 0.292,
+        "churchRate": 1.307
+      },
+      {
+        "id": "surahammar",
+        "name": "Surahammar",
+        "municipalRate": 33.19,
+        "burialRate": 0.292,
+        "churchRate": 1.18
+      },
+      {
+        "id": "svaloev",
+        "name": "Svalöv",
+        "municipalRate": 31.92,
+        "burialRate": 0.292,
+        "churchRate": 1.31
+      },
+      {
+        "id": "svedala",
+        "name": "Svedala",
+        "municipalRate": 31.42,
+        "burialRate": 0.292,
+        "churchRate": 0.95
+      },
+      {
+        "id": "svenljunga",
+        "name": "Svenljunga",
+        "municipalRate": 33.53,
+        "burialRate": 0.292,
+        "churchRate": 1.47
+      },
+      {
+        "id": "saeffle",
+        "name": "Säffle",
+        "municipalRate": 33.8,
+        "burialRate": 0.292,
+        "churchRate": 1.285
+      },
+      {
+        "id": "saeter",
+        "name": "Säter",
+        "municipalRate": 34.3,
+        "burialRate": 0.292,
+        "churchRate": 1.3
+      },
+      {
+        "id": "saevsjoe",
+        "name": "Sävsjö",
+        "municipalRate": 33.68,
+        "burialRate": 0.292,
+        "churchRate": 1.25
+      },
+      {
+        "id": "soederhamn",
+        "name": "Söderhamn",
+        "municipalRate": 33.17,
+        "burialRate": 0.292,
+        "churchRate": 1.138
+      },
+      {
+        "id": "soederkoeping",
+        "name": "Söderköping",
+        "municipalRate": 33.53,
+        "burialRate": 0.292,
+        "churchRate": 1.483
+      },
+      {
+        "id": "soedertaelje",
+        "name": "Södertälje",
+        "municipalRate": 32.38,
+        "burialRate": 0.292,
+        "churchRate": 1.009
+      },
+      {
+        "id": "soelvesborg",
+        "name": "Sölvesborg",
+        "municipalRate": 33.86,
+        "burialRate": 0.292,
+        "churchRate": 0.99
+      },
+      {
+        "id": "tanum",
+        "name": "Tanum",
+        "municipalRate": 33.04,
+        "burialRate": 0.292,
+        "churchRate": 1.44
+      },
+      {
+        "id": "tibro",
+        "name": "Tibro",
+        "municipalRate": 33.19,
+        "burialRate": 0.292,
+        "churchRate": 1.025
+      },
+      {
+        "id": "tidaholm",
+        "name": "Tidaholm",
+        "municipalRate": 33.55,
+        "burialRate": 0.292,
+        "churchRate": 1.385
+      },
+      {
+        "id": "tierp",
+        "name": "Tierp",
+        "municipalRate": 33,
+        "burialRate": 0.292,
+        "churchRate": 1.458
+      },
+      {
+        "id": "timraa",
+        "name": "Timrå",
+        "municipalRate": 34.38,
+        "burialRate": 0.292,
+        "churchRate": 1.29
+      },
+      {
+        "id": "tingsryd",
+        "name": "Tingsryd",
+        "municipalRate": 34,
+        "burialRate": 0.292,
+        "churchRate": 1.5
+      },
+      {
+        "id": "tjoern",
+        "name": "Tjörn",
+        "municipalRate": 33.19,
+        "burialRate": 0.292,
+        "churchRate": 1.27
+      },
+      {
+        "id": "tomelilla",
+        "name": "Tomelilla",
+        "municipalRate": 31.79,
+        "burialRate": 0.292,
+        "churchRate": 1.29
+      },
+      {
+        "id": "torsby",
+        "name": "Torsby",
+        "municipalRate": 34.3,
+        "burialRate": 0.292,
+        "churchRate": 1.29
+      },
+      {
+        "id": "torsaas",
+        "name": "Torsås",
+        "municipalRate": 33.79,
+        "burialRate": 0.292,
+        "churchRate": 1.25
+      },
+      {
+        "id": "tranemo",
+        "name": "Tranemo",
+        "municipalRate": 32.98,
+        "burialRate": 0.292,
+        "churchRate": 1.47
+      },
+      {
+        "id": "tranaas",
+        "name": "Tranås",
+        "municipalRate": 33.77,
+        "burialRate": 0.285,
+        "churchRate": 1.1
+      },
+      {
+        "id": "trelleborg",
+        "name": "Trelleborg",
+        "municipalRate": 31.58,
+        "burialRate": 0.292,
+        "churchRate": 1.092
+      },
+      {
+        "id": "trollhaettan",
+        "name": "Trollhättan",
+        "municipalRate": 33.84,
+        "burialRate": 0.292,
+        "churchRate": 1.235
+      },
+      {
+        "id": "trosa",
+        "name": "Trosa",
+        "municipalRate": 32.03,
+        "burialRate": 0.292,
+        "churchRate": 0.98
+      },
+      {
+        "id": "tyresoe",
+        "name": "Tyresö",
+        "municipalRate": 31.83,
+        "burialRate": 0.292,
+        "churchRate": 0.82
+      },
+      {
+        "id": "taeby",
+        "name": "Täby",
+        "municipalRate": 29.88,
+        "burialRate": 0.292,
+        "churchRate": 0.78
+      },
+      {
+        "id": "toereboda",
+        "name": "Töreboda",
+        "municipalRate": 33.2,
+        "burialRate": 0.292,
+        "churchRate": 1.275
+      },
+      {
+        "id": "uddevalla",
+        "name": "Uddevalla",
+        "municipalRate": 33.64,
+        "burialRate": 0.292,
+        "churchRate": 1.224
+      },
+      {
+        "id": "ulricehamn",
+        "name": "Ulricehamn",
+        "municipalRate": 32.53,
+        "burialRate": 0.292,
+        "churchRate": 1.35
+      },
+      {
+        "id": "umeaa",
+        "name": "Umeå",
+        "municipalRate": 34.65,
+        "burialRate": 0.292,
+        "churchRate": 1.061
+      },
+      {
+        "id": "upplands-vaesby",
+        "name": "Upplands Väsby",
+        "municipalRate": 31.75,
+        "burialRate": 0.292,
+        "churchRate": 0.86
+      },
+      {
+        "id": "upplands-bro",
+        "name": "Upplands-Bro",
+        "municipalRate": 31.73,
+        "burialRate": 0.292,
+        "churchRate": 0.935
+      },
+      {
+        "id": "uppsala",
+        "name": "Uppsala",
+        "municipalRate": 32.85,
+        "burialRate": 0.292,
+        "churchRate": 1.156
+      },
+      {
+        "id": "uppvidinge",
+        "name": "Uppvidinge",
+        "municipalRate": 33.8,
+        "burialRate": 0.292,
+        "churchRate": 1.35
+      },
+      {
+        "id": "vadstena",
+        "name": "Vadstena",
+        "municipalRate": 34.35,
+        "burialRate": 0.292,
+        "churchRate": 1.253
+      },
+      {
+        "id": "vaggeryd",
+        "name": "Vaggeryd",
+        "municipalRate": 33.25,
+        "burialRate": 0.292,
+        "churchRate": 1.117
+      },
+      {
+        "id": "valdemarsvik",
+        "name": "Valdemarsvik",
+        "municipalRate": 34.03,
+        "burialRate": 0.292,
+        "churchRate": 1.35
+      },
+      {
+        "id": "vallentuna",
+        "name": "Vallentuna",
+        "municipalRate": 31.23,
+        "burialRate": 0.292,
+        "churchRate": 1.043
+      },
+      {
+        "id": "vansbro",
+        "name": "Vansbro",
+        "municipalRate": 34.28,
+        "burialRate": 0.292,
+        "churchRate": 1.33
+      },
+      {
+        "id": "vara",
+        "name": "Vara",
+        "municipalRate": 33.25,
+        "burialRate": 0.292,
+        "churchRate": 1.505
+      },
+      {
+        "id": "varberg",
+        "name": "Varberg",
+        "municipalRate": 31.73,
+        "burialRate": 0.292,
+        "churchRate": 1.297
+      },
+      {
+        "id": "vaxholm",
+        "name": "Vaxholm",
+        "municipalRate": 31.63,
+        "burialRate": 0.292,
+        "churchRate": 0.85
+      },
+      {
+        "id": "vellinge",
+        "name": "Vellinge",
+        "municipalRate": 29.68,
+        "burialRate": 0.292,
+        "churchRate": 0.93
+      },
+      {
+        "id": "vetlanda",
+        "name": "Vetlanda",
+        "municipalRate": 33.77,
+        "burialRate": 0.292,
+        "churchRate": 1.36
+      },
+      {
+        "id": "vilhelmina",
+        "name": "Vilhelmina",
+        "municipalRate": 35.5,
+        "burialRate": 0.292,
+        "churchRate": 1.3
+      },
+      {
+        "id": "vimmerby",
+        "name": "Vimmerby",
+        "municipalRate": 34.22,
+        "burialRate": 0.292,
+        "churchRate": 1.346
+      },
+      {
+        "id": "vindeln",
+        "name": "Vindeln",
+        "municipalRate": 35.2,
+        "burialRate": 0.292,
+        "churchRate": 1.22
+      },
+      {
+        "id": "vingaaker",
+        "name": "Vingåker",
+        "municipalRate": 33.5,
+        "burialRate": 0.292,
+        "churchRate": 1.05
+      },
+      {
+        "id": "vaargaarda",
+        "name": "Vårgårda",
+        "municipalRate": 33.09,
+        "burialRate": 0.292,
+        "churchRate": 1.215
+      },
+      {
+        "id": "vaenersborg",
+        "name": "Vänersborg",
+        "municipalRate": 33.69,
+        "burialRate": 0.292,
+        "churchRate": 1.211
+      },
+      {
+        "id": "vaennaes",
+        "name": "Vännäs",
+        "municipalRate": 35.2,
+        "burialRate": 0.292,
+        "churchRate": 1.01
+      },
+      {
+        "id": "vaermdoe",
+        "name": "Värmdö",
+        "municipalRate": 31.31,
+        "burialRate": 0.292,
+        "churchRate": 1.003
+      },
+      {
+        "id": "vaernamo",
+        "name": "Värnamo",
+        "municipalRate": 33.28,
+        "burialRate": 0.292,
+        "churchRate": 1.409
+      },
+      {
+        "id": "vaestervik",
+        "name": "Västervik",
+        "municipalRate": 33.02,
+        "burialRate": 0.292,
+        "churchRate": 1.446
+      },
+      {
+        "id": "vaesteraas",
+        "name": "Västerås",
+        "municipalRate": 31.24,
+        "burialRate": 0.292,
+        "churchRate": 0.96
+      },
+      {
+        "id": "vaexjoe",
+        "name": "Växjö",
+        "municipalRate": 32.19,
+        "burialRate": 0.292,
+        "churchRate": 1.05
+      },
+      {
+        "id": "ydre",
+        "name": "Ydre",
+        "municipalRate": 34.1,
+        "burialRate": 0.292,
+        "churchRate": 1.53
+      },
+      {
+        "id": "ystad",
+        "name": "Ystad",
+        "municipalRate": 31.29,
+        "burialRate": 0.292,
+        "churchRate": 1.248
+      },
+      {
+        "id": "aamaal",
+        "name": "Åmål",
+        "municipalRate": 33.94,
+        "burialRate": 0.292,
+        "churchRate": 1.275
+      },
+      {
+        "id": "aange",
+        "name": "Ånge",
+        "municipalRate": 34.62,
+        "burialRate": 0.292,
+        "churchRate": 1.4
+      },
+      {
+        "id": "aare",
+        "name": "Åre",
+        "municipalRate": 33.92,
+        "burialRate": 0.292,
+        "churchRate": 1.4
+      },
+      {
+        "id": "aarjaeng",
+        "name": "Årjäng",
+        "municipalRate": 34.25,
+        "burialRate": 0.292,
+        "churchRate": 1.67
+      },
+      {
+        "id": "aasele",
+        "name": "Åsele",
+        "municipalRate": 35.45,
+        "burialRate": 0.292,
+        "churchRate": 1.3
+      },
+      {
+        "id": "aastorp",
+        "name": "Åstorp",
+        "municipalRate": 31.47,
+        "burialRate": 0.292,
+        "churchRate": 1.305
+      },
+      {
+        "id": "aatvidaberg",
+        "name": "Åtvidaberg",
+        "municipalRate": 33.94,
+        "burialRate": 0.292,
+        "churchRate": 1.28
+      },
+      {
+        "id": "aelmhult",
+        "name": "Älmhult",
+        "municipalRate": 33.86,
+        "burialRate": 0.292,
+        "churchRate": 1.308
+      },
+      {
+        "id": "aelvdalen",
+        "name": "Älvdalen",
+        "municipalRate": 34.77,
+        "burialRate": 0.292,
+        "churchRate": 1.65
+      },
+      {
+        "id": "aelvkarleby",
+        "name": "Älvkarleby",
+        "municipalRate": 34.4,
+        "burialRate": 0.292,
+        "churchRate": 1.18
+      },
+      {
+        "id": "aelvsbyn",
+        "name": "Älvsbyn",
+        "municipalRate": 33.79,
+        "burialRate": 0.292,
+        "churchRate": 1.01
+      },
+      {
+        "id": "aengelholm",
+        "name": "Ängelholm",
+        "municipalRate": 31.35,
+        "burialRate": 0.292,
+        "churchRate": 1.232
+      },
+      {
+        "id": "oeckeroe",
+        "name": "Öckerö",
+        "municipalRate": 33.04,
+        "burialRate": 0.292,
+        "churchRate": 1.11
+      },
+      {
+        "id": "oedeshoeg",
+        "name": "Ödeshög",
+        "municipalRate": 33.95,
+        "burialRate": 0.292,
+        "churchRate": 1.15
+      },
+      {
+        "id": "oerebro",
+        "name": "Örebro",
+        "municipalRate": 33.65,
+        "burialRate": 0.292,
+        "churchRate": 1.039
+      },
+      {
+        "id": "oerkelljunga",
+        "name": "Örkelljunga",
+        "municipalRate": 30.24,
+        "burialRate": 0.292,
+        "churchRate": 1.18
+      },
+      {
+        "id": "oernskoeldsvik",
+        "name": "Örnsköldsvik",
+        "municipalRate": 33.85,
+        "burialRate": 0.292,
+        "churchRate": 1.492
+      },
+      {
+        "id": "oestersund",
+        "name": "Östersund",
+        "municipalRate": 33.72,
+        "burialRate": 0.292,
+        "churchRate": 1.424
+      },
+      {
+        "id": "oesteraaker",
+        "name": "Österåker",
+        "municipalRate": 28.93,
+        "burialRate": 0.292,
+        "churchRate": 0.74
+      },
+      {
+        "id": "oesthammar",
+        "name": "Östhammar",
+        "municipalRate": 33.3,
+        "burialRate": 0.292,
+        "churchRate": 1.398
+      },
+      {
+        "id": "oestra-goeinge",
+        "name": "Östra Göinge",
+        "municipalRate": 32.17,
+        "burialRate": 0.292,
+        "churchRate": 1.223
+      },
+      {
+        "id": "oeverkalix",
+        "name": "Överkalix",
+        "municipalRate": 34.14,
+        "burialRate": 0.292,
+        "churchRate": 1.1
+      },
+      {
+        "id": "oevertorneaa",
+        "name": "Övertorneå",
+        "municipalRate": 33.84,
+        "burialRate": 0.292,
+        "churchRate": 1.2
+      }
+    ]
+  }
+}

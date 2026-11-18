@@ -1,0 +1,215 @@
+{
+  "meta": {
+    "country": "DE",
+    "taxYear": 2026,
+    "version": "2026.1",
+    "currency": "EUR",
+    "createdAt": "2026-11-16T00:00:00.000Z",
+    "effectiveDate": "2026-01-01",
+    "approvedAt": "2026-11-16T00:00:00.000Z",
+    "lastVerified": "2026-11-16",
+    "verificationStatus": "verified",
+    "description": "Initial 2026 dataset following the BMF Programmablaufplan 2026 (final, 12 Nov 2025) and the 2026 social-insurance parameters.",
+    "previousVersion": null,
+    "sources": [
+      {
+        "title": "Programmablaufplan für die maschinelle Berechnung der Lohnsteuer 2026",
+        "authority": "Bundesministerium der Finanzen",
+        "url": "https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2025-11-12-PAP-2026-anlage-1.pdf"
+      },
+      {
+        "title": "§ 32a EStG — Einkommensteuertarif",
+        "authority": "Bundesministerium der Justiz",
+        "url": "https://www.gesetze-im-internet.de/estg/__32a.html"
+      },
+      {
+        "title": "Lohn- und Einkommensteuerrechner (external verification interface)",
+        "authority": "Bundesministerium der Finanzen",
+        "url": "https://www.bmf-steuerrechner.de/"
+      },
+      {
+        "title": "Rechengrößen in der Sozialversicherung 2026",
+        "authority": "Bundesregierung",
+        "url": "https://www.bundesregierung.de/breg-de/aktuelles/beitragsgemessungsgrenzen-2386514"
+      }
+    ],
+    "unverified": [
+      "Mini-job (€603) and transition-zone (€2,000) monthly limits were not confirmed against a primary source; they only trigger warnings and never change amounts."
+    ],
+    "limitations": [
+      "Private health insurance and the Übergangsbereich (Midijob) contribution relief are not modelled.",
+      "Factor method for class IV (Faktorverfahren), personal tax-free amounts and benefits in kind are not modelled.",
+      "The result is employer wage-tax withholding; the annual assessment may differ.",
+      "Church-tax caps (Kappung) are not modelled."
+    ]
+  },
+  "rules": {
+    "tariff": {
+      "basicAllowance": 12348,
+      "zone2End": 17799,
+      "zone3End": 69878,
+      "zone4End": 277825,
+      "zone2": {
+        "a": 914.51,
+        "b": 1400
+      },
+      "zone3": {
+        "a": 173.1,
+        "b": 2397,
+        "c": 1034.87
+      },
+      "zone4": {
+        "rate": 0.42,
+        "subtract": 11135.63
+      },
+      "zone5": {
+        "rate": 0.45,
+        "subtract": 19470.38
+      }
+    },
+    "classVvi": {
+      "w1": 14071,
+      "w2": 34939,
+      "w3": 222260,
+      "minRate": 0.14,
+      "midRate": 0.42,
+      "topRate": 0.45
+    },
+    "allowances": {
+      "employeeLumpSum": 1230,
+      "specialExpensesLumpSum": 36,
+      "singleParentRelief": 4260,
+      "childAllowance": 9756
+    },
+    "solidarity": {
+      "rate": 0.055,
+      "exemptionLimit": 20350,
+      "phaseInRate": 0.119
+    },
+    "social": {
+      "pension": {
+        "employeeRate": 0.093,
+        "ceiling": 101400
+      },
+      "unemployment": {
+        "employeeRate": 0.013,
+        "ceiling": 101400
+      },
+      "health": {
+        "employeeRate": 0.073,
+        "reducedEmployeeRate": 0.07,
+        "averageAdditionalRate": 0.029,
+        "ceiling": 69750
+      },
+      "care": {
+        "employeeRate": 0.018,
+        "employeeRateSaxony": 0.023,
+        "childlessSurcharge": 0.006,
+        "childDiscountPerChild": 0.0025,
+        "maxDiscountedChildren": 4,
+        "ceiling": 69750
+      }
+    },
+    "provisionCap": 1900,
+    "miniJobMonthlyLimit": 603,
+    "midiJobMonthlyLimit": 2000,
+    "states": [
+      {
+        "id": "be",
+        "name": "Berlin",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "bw",
+        "name": "Baden-Württemberg",
+        "churchTaxRate": 0.08,
+        "saxonyCare": false
+      },
+      {
+        "id": "by",
+        "name": "Bavaria",
+        "churchTaxRate": 0.08,
+        "saxonyCare": false
+      },
+      {
+        "id": "bb",
+        "name": "Brandenburg",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "hb",
+        "name": "Bremen",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "hh",
+        "name": "Hamburg",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "he",
+        "name": "Hesse",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "mv",
+        "name": "Mecklenburg-Vorpommern",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "ni",
+        "name": "Lower Saxony",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "nw",
+        "name": "North Rhine-Westphalia",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "rp",
+        "name": "Rhineland-Palatinate",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "sl",
+        "name": "Saarland",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "sn",
+        "name": "Saxony",
+        "churchTaxRate": 0.09,
+        "saxonyCare": true
+      },
+      {
+        "id": "st",
+        "name": "Saxony-Anhalt",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "sh",
+        "name": "Schleswig-Holstein",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      },
+      {
+        "id": "th",
+        "name": "Thuringia",
+        "churchTaxRate": 0.09,
+        "saxonyCare": false
+      }
+    ]
+  }
+}

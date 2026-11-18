@@ -1,0 +1,35 @@
+name: Monthly tax source check
+# Checks every official source. Never changes tax-data/: it only records source
+# snapshots and proposals, and opens a pull request when something needs review.
+on:
+  schedule:
+    - cron: '17 6 1 * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - id: check
+        run: npm run tax:check
+      - name: Open a pull request when there is something to review
+        if: steps.check.outputs.new_items != '0' || steps.check.outputs.failed_sources != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BRANCH="tax-check/$(date +%Y-%m)"
+          git config user.name "networth-tax-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add maintenance/data
+          git commit -m "Tax source check $(date +%Y-%m-%d): ${{ steps.check.outputs.new_items }} new item(s), ${{ steps.check.outputs.failed_sources }} failed source(s)" || exit 0
+          git push --force origin "$BRANCH"
+          gh pr create --title "Tax source check $(date +%Y-%m)" --body-file maintenance/data/last-check.md --head "$BRANCH" || gh pr edit "$BRANCH" --body-file maintenance/data/last-check.md

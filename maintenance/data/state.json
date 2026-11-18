@@ -1,0 +1,179 @@
+{
+  "sources": {
+    "dk-statbank-pskat": {
+      "lastChecked": "2026-11-18T18:01:36.117Z",
+      "lastSuccess": "2026-11-18T18:01:36.117Z",
+      "accessible": true,
+      "contentHash": "6e002e0e144a5b68465336157d33372ee3faa639c818ba62b95a0ee2e75983b9",
+      "relevantHash": "e7b9bb8eaaebd1e5d4a8b5095cc7603e9d20b597041fa50f4c39ae99e2ec0d93",
+      "lastModified": null,
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "dk-skat-state-tax": {
+      "lastChecked": "2026-11-18T18:01:37.988Z",
+      "lastSuccess": "2026-11-18T18:01:37.988Z",
+      "accessible": true,
+      "contentHash": "a49b49b0d5deedc4c681ff45b149b00c4718a86b0f3eba71ae1a64568f0de555",
+      "relevantHash": "b3ea0b6af37ede9328e86e52e20c96ebbd86a161788a03f85f38ace99bc77d60",
+      "lastModified": null,
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "de-bmf-lohnsteuer": {
+      "lastChecked": "2026-11-18T18:04:42.438Z",
+      "lastSuccess": "2026-11-18T18:04:42.438Z",
+      "accessible": true,
+      "contentHash": "47180a7dfd4b9e21757dc445ffd3f48a1b00dbac07b3dbe3333447fb285c53ed",
+      "relevantHash": "47180a7dfd4b9e21757dc445ffd3f48a1b00dbac07b3dbe3333447fb285c53ed",
+      "lastModified": null,
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "de-estg-32a": {
+      "lastChecked": "2026-11-18T18:04:44.000Z",
+      "lastSuccess": "2026-11-18T18:04:44.000Z",
+      "accessible": true,
+      "contentHash": "cc179a7cf17c2090db25b4640f79206839515266112dd886572035b0158dd7af",
+      "relevantHash": "0c18c6253ec7a0d94a01389c8057ae20b54667ac8a5b9dd10018ee1f51972c70",
+      "lastModified": "Wed, 18 Nov 2026 01:12:24 GMT",
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "nl-belastingdienst-tarieven": {
+      "lastChecked": "2026-11-18T18:04:45.565Z",
+      "lastSuccess": "2026-11-18T18:04:45.565Z",
+      "accessible": true,
+      "contentHash": "b9689a5e20a25e3fbf5e7bf298fa5a28deb7bd8f17944014d91dd7ab65fbb82d",
+      "relevantHash": "eb4ac9fd47d7ef50725220d507b9bfd2eef4e2c8d4cb3532bc7f19f1e609d8d0",
+      "lastModified": "Wed, 18 Nov 2026 17:59:03 GMT",
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "se-skv-rowstore": {
+      "lastChecked": "2026-11-18T18:04:51.885Z",
+      "lastSuccess": "2026-11-18T18:04:51.885Z",
+      "accessible": true,
+      "contentHash": "36c52db1922a72560816a516ebdcb15c616672a69b7d5d0b6d20fd6e88992ac2",
+      "relevantHash": "6261c8f055f00fec47c14f78e76d3ed2ea85b2d3e29e773824998a4c6039f391",
+      "lastModified": null,
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "se-skv-belopp": {
+      "lastChecked": "2026-11-18T18:04:54.998Z",
+      "lastSuccess": "2026-11-18T18:04:54.998Z",
+      "accessible": true,
+      "contentHash": "d73b17b00f1cc9bfe2c3d8c087d9c8f9ab2662f6b6bf83714ce1962756811030",
+      "relevantHash": "1aa1f21506f949bee3ced2ac55ef4c1452dfb73ab183d9d30150797a6e63053b",
+      "lastModified": null,
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "no-skatteetaten-trinnskatt": {
+      "lastChecked": "2026-11-18T18:04:56.546Z",
+      "lastSuccess": "2026-11-18T18:04:56.546Z",
+      "accessible": true,
+      "contentHash": "e6ce43dc13f9b094fb81d7e608026607ade9c73ef79429a1663e406c5c87d787",
+      "relevantHash": "e82cd10205b90b2d92c7b8828ceec5efaf4d80ff74e04853e64d8aaf2fb7291d",
+      "lastModified": "Wed, 18 Nov 2026 17:06:54 GMT",
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "no-skatteetaten-personfradrag": {
+      "lastChecked": "2026-11-18T18:04:58.041Z",
+      "lastSuccess": "2026-11-18T18:04:58.041Z",
+      "accessible": true,
+      "contentHash": "a36b97be465eac61106afcf8aec28c4c5e307d856e63574d77fa2b8badb858b0",
+      "relevantHash": "2576271a9618f5d43fc11ed8d41c5a1423d7fb1568d99205ee75e598eb579e00",
+      "lastModified": "Wed, 18 Nov 2026 17:49:43 GMT",
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "no-skatteetaten-minstefradrag": {
+      "lastChecked": "2026-11-18T18:04:59.553Z",
+      "lastSuccess": "2026-11-18T18:04:59.553Z",
+      "accessible": true,
+      "contentHash": "79eda9c369c5d793ab9737dd9561b7a1bbc8dd8788d26e065219bde0b9df09e1",
+      "relevantHash": "f2d5837bf507c688e1cce567495ddc53260c97e8fe632bec43f5e24df3cef563",
+      "lastModified": "Wed, 18 Nov 2026 17:49:44 GMT",
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "no-skatteetaten-trygdeavgift": {
+      "lastChecked": "2026-11-18T18:05:01.415Z",
+      "lastSuccess": "2026-11-18T18:05:01.415Z",
+      "accessible": true,
+      "contentHash": "d5c3195d8103b90414e93d536eaa6d06176779696f381b3ea631c33504d2174a",
+      "relevantHash": "ce5c74dedc8d45cb9eb6d705ff937a24174811e69b46c5489aca72406e62d007",
+      "lastModified": "Wed, 18 Nov 2026 17:57:59 GMT",
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "gr-aade-circulars": {
+      "lastChecked": "2026-11-18T18:05:03.163Z",
+      "lastSuccess": "2026-11-18T18:05:03.163Z",
+      "accessible": true,
+      "contentHash": "5cd5c35f8fd7a559c358f3956621be919bb4b04b0f854ab6cd32d1513b283c3d",
+      "relevantHash": "1ccc3c66163968c843d5934962c9633b9163aab083bf4ee18f78f1f798409a42",
+      "lastModified": "Wed, 18 Nov 2026 18:05:01 GMT",
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "gr-aade-press": {
+      "lastChecked": "2026-11-18T18:05:04.617Z",
+      "lastSuccess": "2026-11-18T18:05:04.617Z",
+      "accessible": true,
+      "contentHash": "863176871459b6018cb7225ad9ba23118ecd4dcee666bb2c719c03a4f0b75ce3",
+      "relevantHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lastModified": "Wed, 18 Nov 2026 16:20:12 GMT",
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    },
+    "gr-efka-announcements": {
+      "lastChecked": "2026-11-18T18:05:06.212Z",
+      "lastSuccess": "2026-11-18T18:05:06.212Z",
+      "accessible": true,
+      "contentHash": "a0a1360fc09a36db70df527fb417bde75c94f8f0a93627f415bd38be57f74283",
+      "relevantHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lastModified": "Wed, 18 Nov 2026 15:17:32 GMT",
+      "lastError": null,
+      "consecutiveFailures": 0,
+      "seenItems": [],
+      "knownYears": []
+    }
+  },
+  "settings": {
+    "monthlyCheck": false,
+    "dayOfMonth": 1,
+    "commitOnApprove": false
+  },
+  "lastCheckRun": "2026-11-18T18:05:06.216Z",
+  "lastCheckRunId": "check-20261118180130-4iyoe"
+}

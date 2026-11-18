@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "country": "NL",
+    "taxYear": 2026,
+    "version": "2026.1",
+    "currency": "EUR",
+    "createdAt": "2026-11-16T00:00:00.000Z",
+    "effectiveDate": "2026-01-01",
+    "approvedAt": "2026-11-16T00:00:00.000Z",
+    "lastVerified": "2026-11-16",
+    "verificationStatus": "verified",
+    "description": "Initial 2026 dataset: box 1 rates and wage-tax credits for employees below state-pension age.",
+    "previousVersion": null,
+    "sources": [
+      {
+        "title": "Voorlopige aanslag 2026: gebruikte tarieven en heffingskortingen",
+        "authority": "Belastingdienst",
+        "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/voorlopige-aanslag/content/voorlopige-aanslag-tarieven-en-heffingskortingen"
+      },
+      {
+        "title": "30%-regeling",
+        "authority": "Belastingdienst",
+        "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/werk-en-inkomen/content/30-procent-regeling"
+      }
+    ],
+    "unverified": [
+      "The national-insurance share of the first bracket (27.65%) was not re-confirmed against the 2026 premium table; it only affects how the total is split between wage tax and national insurance, not net pay.",
+      "30% ruling salary norms (€48,013 / €36,497) and the 2026 salary cap (€262,000) were not confirmed against a primary source."
+    ],
+    "limitations": [
+      "Employees at or above state-pension age pay lower first-bracket rates; not modelled.",
+      "Income-dependent combination credit (IACK), mortgage-interest relief and box 2/3 income are not modelled.",
+      "Monthly payroll uses period tables with small rounding differences from this annual calculation."
+    ]
+  },
+  "rules": {
+    "brackets": [
+      {
+        "upTo": 38883,
+        "rate": 0.3575
+      },
+      {
+        "upTo": 78426,
+        "rate": 0.3756
+      },
+      {
+        "upTo": null,
+        "rate": 0.495
+      }
+    ],
+    "nationalInsuranceRate": 0.2765,
+    "generalCredit": {
+      "max": 3115,
+      "phaseOutStart": 29736,
+      "phaseOutRate": 0.06398,
+      "phaseOutEnd": 78426
+    },
+    "labourCredit": [
+      {
+        "upTo": 11965,
+        "base": 0,
+        "rate": 0.08324,
+        "from": 0
+      },
+      {
+        "upTo": 25845,
+        "base": 996,
+        "rate": 0.31009,
+        "from": 11965
+      },
+      {
+        "upTo": 45592,
+        "base": 5300,
+        "rate": 0.0195,
+        "from": 25845
+      },
+      {
+        "upTo": 132920,
+        "base": 5685,
+        "rate": -0.0651,
+        "from": 45592
+      },
+      {
+        "upTo": null,
+        "base": 0,
+        "rate": 0,
+        "from": 132920
+      }
+    ],
+    "holidayAllowanceRate": 0.08,
+    "expatRuling": {
+      "taxFreeShare": 0.3,
+      "salaryCap": 262000,
+      "minTaxableSalary": 48013,
+      "minTaxableSalaryUnder30": 36497
+    }
+  }
+}

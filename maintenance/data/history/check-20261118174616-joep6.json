@@ -1,0 +1,716 @@
+{
+  "id": "check-20261118174616-joep6",
+  "type": "check",
+  "startedAt": "2026-11-18T17:46:16.349Z",
+  "finishedAt": "2026-11-18T17:49:51.408Z",
+  "status": "success",
+  "countriesChecked": [
+    "DK",
+    "DE",
+    "GR",
+    "NL",
+    "NO",
+    "SE"
+  ],
+  "sourcesChecked": 14,
+  "sourcesSucceeded": [
+    "dk-statbank-pskat",
+    "dk-skat-state-tax",
+    "de-bmf-lohnsteuer",
+    "de-estg-32a",
+    "nl-belastingdienst-tarieven",
+    "se-skv-rowstore",
+    "se-skv-belopp",
+    "no-skatteetaten-trinnskatt",
+    "no-skatteetaten-personfradrag",
+    "no-skatteetaten-minstefradrag",
+    "no-skatteetaten-trygdeavgift",
+    "gr-aade-circulars",
+    "gr-aade-press",
+    "gr-efka-announcements"
+  ],
+  "sourcesFailed": [],
+  "changesDetected": 0,
+  "proposalsCreated": [],
+  "duplicatesSuppressed": 0,
+  "approved": [],
+  "rejected": [],
+  "tests": null,
+  "summary": "14/14 sources checked, 0 change(s) detected, 0 new for review.",
+  "results": [
+    {
+      "sourceId": "dk-statbank-pskat",
+      "country": "DK",
+      "url": "https://api.statbank.dk/v1/data/PSKAT/CSV?lang=en&OMR%C3%85DE=*&SKATPCT=*&Tid=2026",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "6e002e0e144a5b68465336157d33372ee3faa639c818ba62b95a0ee2e75983b9",
+      "relevantHash": "e7b9bb8eaaebd1e5d4a8b5095cc7603e9d20b597041fa50f4c39ae99e2ec0d93",
+      "lastModified": null,
+      "probes": [],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "dk-skat-state-tax",
+      "country": "DK",
+      "url": "https://skat.dk/hjaelp/bundskat-mellemskat-topskat-og-toptopskat",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "a49b49b0d5deedc4c681ff45b149b00c4718a86b0f3eba71ae1a64568f0de555",
+      "relevantHash": "b3ea0b6af37ede9328e86e52e20c96ebbd86a161788a03f85f38ace99bc77d60",
+      "lastModified": null,
+      "probes": [
+        {
+          "probeId": "bottom-rate",
+          "label": "Bottom tax rate",
+          "rulePath": "bottomTaxRate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.1201,
+          "expected": 0.1201,
+          "match": true
+        },
+        {
+          "probeId": "middle-rate",
+          "label": "Middle tax rate",
+          "rulePath": "middleTax.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.075,
+          "expected": 0.075,
+          "match": true
+        },
+        {
+          "probeId": "middle-threshold",
+          "label": "Middle tax threshold",
+          "rulePath": "middleTax.threshold",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 641200,
+          "expected": 641200,
+          "match": true
+        },
+        {
+          "probeId": "top-rate",
+          "label": "Top tax rate",
+          "rulePath": "topTax.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.075,
+          "expected": 0.075,
+          "match": true
+        },
+        {
+          "probeId": "top-threshold",
+          "label": "Top tax threshold",
+          "rulePath": "topTax.threshold",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 777900,
+          "expected": 777900,
+          "match": true
+        },
+        {
+          "probeId": "toptop-rate",
+          "label": "Top-top tax rate",
+          "rulePath": "topTopTax.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.05,
+          "expected": 0.05,
+          "match": true
+        },
+        {
+          "probeId": "toptop-threshold",
+          "label": "Top-top tax threshold",
+          "rulePath": "topTopTax.threshold",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 2592700,
+          "expected": 2592700,
+          "match": true
+        }
+      ],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "de-bmf-lohnsteuer",
+      "country": "DE",
+      "url": "https://www.bmf-steuerrechner.de/interface/2026Version1.xhtml",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "47180a7dfd4b9e21757dc445ffd3f48a1b00dbac07b3dbe3333447fb285c53ed",
+      "relevantHash": "47180a7dfd4b9e21757dc445ffd3f48a1b00dbac07b3dbe3333447fb285c53ed",
+      "lastModified": null,
+      "probes": [
+        {
+          "probeId": "bmf-60000",
+          "label": "Wage tax, class 1, €60000",
+          "rulePath": "(calculation)",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 9389,
+          "expected": 9389,
+          "match": true
+        },
+        {
+          "probeId": "bmf-120000",
+          "label": "Wage tax, class 1, €120000",
+          "rulePath": "(calculation)",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 32930.91,
+          "expected": 32930.91,
+          "match": true
+        }
+      ],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "de-estg-32a",
+      "country": "DE",
+      "url": "https://www.gesetze-im-internet.de/estg/__32a.html",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "cc179a7cf17c2090db25b4640f79206839515266112dd886572035b0158dd7af",
+      "relevantHash": "0c18c6253ec7a0d94a01389c8057ae20b54667ac8a5b9dd10018ee1f51972c70",
+      "lastModified": "Wed, 18 Nov 2026 01:12:24 GMT",
+      "probes": [
+        {
+          "probeId": "basic-allowance",
+          "label": "Basic allowance (Grundfreibetrag)",
+          "rulePath": "tariff.basicAllowance",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 12348,
+          "expected": 12348,
+          "match": true
+        },
+        {
+          "probeId": "zone2-end",
+          "label": "End of first progression zone",
+          "rulePath": "tariff.zone2End",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 17799,
+          "expected": 17799,
+          "match": true
+        },
+        {
+          "probeId": "zone3-end",
+          "label": "End of second progression zone",
+          "rulePath": "tariff.zone3End",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 69878,
+          "expected": 69878,
+          "match": true
+        },
+        {
+          "probeId": "zone4-end",
+          "label": "End of 42% zone",
+          "rulePath": "tariff.zone4End",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 277825,
+          "expected": 277825,
+          "match": true
+        }
+      ],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "nl-belastingdienst-tarieven",
+      "country": "NL",
+      "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/voorlopige-aanslag/content/voorlopige-aanslag-tarieven-en-heffingskortingen",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "b9689a5e20a25e3fbf5e7bf298fa5a28deb7bd8f17944014d91dd7ab65fbb82d",
+      "relevantHash": "eb4ac9fd47d7ef50725220d507b9bfd2eef4e2c8d4cb3532bc7f19f1e609d8d0",
+      "lastModified": "Wed, 18 Nov 2026 17:20:02 GMT",
+      "probes": [
+        {
+          "probeId": "b1-limit",
+          "label": "Bracket 1 upper limit",
+          "rulePath": "brackets.0.upTo",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 38883,
+          "expected": 38883,
+          "match": true
+        },
+        {
+          "probeId": "b1-rate",
+          "label": "Bracket 1 rate",
+          "rulePath": "brackets.0.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.3575,
+          "expected": 0.3575,
+          "match": true
+        },
+        {
+          "probeId": "b2-limit",
+          "label": "Bracket 2 upper limit",
+          "rulePath": "brackets.1.upTo",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 78426,
+          "expected": 78426,
+          "match": true
+        },
+        {
+          "probeId": "b2-rate",
+          "label": "Bracket 2 rate",
+          "rulePath": "brackets.1.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.3756,
+          "expected": 0.3756,
+          "match": true
+        },
+        {
+          "probeId": "b3-rate",
+          "label": "Bracket 3 rate",
+          "rulePath": "brackets.2.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.495,
+          "expected": 0.495,
+          "match": true
+        },
+        {
+          "probeId": "ahk-max",
+          "label": "General tax credit (max)",
+          "rulePath": "generalCredit.max",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 3115,
+          "expected": 3115,
+          "match": true
+        },
+        {
+          "probeId": "ahk-start",
+          "label": "General credit phase-out start",
+          "rulePath": "generalCredit.phaseOutStart",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 29736,
+          "expected": 29736,
+          "match": true
+        },
+        {
+          "probeId": "ahk-rate",
+          "label": "General credit phase-out rate",
+          "rulePath": "generalCredit.phaseOutRate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.06398,
+          "expected": 0.06398,
+          "match": true
+        },
+        {
+          "probeId": "ak-max",
+          "label": "Labour credit (max)",
+          "rulePath": "labourCredit.3.base",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 5685,
+          "expected": 5685,
+          "match": true
+        },
+        {
+          "probeId": "ak-end",
+          "label": "Labour credit end of phase-out",
+          "rulePath": "labourCredit.3.upTo",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 132920,
+          "expected": 132920,
+          "match": true
+        }
+      ],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "se-skv-rowstore",
+      "country": "SE",
+      "url": "https://skatteverket.entryscape.net/rowstore/dataset/c67b320b-ffee-4876-b073-dd9236cd2a99?%C3%A5r=2026",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "36c52db1922a72560816a516ebdcb15c616672a69b7d5d0b6d20fd6e88992ac2",
+      "relevantHash": "6261c8f055f00fec47c14f78e76d3ed2ea85b2d3e29e773824998a4c6039f391",
+      "lastModified": null,
+      "probes": [],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "se-skv-belopp",
+      "country": "SE",
+      "url": "https://www.skatteverket.se/privat/skatter/beloppochprocent/2026",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "d73b17b00f1cc9bfe2c3d8c087d9c8f9ab2662f6b6bf83714ce1962756811030",
+      "relevantHash": "1aa1f21506f949bee3ced2ac55ef4c1452dfb73ab183d9d30150797a6e63053b",
+      "lastModified": null,
+      "probes": [
+        {
+          "probeId": "pbb",
+          "label": "Price base amount",
+          "rulePath": "priceBaseAmount",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 59200,
+          "expected": 59200,
+          "match": true
+        },
+        {
+          "probeId": "ibb",
+          "label": "Income base amount",
+          "rulePath": "incomeBaseAmount",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 83400,
+          "expected": 83400,
+          "match": true
+        },
+        {
+          "probeId": "skiktgrans",
+          "label": "State-tax threshold",
+          "rulePath": "stateTax.threshold",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 643000,
+          "expected": 643000,
+          "match": true
+        },
+        {
+          "probeId": "avg-municipal",
+          "label": "Average municipal tax rate",
+          "rulePath": "average.municipalRate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 32.38,
+          "expected": 32.38,
+          "match": true
+        },
+        {
+          "probeId": "pension-fee",
+          "label": "General pension fee rate",
+          "rulePath": "pensionFee.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.07,
+          "expected": 0.07,
+          "match": true
+        }
+      ],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "no-skatteetaten-trinnskatt",
+      "country": "NO",
+      "url": "https://www.skatteetaten.no/satser/trinnskatt/",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "e6ce43dc13f9b094fb81d7e608026607ade9c73ef79429a1663e406c5c87d787",
+      "relevantHash": "e82cd10205b90b2d92c7b8828ceec5efaf4d80ff74e04853e64d8aaf2fb7291d",
+      "lastModified": "Wed, 18 Nov 2026 17:06:54 GMT",
+      "probes": [
+        {
+          "probeId": "t1-threshold",
+          "label": "Step 1 threshold",
+          "rulePath": "bracketTax.0.threshold",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 226100,
+          "expected": 226100,
+          "match": true
+        },
+        {
+          "probeId": "t2-threshold",
+          "label": "Step 2 threshold",
+          "rulePath": "bracketTax.1.threshold",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 318300,
+          "expected": 318300,
+          "match": true
+        },
+        {
+          "probeId": "t3-threshold",
+          "label": "Step 3 threshold",
+          "rulePath": "bracketTax.2.threshold",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 725050,
+          "expected": 725050,
+          "match": true
+        },
+        {
+          "probeId": "t4-threshold",
+          "label": "Step 4 threshold",
+          "rulePath": "bracketTax.3.threshold",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 980100,
+          "expected": 980100,
+          "match": true
+        },
+        {
+          "probeId": "t5-threshold",
+          "label": "Step 5 threshold",
+          "rulePath": "bracketTax.4.threshold",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 1467200,
+          "expected": 1467200,
+          "match": true
+        },
+        {
+          "probeId": "t1-rate",
+          "label": "Step 1 rate",
+          "rulePath": "bracketTax.0.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.017,
+          "expected": 0.017,
+          "match": true
+        },
+        {
+          "probeId": "t2-rate",
+          "label": "Step 2 rate",
+          "rulePath": "bracketTax.1.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.04,
+          "expected": 0.04,
+          "match": true
+        },
+        {
+          "probeId": "t3-rate",
+          "label": "Step 3 rate",
+          "rulePath": "bracketTax.2.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.137,
+          "expected": 0.137,
+          "match": true
+        },
+        {
+          "probeId": "t4-rate",
+          "label": "Step 4 rate",
+          "rulePath": "bracketTax.3.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.168,
+          "expected": 0.168,
+          "match": true
+        },
+        {
+          "probeId": "t5-rate",
+          "label": "Step 5 rate",
+          "rulePath": "bracketTax.4.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.178,
+          "expected": 0.178,
+          "match": true
+        }
+      ],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "no-skatteetaten-personfradrag",
+      "country": "NO",
+      "url": "https://www.skatteetaten.no/satser/personfradrag/",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "a36b97be465eac61106afcf8aec28c4c5e307d856e63574d77fa2b8badb858b0",
+      "relevantHash": "2576271a9618f5d43fc11ed8d41c5a1423d7fb1568d99205ee75e598eb579e00",
+      "lastModified": "Wed, 18 Nov 2026 17:49:43 GMT",
+      "probes": [
+        {
+          "probeId": "personfradrag",
+          "label": "Personal allowance",
+          "rulePath": "personalAllowance",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 114540,
+          "expected": 114540,
+          "match": true
+        }
+      ],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "no-skatteetaten-minstefradrag",
+      "country": "NO",
+      "url": "https://www.skatteetaten.no/satser/minstefradrag/",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "79eda9c369c5d793ab9737dd9561b7a1bbc8dd8788d26e065219bde0b9df09e1",
+      "relevantHash": "f2d5837bf507c688e1cce567495ddc53260c97e8fe632bec43f5e24df3cef563",
+      "lastModified": "Wed, 18 Nov 2026 17:49:44 GMT",
+      "probes": [
+        {
+          "probeId": "min-rate",
+          "label": "Minimum deduction rate",
+          "rulePath": "minimumDeduction.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.46,
+          "expected": 0.46,
+          "match": true
+        },
+        {
+          "probeId": "min-max",
+          "label": "Minimum deduction cap",
+          "rulePath": "minimumDeduction.max",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 95700,
+          "expected": 95700,
+          "match": true
+        }
+      ],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "no-skatteetaten-trygdeavgift",
+      "country": "NO",
+      "url": "https://www.skatteetaten.no/satser/trygdeavgift/",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "d5c3195d8103b90414e93d536eaa6d06176779696f381b3ea631c33504d2174a",
+      "relevantHash": "ce5c74dedc8d45cb9eb6d705ff937a24174811e69b46c5489aca72406e62d007",
+      "lastModified": "Wed, 18 Nov 2026 16:55:28 GMT",
+      "probes": [
+        {
+          "probeId": "ni-rate",
+          "label": "National insurance rate (wages)",
+          "rulePath": "nationalInsurance.rate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.076,
+          "expected": 0.076,
+          "match": true
+        },
+        {
+          "probeId": "ni-limit",
+          "label": "Lower income limit",
+          "rulePath": "nationalInsurance.lowerLimit",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 99650,
+          "expected": 99650,
+          "match": true
+        },
+        {
+          "probeId": "ni-cap",
+          "label": "Phase-in cap",
+          "rulePath": "nationalInsurance.phaseInRate",
+          "taxYear": 2026,
+          "found": true,
+          "observed": 0.25,
+          "expected": 0.25,
+          "match": true
+        }
+      ],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "gr-aade-circulars",
+      "country": "GR",
+      "url": "https://www.aade.gr/egkyklioi-kai-apofaseis",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "f5fa3f533dcdb9dcb77f97670d227b50d610749d3938395849a6f4c325396524",
+      "relevantHash": "1ccc3c66163968c843d5934962c9633b9163aab083bf4ee18f78f1f798409a42",
+      "lastModified": "Wed, 18 Nov 2026 16:21:12 GMT",
+      "probes": [],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "gr-aade-press",
+      "country": "GR",
+      "url": "https://www.aade.gr/deltia-typoy-anakoinoseis",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "863176871459b6018cb7225ad9ba23118ecd4dcee666bb2c719c03a4f0b75ce3",
+      "relevantHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lastModified": "Wed, 18 Nov 2026 16:20:12 GMT",
+      "probes": [],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    },
+    {
+      "sourceId": "gr-efka-announcements",
+      "country": "GR",
+      "url": "https://www.e-efka.gov.gr/el/anakoinoseis",
+      "ok": true,
+      "httpStatus": 200,
+      "error": null,
+      "classification": "first-snapshot",
+      "contentHash": "a0a1360fc09a36db70df527fb417bde75c94f8f0a93627f415bd38be57f74283",
+      "relevantHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lastModified": "Wed, 18 Nov 2026 15:17:32 GMT",
+      "probes": [],
+      "newItems": [],
+      "futureYears": [],
+      "notes": []
+    }
+  ],
+  "changes": []
+}

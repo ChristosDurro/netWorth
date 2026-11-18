@@ -1,0 +1,12 @@
+Bundskat, mellemskat, topskat og toptopskat
+En skattereform betyder, at der fra 2026 bliver indført 2 nye typer skat – topskat og toptopskat – og den tidligere topskat kommer til at hedde mellemskat.
+Bundskat: 12,01 %
+Alle, der har en indkomst, betaler bundskat. Du skal dog kun betale bundskat af den del af din personlige indkomst, der overstiger dit personfradrag. Bundskatten beregnes af den personlige indkomst - med tillæg af positiv nettokapitalindkomst.
+Mellemskat: 7,5 %
+Mellemskat er det, der til og med 2025 hed topskat. For 2026 gælder det,
+hvis du har en personlig indkomst over 641.200 kr. efter am-bidrag, skal du betale 7,5 % i mellemskat af indkomsten, der overstiger dette beløb
+hvis du har kapitalindkomst over grundbeløbet på 55.000 kr., skal du betale 7,5 % i mellemskat af indkomsten
+Topskat: 7,5 %
+Hvis du har en personlig indkomst over 777.900 kr. (2026) efter am-bidrag, skal du betale 7,5 % i topskat af indkomsten, der overstiger dette beløb.
+Toptopskat: 5 %
+Hvis du har en personlig indkomst over 2.592.700 kr. (2026) efter am-bidrag, skal du betale 5 % i toptopskat af indkomsten, der overstiger dette beløb.

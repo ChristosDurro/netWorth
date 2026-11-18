@@ -1,0 +1,46 @@
+{
+  "countries": {
+    "DK": {
+      "name": "Denmark",
+      "status": "supported",
+      "active": {
+        "2026": "2026.1"
+      }
+    },
+    "DE": {
+      "name": "Germany",
+      "status": "supported",
+      "active": {
+        "2026": "2026.1"
+      }
+    },
+    "GR": {
+      "name": "Greece",
+      "status": "supported",
+      "active": {
+        "2026": "2026.1"
+      }
+    },
+    "NL": {
+      "name": "Netherlands",
+      "status": "supported",
+      "active": {
+        "2026": "2026.1"
+      }
+    },
+    "NO": {
+      "name": "Norway",
+      "status": "supported",
+      "active": {
+        "2026": "2026.1"
+      }
+    },
+    "SE": {
+      "name": "Sweden",
+      "status": "supported",
+      "active": {
+        "2026": "2026.1"
+      }
+    }
+  }
+}

@@ -1,0 +1,346 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { z } from 'zod';
+import { countryModules } from '../../src/countries';
+import { createGenericModule } from '../../src/engine/generic';
+import type { CountryModule, TaxDataset } from '../../src/engine/types';
+import { loadSources, loadState } from './checker';
+import { isoNow, makeId, paths, readJsonFile, writeJsonFile, writeTextFile, type MaintenanceContext } from './context';
+import { activateCandidate, TAX_TEST_SCOPE } from './datasets';
+import { htmlToText } from './extract';
+import { PoliteFetcher } from './fetcher';
+import { readRegistryFile, writeRegistryFile } from './registryAccess';
+import { sourcesFileSchema, type RunRecord, type Source } from './types';
+
+export const catalogSchema = z.object({
+  countries: z.array(
+    z.object({
+      code: z.string().regex(/^[A-Z]{2}$/),
+      name: z.string(),
+      currency: z.string().regex(/^[A-Z]{3}$/),
+      authority: z.string(),
+      url: z.string().url(),
+      keywords: z.array(z.string()),
+      social: z.object({ authority: z.string(), url: z.string().url() }).nullable(),
+    }),
+  ),
+});
+export type CatalogEntry = z.infer<typeof catalogSchema>['countries'][number];
+
+export function loadCatalog(ctx: MaintenanceContext): CatalogEntry[] {
+  return catalogSchema.parse(readJsonFile(paths(ctx).catalog, { countries: [] })).countries;
+}
+
+/** What still has to be researched before a new country can be published. */
+export const RESEARCH_ITEMS = [
+  { key: 'incomeTax.brackets', label: 'Income-tax brackets and rates' },
+  { key: 'incomeTax.personalAllowance', label: 'Personal allowance / tax-free amount' },
+  { key: 'incomeTax.taxCredit', label: 'General tax credits' },
+  { key: 'contributions', label: 'Employee social-security contributions (rates and ceilings)' },
+  { key: 'local', label: 'Municipal or regional income taxes' },
+  { key: 'pension', label: 'Mandatory pension contributions' },
+  { key: 'other', label: 'Other mandatory payroll levies' },
+] as const;
+
+export interface DraftFile {
+  country: string;
+  name: string;
+  currency: string;
+  taxYear: number;
+  createdAt: string;
+  status: 'under-development';
+  research: { key: string; label: string; status: 'missing' | 'researched' | 'verified' | 'not-applicable'; sourceUrl: string | null; notes: string }[];
+  /** Values stay null until a person enters them from an official source. Nothing is guessed. */
+  rules: { incomeTax: { personalAllowance: number | null; brackets: { upTo: number | null; rate: number | null }[] | null; taxCredit: number | null }; contributions: { id: string; label: string; rate: number | null; ceiling: number | null; deductible: boolean }[] };
+  sources: { title: string; authority: string; url: string }[];
+}
+
+const TAX_WORDS = ['tax', 'rate', 'income', 'salary', 'wage', 'payroll', 'bracket', 'allowance', 'contribution', 'deduction'];
+
+/** Fetches the authority's homepage politely and returns links that look like tax-rate pages. */
+export async function discoverSources(ctx: MaintenanceContext, entry: CatalogEntry): Promise<{ url: string; text: string }[]> {
+  const fetcher = new PoliteFetcher(ctx);
+  const res = await fetcher.get(entry.url);
+  if (!res.ok || !res.body) return [];
+  const html = res.body.toString('utf8');
+  const words = [...entry.keywords, ...TAX_WORDS].map((w) => w.toLowerCase());
+  const base = new URL(res.url || entry.url);
+  const found = new Map<string, string>();
+  for (const m of html.matchAll(/<a\b[^>]*href="([^"#]+)"[^>]*>([\s\S]*?)<\/a>/gi)) {
+    const text = htmlToText(m[2]).replace(/\n/g, ' ').trim();
+    let url: URL;
+    try {
+      url = new URL(m[1], base);
+    } catch {
+      continue;
+    }
+    if (url.hostname !== base.hostname || !/^https?:$/.test(url.protocol)) continue; // official domain only
+    const hay = `${text} ${decodeURIComponent(url.pathname)}`.toLowerCase();
+    if (words.some((w) => hay.includes(w)) && !found.has(url.href)) found.set(url.href, text.slice(0, 120));
+    if (found.size >= 8) break;
+  }
+  return [...found.entries()].map(([url, text]) => ({ url, text }));
+}
+
+function moduleSource(entry: CatalogEntry): string {
+  return `import { createGenericModule } from '../../engine/generic';
+
+/**
+ * ${entry.name} — scaffolded by the NetWorth maintenance engine on ${new Date().toISOString().slice(0, 10)}.
+ * Status: UNDER DEVELOPMENT. Uses the generic progressive-tax model; replace with
+ * a dedicated implementation once the research checklist in tax-data/${entry.code}/draft.json is complete.
+ */
+export const ${entry.code.toLowerCase()}Module = createGenericModule({ code: '${entry.code}', name: '${entry.name.replace(/'/g, "\\'")}', currency: '${entry.currency}' });
+`;
+}
+
+function testSource(entry: CatalogEntry): string {
+  return `import { describe, expect, it } from 'vitest';
+import { loadRegistryFromDisk } from '../../../src/data/nodeLoader';
+
+// Generated by "Add Country" for ${entry.name}. Replace the todos with reference
+// calculations from official examples before publishing the country.
+describe('${entry.name} (${entry.code}) — under development', () => {
+  const reg = loadRegistryFromDisk();
+
+  it('is not offered in the public calculator until verified', () => {
+    const entry = reg.registry.countries['${entry.code}'];
+    if (entry?.status === 'under-development') expect(reg.listCountries().some((c) => c.code === '${entry.code}')).toBe(false);
+  });
+
+  it.todo('matches an official reference calculation for a typical salary');
+  it.todo('applies the personal allowance correctly');
+  it.todo('handles salaries at each bracket boundary');
+  it.todo('caps social contributions at the official ceiling');
+});
+`;
+}
+
+function reportSource(entry: CatalogEntry, draft: DraftFile, discovered: { url: string; text: string }[]): string {
+  return `# ${entry.name} (${entry.code}) — research report
+
+Status: **Under development** · created ${draft.createdAt.slice(0, 10)} · tax year ${draft.taxYear}
+
+## Official sources
+- Tax authority: [${entry.authority}](${entry.url})
+${entry.social ? `- Social security: [${entry.social.authority}](${entry.social.url})\n` : ''}
+### Candidate pages found on the authority's website (unconfirmed)
+${discovered.length ? discovered.map((d) => `- [${d.text || d.url}](${d.url})`).join('\n') : '- None found automatically — locate the rate tables manually.'}
+
+## Verified information
+Nothing yet. No value is filled in automatically: every rate must be read from an official source by a person.
+
+## Still to research
+${draft.research.map((r) => `- [ ] ${r.label}`).join('\n')}
+
+## Next steps
+1. Fill the values in \`tax-data/${entry.code}/draft.json\` and set each research item to \`verified\` with its source URL.
+2. Replace the generic model in \`src/countries/${entry.code.toLowerCase()}/index.ts\` if the country needs more than brackets + flat contributions.
+3. Replace the \`it.todo\` entries in \`tests/tax/generated/${entry.code.toLowerCase()}.scaffold.test.ts\` with official reference calculations.
+4. In the Update Center: **Create dataset from draft**, then **Publish country**.
+`;
+}
+
+function registerModule(ctx: MaintenanceContext, code: string): void {
+  const file = paths(ctx).countriesIndex;
+  let src = fs.readFileSync(file, 'utf8');
+  const lc = code.toLowerCase();
+  if (src.includes(`./${lc}'`)) return;
+  src = src.replace('// </networth:country-imports>', `import { ${lc}Module } from './${lc}';\n// </networth:country-imports>`);
+  src = src.replace('  // </networth:country-list>', `  ${lc}Module,\n  // </networth:country-list>`);
+  fs.writeFileSync(file, src);
+}
+
+export async function addCountry(ctx: MaintenanceContext, code: string, opts: { discover?: boolean; taxYear?: number } = {}): Promise<RunRecord> {
+  code = code.toUpperCase();
+  if (!/^[A-Z]{2}$/.test(code)) throw new Error('Use a two-letter ISO country code.');
+  const p = paths(ctx);
+  const reg = readRegistryFile(ctx);
+  if (reg.countries[code]) throw new Error(`${code} is already registered (${reg.countries[code].status}).`);
+  const entry = loadCatalog(ctx).find((c) => c.code === code);
+  if (!entry) throw new Error(`${code} is not in the authority catalog (maintenance/config/catalog.json). Add its official tax authority there first.`);
+  const taxYear = opts.taxYear ?? ctx.now().getUTCFullYear();
+
+  // 1–3. Official authority and sources.
+  const discovered = opts.discover === false ? [] : await discoverSources(ctx, entry);
+  const sourcesFile = sourcesFileSchema.parse(readJsonFile(p.sources, { sources: [] }));
+  const newSources: Source[] = [
+    { id: `${code.toLowerCase()}-authority-home`, country: code, authority: entry.authority, url: entry.url, type: 'html', description: `${entry.authority} homepage (tax-related lines monitored).`, method: 'html-text', category: 'general', keywords: entry.keywords, probes: [], enabled: true, discovered: true },
+    ...(entry.social ? [{ id: `${code.toLowerCase()}-social-home`, country: code, authority: entry.social.authority, url: entry.social.url, type: 'html' as const, description: `${entry.social.authority} homepage.`, method: 'html-text' as const, category: 'social', keywords: entry.keywords, probes: [], enabled: true, discovered: true }] : []),
+    ...discovered.map((d, i) => ({ id: `${code.toLowerCase()}-discovered-${i + 1}`, country: code, authority: entry.authority, url: d.url, type: 'html' as const, description: `Discovered: ${d.text || d.url} (confirm relevance).`, method: 'html-text' as const, category: 'income-tax', keywords: entry.keywords, probes: [], enabled: true, discovered: true })),
+  ];
+  sourcesFile.sources.push(...newSources.filter((s) => !sourcesFile.sources.some((x) => x.id === s.id)));
+  writeJsonFile(p.sources, sourcesFile);
+
+  // 4 & 11. Module structure using the shared contract.
+  const dir = path.join(p.countriesDir, code.toLowerCase());
+  if (!fs.existsSync(path.join(dir, 'index.ts'))) writeTextFile(path.join(dir, 'index.ts'), moduleSource(entry));
+  registerModule(ctx, code);
+
+  // 5–10. Structured draft with explicit gaps — never invented values.
+  const draft: DraftFile = {
+    country: code,
+    name: entry.name,
+    currency: entry.currency,
+    taxYear,
+    createdAt: isoNow(ctx),
+    status: 'under-development',
+    research: RESEARCH_ITEMS.map((r) => ({ key: r.key, label: r.label, status: 'missing', sourceUrl: null, notes: '' })),
+    rules: { incomeTax: { personalAllowance: null, brackets: null, taxCredit: null }, contributions: [] },
+    sources: [{ title: `${entry.authority}`, authority: entry.authority, url: entry.url }, ...(entry.social ? [{ title: entry.social.authority, authority: entry.social.authority, url: entry.social.url }] : [])],
+  };
+  writeJsonFile(path.join(ctx.taxDataDir, code, 'draft.json'), draft);
+
+  // 12–13. Tests and research report.
+  writeTextFile(path.join(p.generatedTests, `${code.toLowerCase()}.scaffold.test.ts`), testSource(entry));
+  writeTextFile(path.join(p.docsCountries, `${code}.md`), reportSource(entry, draft, discovered));
+
+  reg.countries[code] = { name: entry.name, status: 'under-development', active: {} };
+  writeRegistryFile(ctx, reg);
+
+  const rec: RunRecord = {
+    id: makeId('add-country', ctx),
+    type: 'add-country',
+    startedAt: draft.createdAt,
+    finishedAt: isoNow(ctx),
+    status: 'success',
+    countriesChecked: [code],
+    sourcesChecked: 0,
+    sourcesSucceeded: [],
+    sourcesFailed: [],
+    changesDetected: 0,
+    proposalsCreated: [],
+    duplicatesSuppressed: 0,
+    approved: [],
+    rejected: [],
+    tests: null,
+    summary: `${entry.name} registered as Under Development with ${newSources.length} source(s). ${RESEARCH_ITEMS.length} research items are open; it will not appear in the calculator until verified.`,
+    details: { sources: newSources.map((s) => s.url), report: `docs/countries/${code}.md` },
+  };
+  writeJsonFile(path.join(p.history, `${rec.id}.json`), rec);
+  return rec;
+}
+
+export function readDraft(ctx: MaintenanceContext, code: string): DraftFile | null {
+  if (!/^[A-Z]{2}$/.test(code)) return null;
+  return readJsonFile<DraftFile | null>(path.join(ctx.taxDataDir, code, 'draft.json'), null);
+}
+
+/** Turns a completed draft into the country's first dataset version (still unpublished). */
+export async function createVersionFromDraft(ctx: MaintenanceContext, code: string, modules: CountryModule[] = countryModules): Promise<RunRecord> {
+  const draft = readDraft(ctx, code);
+  if (!draft) throw new Error(`No draft found for ${code}.`);
+  const missing = draft.research.filter((r) => r.status === 'missing').map((r) => r.label);
+  const now = isoNow(ctx);
+  const candidate: TaxDataset = {
+    meta: {
+      country: code,
+      taxYear: draft.taxYear,
+      version: `${draft.taxYear}.1`,
+      currency: draft.currency,
+      createdAt: now,
+      effectiveDate: `${draft.taxYear}-01-01`,
+      approvedAt: now,
+      lastVerified: now.slice(0, 10),
+      verificationStatus: missing.length ? 'incomplete' : draft.research.every((r) => r.status === 'verified' || r.status === 'not-applicable') ? 'verified' : 'estimated',
+      description: `First dataset for ${draft.name}, created from the research draft.`,
+      previousVersion: null,
+      sources: [...draft.sources, ...draft.research.filter((r) => r.sourceUrl).map((r) => ({ title: r.label, authority: draft.name, url: r.sourceUrl as string }))],
+      unverified: draft.research.filter((r) => r.status !== 'verified' && r.status !== 'not-applicable').map((r) => `${r.label} (${r.status})`),
+      limitations: ['Generic model: personal circumstances are not modelled yet.'],
+    },
+    rules: draft.rules,
+  };
+  // A module scaffolded while this process runs is not in the imported list yet; use the same generic model it was generated with.
+  const withModule = modules.some((m) => m.code === code) ? modules : [...modules, createGenericModule({ code, name: draft.name, currency: draft.currency }) as CountryModule];
+  const { ok, report } = await activateCandidate(ctx, candidate, withModule);
+  const rec: RunRecord = {
+    id: makeId('create-version', ctx),
+    type: 'create-version',
+    startedAt: now,
+    finishedAt: isoNow(ctx),
+    status: ok ? 'success' : 'failed',
+    countriesChecked: [code],
+    sourcesChecked: 0,
+    sourcesSucceeded: [],
+    sourcesFailed: [],
+    changesDetected: 0,
+    proposalsCreated: [],
+    duplicatesSuppressed: 0,
+    approved: [],
+    rejected: [],
+    tests: report.tests,
+    summary: ok ? `${code} ${candidate.meta.version} created (${candidate.meta.verificationStatus}). The country stays Under Development until published.` : `The draft is not valid yet: ${[...report.schema.errors, ...report.invariants.errors].slice(0, 4).join('; ')}`,
+    details: { report },
+  };
+  writeJsonFile(path.join(paths(ctx).history, `${rec.id}.json`), rec);
+  return rec;
+}
+
+/** Makes an under-development country public — only with verified data and passing tests. */
+export async function publishCountry(ctx: MaintenanceContext, code: string): Promise<RunRecord> {
+  const reg = readRegistryFile(ctx);
+  const entry = reg.countries[code];
+  if (!entry) throw new Error(`${code} is not registered.`);
+  if (entry.status === 'supported') throw new Error(`${code} is already published.`);
+  const years = Object.entries(entry.active);
+  if (years.length === 0) throw new Error(`${code} has no dataset yet — create one from the draft first.`);
+  for (const [, v] of years) {
+    const ds = JSON.parse(fs.readFileSync(path.join(ctx.taxDataDir, code, `${v}.json`), 'utf8')) as TaxDataset;
+    if (ds.meta.verificationStatus === 'incomplete') throw new Error(`${code} ${v} is still incomplete: ${ds.meta.unverified.join('; ')}`);
+  }
+  const next = structuredClone(reg);
+  next.countries[code].status = 'supported';
+  writeRegistryFile(ctx, next);
+  const tests = await ctx.runTests(TAX_TEST_SCOPE);
+  if (!tests.passed) writeRegistryFile(ctx, reg);
+  const rec: RunRecord = {
+    id: makeId('publish-country', ctx),
+    type: 'publish-country',
+    startedAt: isoNow(ctx),
+    finishedAt: isoNow(ctx),
+    status: tests.passed ? 'success' : 'failed',
+    countriesChecked: [code],
+    sourcesChecked: 0,
+    sourcesSucceeded: [],
+    sourcesFailed: [],
+    changesDetected: 0,
+    proposalsCreated: [],
+    duplicatesSuppressed: 0,
+    approved: [],
+    rejected: [],
+    tests,
+    summary: tests.passed ? `${entry.name} is now offered in the calculator (after the next build).` : `Tests failed — ${entry.name} stays Under Development.`,
+  };
+  writeJsonFile(path.join(paths(ctx).history, `${rec.id}.json`), rec);
+  return rec;
+}
+
+/** Per-country overview for the Update Center. */
+export function countryOverview(ctx: MaintenanceContext) {
+  const reg = readRegistryFile(ctx);
+  const sources = loadSources(ctx);
+  const state = loadState(ctx);
+  return Object.entries(reg.countries).map(([code, e]) => {
+    const own = sources.filter((s) => s.country === code && s.enabled);
+    const st = own.map((s) => state.sources[s.id]);
+    const failing = own.filter((s) => state.sources[s.id]?.accessible === false).map((s) => s.id);
+    const allOk = own.length > 0 && st.every((x) => x?.lastSuccess);
+    const lastSuccess = allOk ? st.map((x) => x!.lastSuccess as string).sort()[0] : null;
+    const versions = fs.existsSync(path.join(ctx.taxDataDir, code)) ? fs.readdirSync(path.join(ctx.taxDataDir, code)).filter((f) => /^\d{4}\.\d+\.json$/.test(f)) : [];
+    const metas = versions.map((f) => (JSON.parse(fs.readFileSync(path.join(ctx.taxDataDir, code, f), 'utf8')) as TaxDataset).meta);
+    const lastUpdate = metas.map((m) => m.approvedAt ?? m.createdAt).sort().pop() ?? null;
+    return {
+      code,
+      name: e.name,
+      status: e.status,
+      active: e.active,
+      versions: metas.map((m) => ({ version: m.version, taxYear: m.taxYear, verificationStatus: m.verificationStatus, approvedAt: m.approvedAt, description: m.description, previousVersion: m.previousVersion })),
+      sources: own.length,
+      failingSources: failing,
+      lastSuccessfulCheck: lastSuccess,
+      lastDatasetUpdate: lastUpdate,
+      hasDraft: fs.existsSync(path.join(ctx.taxDataDir, code, 'draft.json')),
+    };
+  });
+}

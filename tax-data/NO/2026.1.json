@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "country": "NO",
+    "taxYear": 2026,
+    "version": "2026.1",
+    "currency": "NOK",
+    "createdAt": "2026-11-16T00:00:00.000Z",
+    "effectiveDate": "2026-01-01",
+    "approvedAt": "2026-11-16T00:00:00.000Z",
+    "lastVerified": "2026-11-16",
+    "verificationStatus": "verified",
+    "description": "Initial 2026 dataset: rates adopted in the 2026 state budget.",
+    "previousVersion": null,
+    "sources": [
+      {
+        "title": "Trinnskatt",
+        "authority": "Skatteetaten",
+        "url": "https://www.skatteetaten.no/satser/trinnskatt/"
+      },
+      {
+        "title": "Personfradrag",
+        "authority": "Skatteetaten",
+        "url": "https://www.skatteetaten.no/satser/personfradrag/"
+      },
+      {
+        "title": "Minstefradrag",
+        "authority": "Skatteetaten",
+        "url": "https://www.skatteetaten.no/satser/minstefradrag/"
+      },
+      {
+        "title": "Trygdeavgift",
+        "authority": "Skatteetaten",
+        "url": "https://www.skatteetaten.no/satser/trygdeavgift/"
+      },
+      {
+        "title": "Finnmarksfradraget",
+        "authority": "Skatteetaten",
+        "url": "https://www.skatteetaten.no/satser/finnmarksfradraget/"
+      },
+      {
+        "title": "Skattesatser 2026",
+        "authority": "Regjeringen (Finansdepartementet)",
+        "url": "https://www.regjeringen.no/no/tema/okonomi-og-budsjett/skatter-og-avgifter/skattesatser-2026/id3121978/"
+      }
+    ],
+    "unverified": [
+      "The reduced step-3 bracket-tax rate in the northern zone (11.7%) was not confirmed against a primary source for 2026."
+    ],
+    "limitations": [
+      "PAYE scheme for foreign workers (kildeskatt på lønn, flat rate) is not modelled.",
+      "People under 17 or over 69 pay a lower national-insurance rate; not modelled.",
+      "Deductions for interest, commuting, union fees and BSU are not modelled."
+    ]
+  },
+  "rules": {
+    "generalIncomeRate": 0.22,
+    "personalAllowance": 114540,
+    "minimumDeduction": {
+      "rate": 0.46,
+      "max": 95700
+    },
+    "nationalInsurance": {
+      "rate": 0.076,
+      "lowerLimit": 99650,
+      "phaseInRate": 0.25
+    },
+    "bracketTax": [
+      {
+        "threshold": 226100,
+        "rate": 0.017
+      },
+      {
+        "threshold": 318300,
+        "rate": 0.04
+      },
+      {
+        "threshold": 725050,
+        "rate": 0.137
+      },
+      {
+        "threshold": 980100,
+        "rate": 0.168
+      },
+      {
+        "threshold": 1467200,
+        "rate": 0.178
+      }
+    ],
+    "northernZone": {
+      "generalIncomeRate": 0.185,
+      "specialDeduction": 45000,
+      "step3Rate": 0.117
+    },
+    "regions": [
+      {
+        "id": "standard",
+        "name": "Norway (standard)",
+        "northernZone": false
+      },
+      {
+        "id": "north",
+        "name": "Finnmark & Nord-Troms zone",
+        "northernZone": true
+      }
+    ]
+  }
+}

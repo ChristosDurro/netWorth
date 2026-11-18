@@ -1,0 +1,8 @@
+/node_modules
+/dist
+/test-results
+/playwright-report
+/maintenance/data/.admin-token
+/maintenance/data/.tmp
+*.log
+.DS_Store

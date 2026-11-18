@@ -1,0 +1,828 @@
+{
+  "note": "Regression lock: outputs of each dataset version at the time it was approved. Independent reference values live in tests/tax/*.test.ts.",
+  "cases": [
+    {
+      "country": "DK",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 80000,
+      "expect": {
+        "netAnnual": 68202.55,
+        "incomeTax": 4304.49,
+        "social": 7492.96,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DK",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 200000,
+      "expect": {
+        "netAnnual": 141520.96,
+        "incomeTax": 41386.08,
+        "social": 17092.96,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DK",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 350000,
+      "expect": {
+        "netAnnual": 233945.52,
+        "incomeTax": 86961.52,
+        "social": 29092.96,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DK",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 500000,
+      "expect": {
+        "netAnnual": 325518.75,
+        "incomeTax": 133388.29,
+        "social": 41092.96,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DK",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 500000,
+      "location": "aabenraa",
+      "expect": {
+        "netAnnual": 323657.51,
+        "incomeTax": 135249.53,
+        "social": 41092.96,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DK",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 500000,
+      "personal": {
+        "churchMember": true
+      },
+      "expect": {
+        "netAnnual": 322574.61,
+        "incomeTax": 133388.29,
+        "social": 41092.96,
+        "mandatory": 2944.14
+      }
+    },
+    {
+      "country": "DK",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 500000,
+      "personal": {
+        "pensionPercent": 7.5
+      },
+      "expect": {
+        "netAnnual": 302681.53,
+        "incomeTax": 121725.51,
+        "social": 38092.96,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DK",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 700000,
+      "expect": {
+        "netAnnual": 441200.32,
+        "incomeTax": 201706.72,
+        "social": 57092.96,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DK",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 1000000,
+      "expect": {
+        "netAnnual": 583639.19,
+        "incomeTax": 335267.85,
+        "social": 81092.96,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DK",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 1800000,
+      "expect": {
+        "netAnnual": 936477.59,
+        "incomeTax": 718429.45,
+        "social": 145092.96,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DK",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 4000000,
+      "expect": {
+        "netAnnual": 1852472.84,
+        "incomeTax": 1826434.2,
+        "social": 321092.96,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 8000,
+      "expect": {
+        "netAnnual": 6260,
+        "incomeTax": 0,
+        "social": 1740,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 20000,
+      "expect": {
+        "netAnnual": 15270,
+        "incomeTax": 380,
+        "social": 4350,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 35000,
+      "expect": {
+        "netAnnual": 24087.5,
+        "incomeTax": 3300,
+        "social": 7612.5,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "expect": {
+        "netAnnual": 32337,
+        "incomeTax": 6788,
+        "social": 10875,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "location": "bw",
+      "expect": {
+        "netAnnual": 32337,
+        "incomeTax": 6788,
+        "social": 10875,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "personal": {
+        "taxClass": "2"
+      },
+      "expect": {
+        "netAnnual": 33635,
+        "incomeTax": 5490,
+        "social": 10875,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "personal": {
+        "children": 2
+      },
+      "expect": {
+        "netAnnual": 32629,
+        "incomeTax": 6921,
+        "social": 10450,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "personal": {
+        "churchMember": true
+      },
+      "expect": {
+        "netAnnual": 31726.09,
+        "incomeTax": 6788,
+        "social": 10875,
+        "mandatory": 610.91
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "personal": {
+        "healthAdditionalRate": 4.4
+      },
+      "expect": {
+        "netAnnual": 32079,
+        "incomeTax": 6671,
+        "social": 11250,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 70000,
+      "expect": {
+        "netAnnual": 42582.88,
+        "incomeTax": 12220,
+        "social": 15197.13,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 100000,
+      "expect": {
+        "netAnnual": 58030.02,
+        "incomeTax": 23592.86,
+        "social": 18377.13,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 180000,
+      "expect": {
+        "netAnnual": 101557.87,
+        "incomeTax": 59916.61,
+        "social": 18525.53,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "DE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 400000,
+      "expect": {
+        "netAnnual": 220787.44,
+        "incomeTax": 160687.04,
+        "social": 18525.53,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "GR",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 8000,
+      "expect": {
+        "netAnnual": 6930.4,
+        "incomeTax": 0,
+        "social": 1069.6,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "GR",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 20000,
+      "expect": {
+        "netAnnual": 15631.28,
+        "incomeTax": 1694.72,
+        "social": 2674,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "GR",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 35000,
+      "expect": {
+        "netAnnual": 25122.12,
+        "incomeTax": 5198.38,
+        "social": 4679.5,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "GR",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "expect": {
+        "netAnnual": 33272.85,
+        "incomeTax": 10042.15,
+        "social": 6685,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "GR",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "personal": {
+        "salaryPayments": "12"
+      },
+      "expect": {
+        "netAnnual": 33272.85,
+        "incomeTax": 10042.15,
+        "social": 6685,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "GR",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "personal": {
+        "children": 2
+      },
+      "expect": {
+        "netAnnual": 34415.85,
+        "incomeTax": 8899.15,
+        "social": 6685,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "GR",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 70000,
+      "expect": {
+        "netAnnual": 43658.96,
+        "incomeTax": 16982.04,
+        "social": 9359,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "GR",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 100000,
+      "expect": {
+        "netAnnual": 58212.8,
+        "incomeTax": 28417.2,
+        "social": 13370,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "GR",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 180000,
+      "expect": {
+        "netAnnual": 102363.87,
+        "incomeTax": 63107.33,
+        "social": 14528.8,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "GR",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 400000,
+      "expect": {
+        "netAnnual": 225563.87,
+        "incomeTax": 159907.33,
+        "social": 14528.8,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NL",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 8000,
+      "expect": {
+        "netAnnual": 8000,
+        "incomeTax": 0,
+        "social": 0,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NL",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 20000,
+      "expect": {
+        "netAnnual": 19452.57,
+        "incomeTax": 124.03,
+        "social": 423.39,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NL",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 35000,
+      "expect": {
+        "netAnnual": 30744.23,
+        "incomeTax": 964.24,
+        "social": 3291.52,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NL",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "expect": {
+        "netAnnual": 39140.33,
+        "incomeTax": 4400.69,
+        "social": 6458.98,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NL",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "personal": {
+        "addHolidayAllowance": true
+      },
+      "expect": {
+        "netAnnual": 41121.61,
+        "incomeTax": 5806.52,
+        "social": 7071.87,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NL",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "personal": {
+        "expatRuling": true
+      },
+      "expect": {
+        "netAnnual": 45744.23,
+        "incomeTax": 964.24,
+        "social": 3291.52,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NL",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 50000,
+      "personal": {
+        "pensionPercent": 7.5
+      },
+      "expect": {
+        "netAnnual": 37282.88,
+        "incomeTax": 3183.07,
+        "social": 5784.05,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NL",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 70000,
+      "expect": {
+        "netAnnual": 49046.73,
+        "incomeTax": 12149.54,
+        "social": 8803.73,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NL",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 100000,
+      "expect": {
+        "netAnnual": 62710.89,
+        "incomeTax": 27122.26,
+        "social": 10166.85,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NL",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 180000,
+      "expect": {
+        "netAnnual": 100967.85,
+        "incomeTax": 68281,
+        "social": 10751.15,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NL",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 400000,
+      "expect": {
+        "netAnnual": 212067.85,
+        "incomeTax": 177181,
+        "social": 10751.15,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NO",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 80000,
+      "expect": {
+        "netAnnual": 80000,
+        "incomeTax": 0,
+        "social": 0,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NO",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 200000,
+      "expect": {
+        "netAnnual": 184800,
+        "incomeTax": 0,
+        "social": 15200,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NO",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 350000,
+      "expect": {
+        "netAnnual": 289817.4,
+        "incomeTax": 33582.6,
+        "social": 26600,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NO",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 500000,
+      "expect": {
+        "netAnnual": 389417.4,
+        "incomeTax": 72582.6,
+        "social": 38000,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NO",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 500000,
+      "location": "north",
+      "expect": {
+        "netAnnual": 407884,
+        "incomeTax": 54116,
+        "social": 38000,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NO",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 500000,
+      "personal": {
+        "pensionPercent": 3.75
+      },
+      "expect": {
+        "netAnnual": 374792.4,
+        "incomeTax": 68457.6,
+        "social": 38000,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NO",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 700000,
+      "expect": {
+        "netAnnual": 522217.4,
+        "incomeTax": 124582.6,
+        "social": 53200,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NO",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 1000000,
+      "expect": {
+        "netAnnual": 694130.35,
+        "incomeTax": 229869.65,
+        "social": 76000,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NO",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 1800000,
+      "expect": {
+        "netAnnual": 1119602.35,
+        "incomeTax": 543597.65,
+        "social": 136800,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "NO",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 4000000,
+      "expect": {
+        "netAnnual": 2276802.35,
+        "incomeTax": 1419197.65,
+        "social": 304000,
+        "mandatory": 0
+      }
+    },
+    {
+      "country": "SE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 80000,
+      "expect": {
+        "netAnnual": 73747,
+        "incomeTax": 0,
+        "social": 5600,
+        "mandatory": 653
+      }
+    },
+    {
+      "country": "SE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 200000,
+      "expect": {
+        "netAnnual": 169890,
+        "incomeTax": 14471,
+        "social": 14000,
+        "mandatory": 1639
+      }
+    },
+    {
+      "country": "SE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 350000,
+      "expect": {
+        "netAnnual": 283659,
+        "incomeTax": 39720,
+        "social": 24500,
+        "mandatory": 2121
+      }
+    },
+    {
+      "country": "SE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 500000,
+      "expect": {
+        "netAnnual": 395032,
+        "incomeTax": 67375,
+        "social": 35000,
+        "mandatory": 2593
+      }
+    },
+    {
+      "country": "SE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 500000,
+      "location": "ale",
+      "expect": {
+        "netAnnual": 393684,
+        "incomeTax": 68723,
+        "social": 35000,
+        "mandatory": 2593
+      }
+    },
+    {
+      "country": "SE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 500000,
+      "personal": {
+        "churchMember": true
+      },
+      "expect": {
+        "netAnnual": 390206,
+        "incomeTax": 67375,
+        "social": 35000,
+        "mandatory": 7419
+      }
+    },
+    {
+      "country": "SE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 700000,
+      "expect": {
+        "netAnnual": 521768,
+        "incomeTax": 127955,
+        "social": 47100,
+        "mandatory": 3177
+      }
+    },
+    {
+      "country": "SE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 1000000,
+      "expect": {
+        "netAnnual": 663752,
+        "incomeTax": 285095,
+        "social": 47100,
+        "mandatory": 4053
+      }
+    },
+    {
+      "country": "SE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 1800000,
+      "expect": {
+        "netAnnual": 1042376,
+        "incomeTax": 704135,
+        "social": 47100,
+        "mandatory": 6389
+      }
+    },
+    {
+      "country": "SE",
+      "taxYear": 2026,
+      "version": "2026.1",
+      "grossAnnual": 4000000,
+      "expect": {
+        "netAnnual": 2083592,
+        "incomeTax": 1856495,
+        "social": 47100,
+        "mandatory": 12813
+      }
+    }
+  ]
+}

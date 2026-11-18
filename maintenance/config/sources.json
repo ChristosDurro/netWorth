@@ -1,0 +1,607 @@
+{
+  "sources": [
+    {
+      "id": "dk-statbank-pskat",
+      "country": "DK",
+      "authority": "Statistics Denmark",
+      "type": "api",
+      "method": "statbank-pskat",
+      "category": "local-tax",
+      "url": "https://api.statbank.dk/v1/data/PSKAT/CSV?lang=en&OMR%C3%85DE=*&SKATPCT=*&Tid={year}",
+      "description": "Official open-data API with municipal and church tax rates for all 98 municipalities. Compared value by value; also reports when next year's rates are published."
+    },
+    {
+      "id": "dk-skat-state-tax",
+      "country": "DK",
+      "authority": "Skattestyrelsen (skat.dk)",
+      "type": "html",
+      "method": "html-text",
+      "category": "income-tax",
+      "url": "https://skat.dk/hjaelp/bundskat-mellemskat-topskat-og-toptopskat",
+      "description": "Bottom, middle, top and top-top tax rates and thresholds.",
+      "keywords": [
+        "bundskat",
+        "mellemskat",
+        "topskat",
+        "kr.",
+        "%"
+      ],
+      "yearPattern": "Procentsatser og beløbsgrænser i (?<value>\\d{4})",
+      "probes": [
+        {
+          "id": "bottom-rate",
+          "label": "Bottom tax rate",
+          "rulePath": "bottomTaxRate",
+          "pattern": "Bundskat: (?<value>\\d+(?:,\\d+)?) %",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "middle-rate",
+          "label": "Middle tax rate",
+          "rulePath": "middleTax.rate",
+          "pattern": "Mellemskat: (?<value>\\d+(?:,\\d+)?) %",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "middle-threshold",
+          "label": "Middle tax threshold",
+          "rulePath": "middleTax.threshold",
+          "pattern": "personlig indkomst over (?<value>[\\d.]+) kr\\. efter am-bidrag, skal du betale [\\d,]+ % i mellemskat",
+          "format": "dot-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "top-rate",
+          "label": "Top tax rate",
+          "rulePath": "topTax.rate",
+          "pattern": "Topskat: (?<value>\\d+(?:,\\d+)?) %",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "top-threshold",
+          "label": "Top tax threshold",
+          "rulePath": "topTax.threshold",
+          "pattern": "over (?<value>[\\d.]+) kr\\. \\(\\d{4}\\) efter am-bidrag, skal du betale [\\d,]+ % i topskat",
+          "format": "dot-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "toptop-rate",
+          "label": "Top-top tax rate",
+          "rulePath": "topTopTax.rate",
+          "pattern": "Toptopskat: (?<value>\\d+(?:,\\d+)?) %",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "toptop-threshold",
+          "label": "Top-top tax threshold",
+          "rulePath": "topTopTax.threshold",
+          "pattern": "over (?<value>[\\d.]+) kr\\. \\(\\d{4}\\) efter am-bidrag, skal du betale [\\d,]+ % i toptopskat",
+          "format": "dot-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        }
+      ]
+    },
+    {
+      "id": "de-bmf-lohnsteuer",
+      "country": "DE",
+      "authority": "Bundesministerium der Finanzen",
+      "type": "api",
+      "method": "bmf-lohnsteuer",
+      "category": "income-tax",
+      "url": "https://www.bmf-steuerrechner.de/interface/{year}Version1.xhtml",
+      "description": "Official BMF wage-tax calculator interface. Reference salaries are recalculated by the BMF and compared with NetWorth; it also reports when next year's payroll algorithm (PAP) is published."
+    },
+    {
+      "id": "de-estg-32a",
+      "country": "DE",
+      "authority": "Bundesministerium der Justiz",
+      "type": "legislation",
+      "method": "html-text",
+      "category": "income-tax",
+      "url": "https://www.gesetze-im-internet.de/estg/__32a.html",
+      "description": "§ 32a EStG income-tax tariff (consolidated law text).",
+      "keywords": [
+        "euro",
+        "veranlagungszeitraum",
+        "•"
+      ],
+      "yearPattern": "ab dem Veranlagungszeitraum (?<value>\\d{4})",
+      "probes": [
+        {
+          "id": "basic-allowance",
+          "label": "Basic allowance (Grundfreibetrag)",
+          "rulePath": "tariff.basicAllowance",
+          "pattern": "bis (?<value>[\\d ]+?) Euro \\(Grundfreibetrag\\)",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "zone2-end",
+          "label": "End of first progression zone",
+          "rulePath": "tariff.zone2End",
+          "pattern": "von [\\d ]+ Euro bis (?<value>[\\d ]+?) Euro:\\n\\(9",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "zone3-end",
+          "label": "End of second progression zone",
+          "rulePath": "tariff.zone3End",
+          "pattern": "von [\\d ]+ Euro bis (?<value>[\\d ]+?) Euro:\\n\\(1",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "zone4-end",
+          "label": "End of 42% zone",
+          "rulePath": "tariff.zone4End",
+          "pattern": "von [\\d ]+ Euro bis (?<value>[\\d ]+?) Euro:\\n0,42",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        }
+      ]
+    },
+    {
+      "id": "nl-belastingdienst-tarieven",
+      "country": "NL",
+      "authority": "Belastingdienst",
+      "type": "html",
+      "method": "html-text",
+      "category": "income-tax",
+      "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/voorlopige-aanslag/content/voorlopige-aanslag-tarieven-en-heffingskortingen",
+      "description": "Box 1 rates and tax credits used for the provisional assessment.",
+      "keywords": [
+        "€",
+        "%",
+        "schijf",
+        "korting"
+      ],
+      "yearPattern": "Voorlopige aanslag (?<value>\\d{4}): gebruikte tarieven",
+      "probes": [
+        {
+          "id": "b1-limit",
+          "label": "Bracket 1 upper limit",
+          "rulePath": "brackets.0.upTo",
+          "pattern": "nog niet de AOW-leeftijd hebt\\nSchijf\\nBelastbaar inkomen\\nPercentage\\n1\\ntot en met € (?<value>[\\d.]+)",
+          "format": "dot-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "b1-rate",
+          "label": "Bracket 1 rate",
+          "rulePath": "brackets.0.rate",
+          "pattern": "nog niet de AOW-leeftijd hebt\\nSchijf\\nBelastbaar inkomen\\nPercentage\\n1\\ntot en met € [\\d.]+\\n(?<value>[\\d,]+)%",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "b2-limit",
+          "label": "Bracket 2 upper limit",
+          "rulePath": "brackets.1.upTo",
+          "pattern": "meer dan € [\\d.]+ tot en met € (?<value>[\\d.]+)\\n",
+          "format": "dot-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "b2-rate",
+          "label": "Bracket 2 rate",
+          "rulePath": "brackets.1.rate",
+          "pattern": "meer dan € [\\d.]+ tot en met € [\\d.]+\\n(?<value>[\\d,]+)%",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "b3-rate",
+          "label": "Bracket 3 rate",
+          "rulePath": "brackets.2.rate",
+          "pattern": "\\nmeer dan € [\\d.]+\\n(?<value>[\\d,]+)%",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "ahk-max",
+          "label": "General tax credit (max)",
+          "rulePath": "generalCredit.max",
+          "pattern": "Algemene heffingskorting\\ntot € [\\d.]+\\n€ (?<value>[\\d.]+)",
+          "format": "dot-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "ahk-start",
+          "label": "General credit phase-out start",
+          "rulePath": "generalCredit.phaseOutStart",
+          "pattern": "Algemene heffingskorting\\ntot € (?<value>[\\d.]+)",
+          "format": "dot-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "ahk-rate",
+          "label": "General credit phase-out rate",
+          "rulePath": "generalCredit.phaseOutRate",
+          "pattern": "€ [\\d.]+ - (?<value>[\\d,]+)% x \\(verzamelinkomen",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "ak-max",
+          "label": "Labour credit (max)",
+          "rulePath": "labourCredit.3.base",
+          "pattern": "€ (?<value>[\\d.]+) - [\\d,]+% x \\(arbeidsinkomen",
+          "format": "dot-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "ak-end",
+          "label": "Labour credit end of phase-out",
+          "rulePath": "labourCredit.3.upTo",
+          "pattern": "vanaf € (?<value>[\\d.]+)\\n€ 0\\nInkomensafhankelijke",
+          "format": "dot-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        }
+      ]
+    },
+    {
+      "id": "se-skv-rowstore",
+      "country": "SE",
+      "authority": "Skatteverket",
+      "type": "api",
+      "method": "skv-rowstore",
+      "category": "local-tax",
+      "url": "https://skatteverket.entryscape.net/rowstore/dataset/c67b320b-ffee-4876-b073-dd9236cd2a99?%C3%A5r={year}",
+      "description": "Official open-data API with municipal, regional, burial and church rates for every parish. Compared value by value; reports when next year's rates appear."
+    },
+    {
+      "id": "se-skv-belopp",
+      "country": "SE",
+      "authority": "Skatteverket",
+      "type": "html",
+      "method": "html-text",
+      "category": "income-tax",
+      "url": "https://www.skatteverket.se/privat/skatter/beloppochprocent/{year}",
+      "yearUrl": "https://www.skatteverket.se/privat/skatter/beloppochprocent/{year}",
+      "description": "Amounts and percentages for the income year (price base amount, state-tax threshold, average municipal rate…).",
+      "keywords": [
+        "kronor",
+        "procent"
+      ],
+      "probes": [
+        {
+          "id": "pbb",
+          "label": "Price base amount",
+          "rulePath": "priceBaseAmount",
+          "pattern": "Prisbasbeloppet inkomstår \\d{4}: (?<value>[\\d ]+?) kronor",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "ibb",
+          "label": "Income base amount",
+          "rulePath": "incomeBaseAmount",
+          "pattern": "Inkomstbasbeloppet för år \\d{4} har fastställts till (?<value>[\\d ]+?) kronor",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "skiktgrans",
+          "label": "State-tax threshold",
+          "rulePath": "stateTax.threshold",
+          "pattern": "Skiktgränsen för \\d{4} är (?<value>[\\d ]+?) kronor",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "avg-municipal",
+          "label": "Average municipal tax rate",
+          "rulePath": "average.municipalRate",
+          "pattern": "genomsnittliga kommunala skattesatsen för \\d{4} är (?<value>[\\d,]+) procent",
+          "format": "decimal-comma",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "pension-fee",
+          "label": "General pension fee rate",
+          "rulePath": "pensionFee.rate",
+          "pattern": "(?<value>\\d+(?:,\\d+)?) procent av förvärvsinkomsten men högst",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "social"
+        }
+      ]
+    },
+    {
+      "id": "no-skatteetaten-trinnskatt",
+      "country": "NO",
+      "authority": "Skatteetaten",
+      "type": "html",
+      "method": "html-text",
+      "category": "income-tax",
+      "url": "https://www.skatteetaten.no/satser/trinnskatt/",
+      "description": "Bracket tax (trinnskatt) steps and rates.",
+      "keywords": [
+        "trinn",
+        "kroner",
+        "%"
+      ],
+      "yearPattern": "Velg år\\n(?<value>\\d{4})",
+      "probes": [
+        {
+          "id": "t1-threshold",
+          "label": "Step 1 threshold",
+          "rulePath": "bracketTax.0.threshold",
+          "pattern": "For de første (?<value>[\\d ]+?) kronene",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "t2-threshold",
+          "label": "Step 2 threshold",
+          "rulePath": "bracketTax.1.threshold",
+          "pattern": "Trinn 1\\nInntekten mellom [\\d ]+ – (?<value>[\\d ]+?) kroner",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "t3-threshold",
+          "label": "Step 3 threshold",
+          "rulePath": "bracketTax.2.threshold",
+          "pattern": "Trinn 2\\nInntekten mellom [\\d ]+ – (?<value>[\\d ]+?) kroner",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "t4-threshold",
+          "label": "Step 4 threshold",
+          "rulePath": "bracketTax.3.threshold",
+          "pattern": "Trinn 3\\nInntekten mellom [\\d ]+ – (?<value>[\\d ]+?) kroner",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "t5-threshold",
+          "label": "Step 5 threshold",
+          "rulePath": "bracketTax.4.threshold",
+          "pattern": "Trinn 4\\nInntekten mellom [\\d ]+ – (?<value>[\\d ]+?) kroner",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        },
+        {
+          "id": "t1-rate",
+          "label": "Step 1 rate",
+          "rulePath": "bracketTax.0.rate",
+          "pattern": "Trinn 1\\nInntekten mellom [^\\n]+\\n(?<value>[\\d,]+) % trinnskatt",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "t2-rate",
+          "label": "Step 2 rate",
+          "rulePath": "bracketTax.1.rate",
+          "pattern": "Trinn 2\\nInntekten mellom [^\\n]+\\n(?<value>[\\d,]+) % trinnskatt",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "t3-rate",
+          "label": "Step 3 rate",
+          "rulePath": "bracketTax.2.rate",
+          "pattern": "Trinn 3\\nInntekten mellom [^\\n]+\\n(?<value>[\\d,]+) % trinnskatt",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "t4-rate",
+          "label": "Step 4 rate",
+          "rulePath": "bracketTax.3.rate",
+          "pattern": "Trinn 4\\nInntekten mellom [^\\n]+\\n(?<value>[\\d,]+) % trinnskatt",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "t5-rate",
+          "label": "Step 5 rate",
+          "rulePath": "bracketTax.4.rate",
+          "pattern": "Trinn 5\\nInntekten fra og med [^\\n]+\\n(?<value>[\\d,]+) % trinnskatt",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        }
+      ]
+    },
+    {
+      "id": "no-skatteetaten-personfradrag",
+      "country": "NO",
+      "authority": "Skatteetaten",
+      "type": "html",
+      "method": "html-text",
+      "category": "income-tax",
+      "url": "https://www.skatteetaten.no/satser/personfradrag/",
+      "description": "Personal allowance (personfradrag).",
+      "keywords": [
+        "kroner",
+        "klasse"
+      ],
+      "yearPattern": "Velg år\\n(?<value>\\d{4})",
+      "probes": [
+        {
+          "id": "personfradrag",
+          "label": "Personal allowance",
+          "rulePath": "personalAllowance",
+          "pattern": "Klasse 1\\n(?<value>[\\d ]+?) kroner",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        }
+      ]
+    },
+    {
+      "id": "no-skatteetaten-minstefradrag",
+      "country": "NO",
+      "authority": "Skatteetaten",
+      "type": "html",
+      "method": "html-text",
+      "category": "income-tax",
+      "url": "https://www.skatteetaten.no/satser/minstefradrag/",
+      "description": "Minimum standard deduction (minstefradrag).",
+      "keywords": [
+        "sats",
+        "grense",
+        "kr",
+        "%"
+      ],
+      "yearPattern": "Velg år\\n(?<value>\\d{4})",
+      "probes": [
+        {
+          "id": "min-rate",
+          "label": "Minimum deduction rate",
+          "rulePath": "minimumDeduction.rate",
+          "pattern": "Lønnsinntekt\\nSats\\n(?<value>[\\d,]+) %",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "income-tax"
+        },
+        {
+          "id": "min-max",
+          "label": "Minimum deduction cap",
+          "rulePath": "minimumDeduction.max",
+          "pattern": "Lønnsinntekt\\nSats\\n[\\d,]+ %\\nØvre grense \\*?\\n(?<value>[\\d ]+?) kr",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "income-tax"
+        }
+      ]
+    },
+    {
+      "id": "no-skatteetaten-trygdeavgift",
+      "country": "NO",
+      "authority": "Skatteetaten",
+      "type": "html",
+      "method": "html-text",
+      "category": "social",
+      "url": "https://www.skatteetaten.no/satser/trygdeavgift/",
+      "description": "National insurance contribution (trygdeavgift).",
+      "keywords": [
+        "%",
+        "kr",
+        "prosent"
+      ],
+      "yearPattern": "Velg år\\n(?<value>\\d{4})",
+      "probes": [
+        {
+          "id": "ni-rate",
+          "label": "National insurance rate (wages)",
+          "rulePath": "nationalInsurance.rate",
+          "pattern": "\\(personer i alderen 17 til 69 år i inntektsåret\\)\\n(?<value>[\\d,]+) %",
+          "format": "decimal-comma",
+          "scale": 0.01,
+          "category": "social"
+        },
+        {
+          "id": "ni-limit",
+          "label": "Lower income limit",
+          "rulePath": "nationalInsurance.lowerLimit",
+          "pattern": "for å beregne trygdeavgift\\n(?<value>[\\d ]+?) kr",
+          "format": "space-thousands",
+          "scale": 1,
+          "category": "social"
+        },
+        {
+          "id": "ni-cap",
+          "label": "Phase-in cap",
+          "rulePath": "nationalInsurance.phaseInRate",
+          "pattern": "aldri mer enn (?<value>\\d+) prosent",
+          "format": "decimal-dot",
+          "scale": 0.01,
+          "category": "social"
+        }
+      ]
+    },
+    {
+      "id": "gr-aade-circulars",
+      "country": "GR",
+      "authority": "AADE",
+      "type": "html",
+      "method": "html-text",
+      "category": "income-tax",
+      "url": "https://www.aade.gr/egkyklioi-kai-apofaseis",
+      "description": "AADE circulars and decisions. No machine-readable rates are published, so changes in tax-related lines are reported for manual review.",
+      "keywords": [
+        "φόρου εισοδήματος",
+        "κλίμακ",
+        "μισθωτ",
+        "παρακράτηση",
+        "ΚΦΕ"
+      ]
+    },
+    {
+      "id": "gr-aade-press",
+      "country": "GR",
+      "authority": "AADE",
+      "type": "html",
+      "method": "html-text",
+      "category": "income-tax",
+      "url": "https://www.aade.gr/deltia-typoy-anakoinoseis",
+      "description": "AADE press releases and announcements.",
+      "keywords": [
+        "φόρου εισοδήματος",
+        "κλίμακ",
+        "μισθωτ",
+        "παρακράτηση"
+      ]
+    },
+    {
+      "id": "gr-efka-announcements",
+      "country": "GR",
+      "authority": "e-EFKA",
+      "type": "html",
+      "method": "html-text",
+      "category": "social",
+      "url": "https://www.e-efka.gov.gr/el/anakoinoseis",
+      "description": "e-EFKA announcements (contribution rates, insurable-earnings ceiling).",
+      "keywords": [
+        "εισφορ",
+        "ανώτατο όριο",
+        "ασφαλιστέων",
+        "εγκύκλιο"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,437 @@
+{
+  "countries": [
+    {
+      "code": "AT",
+      "name": "Austria",
+      "currency": "EUR",
+      "authority": "Bundesministerium für Finanzen",
+      "url": "https://www.bmf.gv.at/",
+      "keywords": [
+        "lohnsteuer",
+        "einkommensteuer",
+        "tarif",
+        "steuersätze"
+      ],
+      "social": {
+        "authority": "Dachverband der Sozialversicherungsträger",
+        "url": "https://www.sozialversicherung.at/"
+      }
+    },
+    {
+      "code": "BE",
+      "name": "Belgium",
+      "currency": "EUR",
+      "authority": "SPF Finances / FOD Financiën",
+      "url": "https://finances.belgium.be/",
+      "keywords": [
+        "précompte",
+        "impôt des personnes physiques",
+        "barème",
+        "bedrijfsvoorheffing"
+      ],
+      "social": {
+        "authority": "ONSS / RSZ",
+        "url": "https://www.socialsecurity.be/"
+      }
+    },
+    {
+      "code": "BG",
+      "name": "Bulgaria",
+      "currency": "EUR",
+      "authority": "National Revenue Agency",
+      "url": "https://nra.bg/",
+      "keywords": [
+        "данък",
+        "доходи",
+        "осигурителни"
+      ],
+      "social": null
+    },
+    {
+      "code": "HR",
+      "name": "Croatia",
+      "currency": "EUR",
+      "authority": "Porezna uprava",
+      "url": "https://porezna-uprava.gov.hr/",
+      "keywords": [
+        "porez na dohodak",
+        "stope",
+        "doprinosi"
+      ],
+      "social": null
+    },
+    {
+      "code": "CY",
+      "name": "Cyprus",
+      "currency": "EUR",
+      "authority": "Tax Department",
+      "url": "https://www.mof.gov.cy/mof/tax/taxdep.nsf/",
+      "keywords": [
+        "income tax",
+        "rates",
+        "allowances"
+      ],
+      "social": null
+    },
+    {
+      "code": "CZ",
+      "name": "Czechia",
+      "currency": "CZK",
+      "authority": "Finanční správa",
+      "url": "https://www.financnisprava.cz/",
+      "keywords": [
+        "daň z příjmů",
+        "sazby",
+        "sleva"
+      ],
+      "social": null
+    },
+    {
+      "code": "EE",
+      "name": "Estonia",
+      "currency": "EUR",
+      "authority": "Maksu- ja Tolliamet",
+      "url": "https://www.emta.ee/",
+      "keywords": [
+        "tulumaks",
+        "maksuvaba",
+        "income tax"
+      ],
+      "social": null
+    },
+    {
+      "code": "FI",
+      "name": "Finland",
+      "currency": "EUR",
+      "authority": "Verohallinto (Vero)",
+      "url": "https://www.vero.fi/",
+      "keywords": [
+        "tuloveroasteikko",
+        "veroprosentti",
+        "income tax scale"
+      ],
+      "social": null
+    },
+    {
+      "code": "FR",
+      "name": "France",
+      "currency": "EUR",
+      "authority": "Direction générale des Finances publiques",
+      "url": "https://www.impots.gouv.fr/",
+      "keywords": [
+        "barème",
+        "impôt sur le revenu",
+        "prélèvement à la source"
+      ],
+      "social": {
+        "authority": "URSSAF",
+        "url": "https://www.urssaf.fr/"
+      }
+    },
+    {
+      "code": "HU",
+      "name": "Hungary",
+      "currency": "HUF",
+      "authority": "Nemzeti Adó- és Vámhivatal",
+      "url": "https://nav.gov.hu/",
+      "keywords": [
+        "személyi jövedelemadó",
+        "szja",
+        "járulék"
+      ],
+      "social": null
+    },
+    {
+      "code": "IS",
+      "name": "Iceland",
+      "currency": "ISK",
+      "authority": "Skatturinn",
+      "url": "https://www.skatturinn.is/",
+      "keywords": [
+        "staðgreiðsla",
+        "skatthlutfall",
+        "persónuafsláttur"
+      ],
+      "social": null
+    },
+    {
+      "code": "IE",
+      "name": "Ireland",
+      "currency": "EUR",
+      "authority": "Revenue Commissioners",
+      "url": "https://www.revenue.ie/",
+      "keywords": [
+        "tax rates",
+        "tax credits",
+        "usc",
+        "prsi"
+      ],
+      "social": null
+    },
+    {
+      "code": "IT",
+      "name": "Italy",
+      "currency": "EUR",
+      "authority": "Agenzia delle Entrate",
+      "url": "https://www.agenziaentrate.gov.it/",
+      "keywords": [
+        "irpef",
+        "aliquote",
+        "detrazioni"
+      ],
+      "social": {
+        "authority": "INPS",
+        "url": "https://www.inps.it/"
+      }
+    },
+    {
+      "code": "LV",
+      "name": "Latvia",
+      "currency": "EUR",
+      "authority": "Valsts ieņēmumu dienests",
+      "url": "https://www.vid.gov.lv/",
+      "keywords": [
+        "iedzīvotāju ienākuma nodoklis",
+        "likmes"
+      ],
+      "social": null
+    },
+    {
+      "code": "LT",
+      "name": "Lithuania",
+      "currency": "EUR",
+      "authority": "Valstybinė mokesčių inspekcija",
+      "url": "https://www.vmi.lt/",
+      "keywords": [
+        "gyventojų pajamų mokestis",
+        "tarifai"
+      ],
+      "social": null
+    },
+    {
+      "code": "LU",
+      "name": "Luxembourg",
+      "currency": "EUR",
+      "authority": "Administration des contributions directes",
+      "url": "https://impotsdirects.public.lu/",
+      "keywords": [
+        "barème",
+        "impôt",
+        "retenue"
+      ],
+      "social": null
+    },
+    {
+      "code": "MT",
+      "name": "Malta",
+      "currency": "EUR",
+      "authority": "Commissioner for Revenue",
+      "url": "https://cfr.gov.mt/",
+      "keywords": [
+        "tax rates",
+        "income tax",
+        "fss"
+      ],
+      "social": null
+    },
+    {
+      "code": "PL",
+      "name": "Poland",
+      "currency": "PLN",
+      "authority": "Ministerstwo Finansów / Krajowa Administracja Skarbowa",
+      "url": "https://www.podatki.gov.pl/",
+      "keywords": [
+        "pit",
+        "skala podatkowa",
+        "kwota wolna"
+      ],
+      "social": {
+        "authority": "ZUS",
+        "url": "https://www.zus.pl/"
+      }
+    },
+    {
+      "code": "PT",
+      "name": "Portugal",
+      "currency": "EUR",
+      "authority": "Autoridade Tributária e Aduaneira",
+      "url": "https://info.portaldasfinancas.gov.pt/",
+      "keywords": [
+        "irs",
+        "taxas",
+        "tabelas de retenção"
+      ],
+      "social": {
+        "authority": "Segurança Social",
+        "url": "https://www.seg-social.pt/"
+      }
+    },
+    {
+      "code": "RO",
+      "name": "Romania",
+      "currency": "RON",
+      "authority": "Agenția Națională de Administrare Fiscală",
+      "url": "https://www.anaf.ro/",
+      "keywords": [
+        "impozit pe venit",
+        "contribuții",
+        "cas",
+        "cass"
+      ],
+      "social": null
+    },
+    {
+      "code": "SK",
+      "name": "Slovakia",
+      "currency": "EUR",
+      "authority": "Finančná správa",
+      "url": "https://www.financnasprava.sk/",
+      "keywords": [
+        "daň z príjmov",
+        "sadzby",
+        "nezdaniteľná"
+      ],
+      "social": null
+    },
+    {
+      "code": "SI",
+      "name": "Slovenia",
+      "currency": "EUR",
+      "authority": "Finančna uprava (FURS)",
+      "url": "https://www.fu.gov.si/",
+      "keywords": [
+        "dohodnina",
+        "lestvica",
+        "olajšava"
+      ],
+      "social": null
+    },
+    {
+      "code": "ES",
+      "name": "Spain",
+      "currency": "EUR",
+      "authority": "Agencia Tributaria",
+      "url": "https://sede.agenciatributaria.gob.es/",
+      "keywords": [
+        "irpf",
+        "tipos de gravamen",
+        "retenciones"
+      ],
+      "social": {
+        "authority": "Seguridad Social",
+        "url": "https://www.seg-social.es/"
+      }
+    },
+    {
+      "code": "CH",
+      "name": "Switzerland",
+      "currency": "CHF",
+      "authority": "Eidgenössische Steuerverwaltung",
+      "url": "https://www.estv.admin.ch/",
+      "keywords": [
+        "quellensteuer",
+        "tarif",
+        "bundessteuer"
+      ],
+      "social": {
+        "authority": "AHV/IV",
+        "url": "https://www.ahv-iv.ch/"
+      }
+    },
+    {
+      "code": "GB",
+      "name": "United Kingdom",
+      "currency": "GBP",
+      "authority": "HM Revenue & Customs",
+      "url": "https://www.gov.uk/government/organisations/hm-revenue-customs",
+      "keywords": [
+        "income tax rates",
+        "personal allowance",
+        "national insurance"
+      ],
+      "social": null
+    },
+    {
+      "code": "US",
+      "name": "United States",
+      "currency": "USD",
+      "authority": "Internal Revenue Service",
+      "url": "https://www.irs.gov/",
+      "keywords": [
+        "tax brackets",
+        "standard deduction",
+        "withholding"
+      ],
+      "social": {
+        "authority": "Social Security Administration",
+        "url": "https://www.ssa.gov/"
+      }
+    },
+    {
+      "code": "CA",
+      "name": "Canada",
+      "currency": "CAD",
+      "authority": "Canada Revenue Agency",
+      "url": "https://www.canada.ca/en/revenue-agency.html",
+      "keywords": [
+        "tax rates",
+        "basic personal amount",
+        "cpp",
+        "ei"
+      ],
+      "social": null
+    },
+    {
+      "code": "AU",
+      "name": "Australia",
+      "currency": "AUD",
+      "authority": "Australian Taxation Office",
+      "url": "https://www.ato.gov.au/",
+      "keywords": [
+        "tax rates",
+        "medicare levy",
+        "withholding"
+      ],
+      "social": null
+    },
+    {
+      "code": "NZ",
+      "name": "New Zealand",
+      "currency": "NZD",
+      "authority": "Inland Revenue (Te Tari Taake)",
+      "url": "https://www.ird.govt.nz/",
+      "keywords": [
+        "tax rates",
+        "paye",
+        "acc levy"
+      ],
+      "social": null
+    },
+    {
+      "code": "JP",
+      "name": "Japan",
+      "currency": "JPY",
+      "authority": "National Tax Agency",
+      "url": "https://www.nta.go.jp/",
+      "keywords": [
+        "所得税",
+        "税率",
+        "源泉徴収"
+      ],
+      "social": null
+    },
+    {
+      "code": "SG",
+      "name": "Singapore",
+      "currency": "SGD",
+      "authority": "Inland Revenue Authority of Singapore",
+      "url": "https://www.iras.gov.sg/",
+      "keywords": [
+        "income tax rates",
+        "resident",
+        "cpf"
+      ],
+      "social": null
+    }
+  ]
+}
