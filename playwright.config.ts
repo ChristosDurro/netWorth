@@ -5,7 +5,7 @@ export default defineConfig({
   testDir: 'e2e',
   timeout: 30_000,
   fullyParallel: true,
-  reporter: [['list']],
+  reporter: process.env.CI ? [['github'], ['list']] : [['list']],
   use: { baseURL: 'http://localhost:5350', trace: 'retain-on-failure' },
   webServer: {
     command: 'npx vite build && npx vite preview --port 5350 --strictPort',
