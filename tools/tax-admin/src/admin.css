@@ -1,0 +1,4 @@
+/* The admin tool shares the public site's design tokens and components. */
+@import '../../../src/index.css';
+@source '../../../src';
+@source '.';

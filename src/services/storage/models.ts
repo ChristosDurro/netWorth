@@ -19,10 +19,13 @@ export const draftSchema = z.object({
   autoConvert: z.boolean(),
   manualRate: z.number().positive().nullable(),
   rateDate: z.string().nullable(),
+  /** gross-to-net (default) or the reverse: which gross salary gives this net amount. */
+  direction: z.enum(['gross-to-net', 'net-to-gross']).default('gross-to-net'),
 });
 export type CalcDraft = z.infer<typeof draftSchema>;
 
 export const settingsSchema = z.object({
+  country: z.string().regex(/^[A-Z]{2}$/),
   outputCurrency: z.string().regex(/^[A-Z]{3}$/),
   taxYear: z.number().int(),
   frequency: frequencySchema,
@@ -34,6 +37,7 @@ export const settingsSchema = z.object({
 export type Settings = z.infer<typeof settingsSchema>;
 
 export const DEFAULT_SETTINGS: Settings = {
+  country: 'DK',
   outputCurrency: 'EUR',
   taxYear: 2026,
   frequency: 'monthly',
@@ -73,6 +77,8 @@ export type ExportFile = z.infer<typeof exportFileSchema>;
 
 export const compareRowSchema = z.object({
   id: z.string(),
+  /** Optional name for the offer, e.g. "Product role, Stockholm". */
+  label: z.string().max(60).optional(),
   country: z.string(),
   amount: z.number().min(0),
   location: z.string(),

@@ -15,6 +15,7 @@ import { checkSchema } from '../../maintenance/engine/validate';
 import { countryModules } from '../../src/countries';
 import { createGenericModule } from '../../src/engine/generic';
 import type { CountryModule } from '../../src/engine/types';
+import { proposeManualChange } from '../../maintenance/engine/manual';
 import { makeFixture, NO_SOURCE, noPage } from './fixture';
 
 const fixtures: { cleanup: () => void }[] = [];
@@ -469,5 +470,36 @@ describe('security of the administrative service', () => {
     f.setNow('2026-12-02T12:00:00Z');
     expect(api.maybeRunScheduled()).toBe(true);
     await new Promise((r) => setTimeout(r, 200));
+  });
+});
+
+describe('manual edits', () => {
+  it('turns a typed value into a pending proposal without touching the dataset', () => {
+    const f = fx([]);
+    const before = f.read('tax-data/DK/2026.1.json');
+    const p = proposeManualChange(f.ctx, { country: 'DK', taxYear: 2026, rulePath: 'atp.employeeMonthlyFullTime', value: 100, sourceUrl: 'https://www.borger.dk/atp', reason: 'Corrected ATP rate' });
+    expect(p.status).toBe('pending');
+    expect(p.existingValue).toBe(99);
+    expect(p.proposedValue).toBe(100);
+    expect(loadProposals(f.ctx).map((x) => x.id)).toContain(p.id);
+    expect(f.read('tax-data/DK/2026.1.json')).toEqual(before);
+    expect(f.read('tax-data/registry.json').countries.DK.active['2026']).toBe('2026.1');
+  });
+  it('is applied only through the normal approval pipeline (validation + tests → new version)', async () => {
+    const f = fx([]);
+    const p = proposeManualChange(f.ctx, { country: 'DK', taxYear: 2026, rulePath: 'atp.employeeMonthlyFullTime', value: 100, sourceUrl: 'https://www.borger.dk/atp', reason: 'Corrected ATP rate' });
+    const rec = await approveProposals(f.ctx, [p.id]);
+    expect(rec.status).toBe('success');
+    expect(f.read('tax-data/registry.json').countries.DK.active['2026']).toBe('2026.2');
+    expect(f.read('tax-data/DK/2026.2.json').rules.atp.employeeMonthlyFullTime).toBe(100);
+  });
+  it('rejects unknown paths, groups, wrong types and no-op values', () => {
+    const f = fx([]);
+    const base = { country: 'DK', taxYear: 2026, sourceUrl: 'https://skat.dk', reason: 'test reason' };
+    expect(() => proposeManualChange(f.ctx, { ...base, rulePath: 'does.not.exist', value: 1 })).toThrow(/does not exist/);
+    expect(() => proposeManualChange(f.ctx, { ...base, rulePath: 'middleTax', value: 1 })).toThrow(/group of values/);
+    expect(() => proposeManualChange(f.ctx, { ...base, rulePath: 'amBidragRate', value: 'eight' })).toThrow(/must be a number/);
+    expect(() => proposeManualChange(f.ctx, { ...base, rulePath: 'amBidragRate', value: 0.08 })).toThrow(/same as the current/);
+    expect(() => proposeManualChange(f.ctx, { ...base, taxYear: 2031, rulePath: 'amBidragRate', value: 0.09 })).toThrow(/no active dataset/);
   });
 });

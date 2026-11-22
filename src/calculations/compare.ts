@@ -60,16 +60,27 @@ export function compareCountries(rows: CompareRow[], taxYear: number, target: st
   });
 }
 
-export type SortMode = 'input' | 'net-desc' | 'net-asc';
+/** 'net-desc': highest take-home first; 'tax-asc': lowest effective tax rate first; 'input': order added. */
+export type SortMode = 'input' | 'net-desc' | 'tax-asc';
 
 export function sortOutcomes(list: CompareOutcome[], mode: SortMode): CompareOutcome[] {
   if (mode === 'input') return list;
-  const dir = mode === 'net-desc' ? -1 : 1;
   return [...list].sort((a, b) => {
+    if (mode === 'tax-asc') {
+      if (!a.result) return 1;
+      if (!b.result) return -1;
+      return a.result.effectiveTaxRate - b.result.effectiveTaxRate;
+    }
     if (a.netAnnualTarget === null) return 1;
     if (b.netAnnualTarget === null) return -1;
-    return dir * (a.netAnnualTarget - b.netAnnualTarget);
+    return b.netAnnualTarget - a.netAnnualTarget;
   });
+}
+
+/** How far each offer is behind the best one, in target currency per year (0 for the best). */
+export function gapToBest(o: CompareOutcome, best: CompareOutcome | null): number | null {
+  if (!best || best.netAnnualTarget === null || o.netAnnualTarget === null) return null;
+  return o.netAnnualTarget - best.netAnnualTarget;
 }
 
 export function bestOutcome(list: CompareOutcome[]): CompareOutcome | null {

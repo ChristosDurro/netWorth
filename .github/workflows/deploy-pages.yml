@@ -19,9 +19,16 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - id: pages
+        uses: actions/configure-pages@v5
       - run: npm ci
       - run: npm test
+      # Pre-renders every page under the Pages base path (e.g. /netWorth/) with
+      # canonical URLs, sitemap and Open Graph tags for the real site address.
       - run: npm run build
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

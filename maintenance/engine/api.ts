@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { loadProposals, loadSources, loadState, runCheck, saveState } from './checker';
 import { makeId, paths, readJsonFile, type MaintenanceContext } from './context';
 import { approveProposals, rollback, setProposalStatus } from './datasets';
+import { proposeManualChange } from './manual';
 import { readDataset } from './registryAccess';
 import { addCountry, countryOverview, createVersionFromDraft, loadCatalog, publishCountry, readDraft } from './scaffold';
 import { settingsSchema, type Progress, type RunRecord } from './types';
@@ -183,6 +184,29 @@ export function createApi(ctx: MaintenanceContext, opts: { token: string; port: 
     if (method === 'POST' && (p === '/api/proposals/reject' || p === '/api/proposals/research')) {
       const b = idsBody.parse(body);
       return setProposalStatus(ctx, b.ids, p.endsWith('reject') ? 'rejected' : 'research', b.note ?? null);
+    }
+    if (method === 'POST' && p === '/api/proposals/manual') {
+      const b = z
+        .object({
+          country: countryCode,
+          taxYear: z.number().int().min(2000).max(2100),
+          rulePath: z
+            .string()
+            .max(200)
+            .regex(/^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*$/),
+          value: z.union([z.number().finite(), z.boolean(), z.string().max(200)]),
+          sourceUrl: z
+            .string()
+            .url()
+            .refine((u) => u.startsWith('https://'), 'Use an https:// source.'),
+          reason: z.string().trim().min(5).max(500),
+        })
+        .parse(body);
+      try {
+        return proposeManualChange(ctx, b);
+      } catch (e) {
+        throw new HttpError(400, e instanceof Error ? e.message : 'Invalid change.');
+      }
     }
     const versionsMatch = /^\/api\/countries\/([A-Z]{2})\/versions$/.exec(p);
     if (method === 'GET' && versionsMatch) {

@@ -3,28 +3,15 @@ import { taxRegistry } from '../data/taxData';
 import { compareRowSchema, DEFAULT_SETTINGS, type CalcDraft, type CompareRow, type SavedCalculation, type Settings } from '../services/storage/models';
 import { loadSaved, loadSettings, newId, persistSaved, readJson, saveSettings, writeJson } from '../services/storage/storage';
 
-export type Route = 'calculator' | 'compare' | 'saved' | 'settings' | 'methodology' | 'admin';
-const ROUTES: Route[] = ['calculator', 'compare', 'saved', 'settings', 'methodology', 'admin'];
-
-/** The admin Update Center only exists in development builds; it is compiled out of production bundles. */
-export const ADMIN_ENABLED: boolean = import.meta.env.DEV;
-
-function parseRoute(hash: string): Route {
-  const name = hash.replace(/^#\/?/, '').split(/[/?]/)[0];
-  if (name === '') return 'calculator';
-  if (name === 'admin' && !ADMIN_ENABLED) return 'calculator';
-  return (ROUTES as string[]).includes(name) ? (name as Route) : 'calculator';
-}
-
-export function defaultDraft(settings: Settings): CalcDraft {
+export function defaultDraft(settings: Settings, countryOverride?: string): CalcDraft {
   const countries = taxRegistry.listCountries();
-  const country = countries.find((c) => c.code === 'DK') ?? countries[0];
+  const country = countries.find((c) => c.code === (countryOverride ?? settings.country)) ?? countries.find((c) => c.code === 'DK') ?? countries[0];
   const years = country?.years ?? [settings.taxYear];
   return {
     country: country?.code ?? 'DK',
-    taxYear: years.includes(settings.taxYear) ? settings.taxYear : years[0],
-    amount: 40000,
-    frequency: settings.frequency,
+    taxYear: years.includes(settings.taxYear) ? settings.taxYear : years[years.length - 1],
+    amount: typicalSalary(country?.currency ?? 'EUR'),
+    frequency: settings.frequency === 'hourly' ? 'monthly' : settings.frequency,
     hoursPerWeek: 37,
     location: '',
     mode: settings.mode,
@@ -33,49 +20,52 @@ export function defaultDraft(settings: Settings): CalcDraft {
     autoConvert: true,
     manualRate: null,
     rateDate: null,
+    direction: 'gross-to-net',
   };
 }
 
+/** A sensible starting gross monthly salary in a currency (inputs only, never shown as data). */
+export function typicalSalary(currency: string): number {
+  return ({ DKK: 40000, SEK: 40000, NOK: 55000 } as Record<string, number>)[currency] ?? 4000;
+}
+
 const COMPARE_KEY = 'networth.compare';
-const defaultCompareRows = (): CompareRow[] => {
+export const defaultCompareRows = (): CompareRow[] => {
   const pick = (code: string, amount: number): CompareRow | null => (taxRegistry.hasModule(code) && taxRegistry.listCountries().some((c) => c.code === code) ? { id: newId(), country: code, amount, location: '', personal: {} } : null);
   return [pick('DK', 40000), pick('DE', 5000), pick('NL', 5000), pick('SE', 45000)].filter((r): r is CompareRow => r !== null);
 };
 
 interface AppState {
-  route: Route;
-  navigate: (r: Route) => void;
   settings: Settings;
   updateSettings: (patch: Partial<Settings>) => void;
   resetSettings: () => void;
   draft: CalcDraft;
   patchDraft: (patch: Partial<CalcDraft>) => void;
-  loadDraft: (d: CalcDraft) => void;
+  loadDraft: (d: CalcDraft, editingId?: string | null) => void;
+  /** Id of the saved calculation currently open in the calculator, if any. */
+  editingId: string | null;
+  setEditingId: (id: string | null) => void;
   saved: SavedCalculation[];
   setSaved: (next: SavedCalculation[]) => void;
   compareRows: CompareRow[];
   setCompareRows: (rows: CompareRow[]) => void;
   effectiveTheme: 'dark' | 'light';
+  /** Deletes everything NetWorth stored in this browser and resets to defaults (nothing is re-saved). */
+  resetAllData: () => void;
 }
 
 const Ctx = createContext<AppState | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
-  const [route, setRoute] = useState<Route>(() => parseRoute(window.location.hash));
   const [settings, setSettings] = useState<Settings>(loadSettings);
   const [draft, setDraft] = useState<CalcDraft>(() => defaultDraft(loadSettings()));
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [saved, setSavedState] = useState<SavedCalculation[]>(loadSaved);
   const [compareRows, setCompareState] = useState<CompareRow[]>(() => {
     const stored = readJson(COMPARE_KEY, compareRowSchema.array(), []).filter((r) => taxRegistry.listCountries().some((c) => c.code === r.country));
     return stored.length ? stored : defaultCompareRows();
   });
   const [systemDark, setSystemDark] = useState(() => (typeof matchMedia === 'function' ? !matchMedia('(prefers-color-scheme: light)').matches : true));
-
-  useEffect(() => {
-    const onHash = () => setRoute(parseRoute(window.location.hash));
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
-  }, []);
 
   useEffect(() => {
     if (typeof matchMedia !== 'function') return;
@@ -88,14 +78,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const effectiveTheme: 'dark' | 'light' = settings.theme === 'system' ? (systemDark ? 'dark' : 'light') : settings.theme;
   useEffect(() => {
     document.documentElement.classList.toggle('dark', effectiveTheme === 'dark');
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', effectiveTheme === 'dark' ? '#090d14' : '#f5f6f8');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', effectiveTheme === 'dark' ? '#090d14' : '#f5f7fa');
   }, [effectiveTheme]);
-
-  const navigate = useCallback((r: Route) => {
-    window.location.hash = r === 'calculator' ? '#/' : `#/${r}`;
-    setRoute(r);
-    window.scrollTo({ top: 0 });
-  }, []);
 
   const updateSettings = useCallback((patch: Partial<Settings>) => {
     setSettings((prev) => {
@@ -113,7 +97,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const patchDraft = useCallback((patch: Partial<CalcDraft>) => setDraft((d) => ({ ...d, ...patch })), []);
-  const loadDraft = useCallback((d: CalcDraft) => setDraft(d), []);
+  const loadDraft = useCallback((d: CalcDraft, id: string | null = null) => {
+    setDraft(d);
+    setEditingId(id);
+  }, []);
 
   const setSaved = useCallback((next: SavedCalculation[]) => {
     setSavedState(next);
@@ -125,9 +112,22 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     writeJson(COMPARE_KEY, rows);
   }, []);
 
+  const resetAllData = useCallback(() => {
+    try {
+      for (const k of Object.keys(localStorage)) if (k.startsWith('networth.')) localStorage.removeItem(k);
+    } catch {
+      /* storage unavailable */
+    }
+    setSettings(DEFAULT_SETTINGS);
+    setSavedState([]);
+    setCompareState(defaultCompareRows());
+    setDraft(defaultDraft(DEFAULT_SETTINGS));
+    setEditingId(null);
+  }, []);
+
   const value = useMemo<AppState>(
-    () => ({ route, navigate, settings, updateSettings, resetSettings, draft, patchDraft, loadDraft, saved, setSaved, compareRows, setCompareRows, effectiveTheme }),
-    [route, navigate, settings, updateSettings, resetSettings, draft, patchDraft, loadDraft, saved, setSaved, compareRows, setCompareRows, effectiveTheme],
+    () => ({ settings, updateSettings, resetSettings, draft, patchDraft, loadDraft, editingId, setEditingId, saved, setSaved, compareRows, setCompareRows, effectiveTheme, resetAllData }),
+    [settings, updateSettings, resetSettings, draft, patchDraft, loadDraft, editingId, saved, setSaved, compareRows, setCompareRows, effectiveTheme, resetAllData],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
@@ -137,3 +137,8 @@ export function useApp(): AppState {
   if (!v) throw new Error('useApp must be used inside <AppStateProvider>');
   return v;
 }
+
+export const usePrefs = () => {
+  const { settings } = useApp();
+  return useMemo(() => ({ numberLocale: settings.numberLocale, showDecimals: settings.showDecimals }), [settings.numberLocale, settings.showDecimals]);
+};

@@ -1,19 +1,33 @@
-import { lazy, Suspense } from 'react';
+import { useEffect } from 'react';
 import { Layout } from './components/layout/Layout';
 import { CalculatorPage } from './pages/CalculatorPage';
 import { ComparePage } from './pages/ComparePage';
+import { CountriesPage, CountryPage } from './pages/CountryPages';
+import { DisclaimerPage, NotFoundPage, PrivacyPage } from './pages/InfoPages';
+import { HomePage } from './pages/HomePage';
 import { MethodologyPage } from './pages/MethodologyPage';
 import { SavedPage } from './pages/SavedPage';
 import { SettingsPage } from './pages/SettingsPage';
-import { AppStateProvider, useApp } from './state/AppState';
+import { RouterProvider, useRouter } from './router';
+import { matchRoute, pageMeta } from './seo/routes';
+import { AppStateProvider } from './state/AppState';
 
-// The Update Center is a local maintenance tool. `import.meta.env.DEV` is a
-// build-time constant, so production bundles do not contain this page at all.
-const AdminPage = import.meta.env.DEV ? lazy(() => import('./pages/AdminPage')) : null;
+function Page() {
+  const { path } = useRouter();
+  const match = matchRoute(path);
 
-function Routes() {
-  const { route } = useApp();
-  switch (route) {
+  // Pre-rendered pages already carry full <head> tags; keep title and description in step on client navigation.
+  useEffect(() => {
+    const meta = pageMeta(match);
+    document.title = meta.title;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
+  }, [match.name, match.path]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  switch (match.name) {
+    case 'home':
+      return <HomePage />;
+    case 'calculator':
+      return <CalculatorPage />;
     case 'compare':
       return <ComparePage />;
     case 'saved':
@@ -22,25 +36,28 @@ function Routes() {
       return <SettingsPage />;
     case 'methodology':
       return <MethodologyPage />;
-    case 'admin':
-      return AdminPage ? (
-        <Suspense fallback={<p className="text-sm text-muted">Loading Update Center…</p>}>
-          <AdminPage />
-        </Suspense>
-      ) : (
-        <CalculatorPage />
-      );
+    case 'countries':
+      return <CountriesPage />;
+    case 'country':
+      return <CountryPage code={match.code as string} />;
+    case 'privacy':
+      return <PrivacyPage />;
+    case 'disclaimer':
+      return <DisclaimerPage />;
     default:
-      return <CalculatorPage />;
+      return <NotFoundPage />;
   }
 }
 
-export function App() {
+/** `url` is only passed when pre-rendering pages at build time. */
+export function App({ url }: { url?: string }) {
   return (
-    <AppStateProvider>
-      <Layout>
-        <Routes />
-      </Layout>
-    </AppStateProvider>
+    <RouterProvider url={url}>
+      <AppStateProvider>
+        <Layout>
+          <Page />
+        </Layout>
+      </AppStateProvider>
+    </RouterProvider>
   );
 }

@@ -18,9 +18,9 @@ A local maintenance system that watches official tax sources, detects changes, p
 npm run admin
 ```
 
-Then open http://localhost:5340/#/admin. The service listens on `127.0.0.1:5341` only.
+Then open http://127.0.0.1:5342. The admin interface is a separate app in `tools/tax-admin/` (its own Vite config, never built or deployed); the service it talks to listens on `127.0.0.1:5341` only.
 
-**Security:** the service requires a random admin token (created in the git-ignored `maintenance/data/.admin-token`). The Vite dev proxy adds it to requests server-side, so it never appears in browser code. Requests with a non-local `Host` (DNS rebinding) or a cross-site `Origin` are refused, inputs are validated, bodies are size-limited. The production build contains neither the admin page nor any route to the service.
+**Security:** the service requires a random admin token (created in the git-ignored `maintenance/data/.admin-token`). The Vite dev proxy adds it to requests server-side, so it never appears in browser code. Requests with a non-local `Host` (DNS rebinding) or a cross-site `Origin` are refused, inputs are validated, bodies are size-limited. The public build contains neither the admin interface nor any route to the service — an end-to-end test checks the shipped JavaScript for it.
 
 ## One-click check
 
@@ -36,6 +36,12 @@ Then open http://localhost:5340/#/admin. The service listens on `127.0.0.1:5341`
 Change kinds: **modification** (value of an effective year differs), **new-regulation** (a year without data), **future-regulation** (effective after today — stored for that year only), **informational** (relevant text changed or new publication, no value extracted), **calculation-mismatch** (official calculator disagrees).
 
 The same change detected again is not duplicated. Failed sources are listed separately and the report states that those countries are **not** confirmed unchanged.
+
+## Datasets and manual edits
+
+The **Datasets** panel shows every parameter of any country, tax year and version as a searchable table, can compare two versions side by side (changed values highlighted, "only differences" filter) and lists each version's sources and verification state.
+
+To correct a value by hand, use the pencil next to it: enter the new value, the official source URL and a reason. This never edits the dataset — it creates a **pending proposal** in the review queue, which then goes through exactly the same validation, golden-case and test run as a detected change before a new version is written. Unknown paths, whole groups, wrong types and unchanged values are refused.
 
 ## Reviewing
 

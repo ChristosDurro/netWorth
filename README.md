@@ -1,16 +1,17 @@
-# NetWorth — International Salary & Take-Home Pay Calculator
+# NetWorth — Know what your salary is actually worth
 
-Enter a gross salary → pick the country → pick your currency → see what you actually take home.
+An international take-home pay calculator. Enter a gross salary in the country you would work in, and NetWorth applies that country's own tax rules **first**, in the employment currency, then converts only the take-home pay into your currency at a dated European Central Bank reference rate. Compare offers across countries, share a calculation by link, and keep scenarios in your browser — no account, no tracking, €0 to run.
 
-NetWorth applies each country's own 2026 tax rules **first**, in the employment currency, and only then converts the net salary into the currency you choose using European Central Bank reference rates. It runs entirely in the browser, stores everything on your device and costs €0 to run.
+Live: https://christosdurro.github.io/netWorth/
 
 | | |
 |---|---|
 | Countries | Denmark, Germany, Netherlands, Sweden, Norway, Greece |
-| Tax year | 2026 (versioned datasets; no year ever falls back to another) |
+| Tax year | 2026 (versioned datasets; a year never falls back to another) |
 | Exchange rates | [Frankfurter](https://frankfurter.dev/) — ECB data, free, no API key |
-| Stack | React 19 · TypeScript · Vite · Tailwind CSS 4 · Zod · Lucide · Vitest · Testing Library · Playwright |
-| Backend | None for the public app. A **local-only** Node service powers the Tax Update Center. |
+| Stack | React 19 · TypeScript · Vite · Tailwind CSS 4 · Zod · Lucide · Inter + IBM Plex Mono (self-hosted) · Vitest · Testing Library · Playwright · axe |
+| Hosting | Static, pre-rendered pages (GitHub Pages or any static host) |
+| Backend | None for the public site. A **local-only** tool maintains the tax data. |
 
 ## Quick start
 
@@ -26,41 +27,36 @@ Open http://localhost:5340.
 
 | Command | What it does |
 |---|---|
-| `npm run dev` | Web app with hot reload |
-| `npm run admin` | Web app **plus** the local Tax Maintenance service → http://localhost:5340/#/admin |
-| `npm run build` | Type-check and build the static site into `dist/` |
-| `npm run preview` | Serve the production build |
-| `npm run test` | Unit, integration, maintenance and UI tests (Vitest) |
-| `npm run test:e2e` | End-to-end journeys on desktop and mobile (Playwright; first run: `npx playwright install chromium`) |
-| `npm run tax:check` | Check every official tax source from the command line |
-| `npm run tax:status` | Dataset versions, pending reviews and failing sources |
-| `npm run tax:golden` | Re-record golden regression results (only after a deliberate change) |
+| `npm run dev` | Public website with hot reload |
+| `npm run admin` | Private tax-administration tool → http://127.0.0.1:5342 (plus its local service on 5341) |
+| `npm run build` | Type-check, build and pre-render every page into `dist/` (set `BASE_PATH` and `SITE_URL` for a sub-folder deployment) |
+| `npm run build:pages` | Build exactly as GitHub Pages serves it (under `/netWorth/`); preview with `npx vite preview --base /netWorth/` |
+| `npm run test` | Unit, tax, maintenance, SEO and UI tests (Vitest) |
+| `npm run test:e2e` | Journeys, accessibility (axe), no-JavaScript SEO checks and phone layouts on desktop and mobile (Playwright; first run: `npx playwright install chromium`) |
+| `npm run images` | Re-render favicon, app icons and the social preview image |
+| `npm run tax:check` · `tax:status` · `tax:golden` | Tax-source checks and regression results from the command line |
 
-## Features
+## Product
 
-- **Calculator** — monthly, annual or hourly gross pay; country picker with flags; tax year; municipality / state / region where it matters; Simple and Advanced modes with only the personal inputs that matter for the selected country (church membership, tax class, children, age, pension contribution, 30% ruling, salary payments…).
-- **Results** — take-home pay in your currency as the headline, the employment-currency equivalent, annual/monthly net, effective and marginal rate, total deductions, an expandable tax breakdown with the calculation steps, a gross-vs-deductions bar, currency-conversion details (rate, date, source) and a monthly/annual overview table.
-- **Exchange rates** — latest ECB rate with its date, 6-hour local cache, last-known-rate fallback that is always labelled as not current, built-in reference table if the service was never reachable, manual rate, historical rates by date.
-- **Country comparison** — up to 8 rows, each taxed in its own currency and then converted into one currency; monthly/annual, sorting, "highest net" highlight and visible tags whenever rows use different personal assumptions.
-- **Saved calculations** — save, reopen, rename, duplicate, delete, export and import JSON. Stored only in this browser. A saved calculation remembers which dataset version it used.
-- **Settings** — default currency, tax year, salary frequency, theme (dark/light/system), calculation mode, number format, decimals, exchange-rate cache status.
-- **Methodology** — how the calculation works, what is not included, verification levels, and per-country official sources, dataset version and last-verified date.
-- **Tax Regulation Update Center** (local admin) — see [docs/MAINTENANCE.md](docs/MAINTENANCE.md).
+- **Homepage** — the headline promise, a compact calculator you can use immediately, trust signals, how it works, a live "same gross, different net" comparison, country entry points, what take-home pay includes, transparency levels and an FAQ.
+- **Calculator** (`/calculator`) — gross → take-home or the **reverse** (which gross gives the take-home pay I want); monthly, annual or hourly; municipality/state/region where it matters; personal circumstances behind progressive disclosure. Results lead with net monthly pay in your currency, then annual net, gross, deductions and effective rate, a grouped tax breakdown with plain-language explanations, monthly-vs-annual table, conversion details, marginal rate, assumptions, sources and verification status.
+- **Shareable links** — the address bar always holds the inputs (`/calculator?country=DK&salary=40000&frequency=monthly&year=2026&currency=EUR`). Links carry inputs only, are fully validated and always recalculated. Share uses the native share sheet on phones, copy-link elsewhere.
+- **Compare** (`/compare`) — up to 8 named offers, each taxed in its own country and currency, ranked in one currency; difference from the best offer, sort by take-home or effective tax, expandable tax details, open any offer in the calculator. Table on desktop, cards on phones. Print / save as PDF.
+- **Saved** (`/saved`) — save, open, edit-and-update, duplicate, rename, delete, add to comparison, export/import JSON. Each item records its tax-data version.
+- **Country pages** (`/countries/<name>`) — how each country taxes employees, social contributions, municipality differences, what affects net pay, salary examples calculated live by the engine, FAQ, official sources and a country calculator.
+- **Methodology**, **Privacy**, **Disclaimer**, **Settings** (preferences only; tax rules are never editable in the public app).
+- **PWA** — installable, works offline from the second visit (exchange rates offline are always labelled as not current).
+
+Design decisions are documented in [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md).
 
 ## Accuracy and transparency
 
-Every result carries a status:
-
-- **Verified rules** — the dataset was checked against official sources for that year.
-- **Estimate** — some rules or circumstances are approximated (e.g. Greece, where part of the 2026 reform could only be confirmed through professional summaries).
-- **Incomplete data** — important information is missing (e.g. a future year built from last year's rules).
-
-Independent checks in the test suite:
+Every result carries one status: **Verified** (rules reviewed against official sources for the tax year), **Estimate** (some parameters from secondary sources or simplified — currently Greece) or **Incomplete** (information missing, e.g. a new year built from last year's rules).
 
 - **Germany** matches the official BMF wage-tax calculator to the cent for 12 cases across all six tax classes.
 - **Sweden** reproduces every worked example in Skatteverket's technical description SKV 433 (2026).
 - **Denmark, Netherlands, Norway, Greece** are checked against step-by-step statutory calculations from the official rate tables.
-- The live source check confirmed all 44 monitored values (rates, thresholds, allowances and two BMF reference calculations) against the official sources on 18 Nov 2026.
+- Country pages quote rates directly from the active dataset, so they can never drift from the calculator.
 
 > NetWorth provides estimates for informational purposes only. Actual take-home pay depends on individual tax circumstances, employment arrangements, deductions, benefits and applicable legislation. This calculator does not replace professional tax advice.
 
@@ -71,29 +67,27 @@ src/
   engine/          Country-independent contract, registry, schemas, math (no UI imports)
   countries/<cc>/  One module per country: rule schema + calculation
   data/            Loads tax-data/ (Vite glob in the browser, fs in Node)
-  services/        currency/ (Frankfurter client) · storage/ (localStorage + Zod)
-  calculations/    Comparison logic
-  hooks/ state/    React hooks and app context
-  components/ pages/
-tax-data/
-  registry.json    Which dataset version is active per country and tax year
-  <CC>/<year>.<n>.json   Immutable, versioned rule sets with source metadata
-maintenance/
-  engine/          Source monitoring, change detection, validation, versioning, scaffolding, admin API
-  config/          sources.json (official sources + value probes) · catalog.json (tax authorities)
-  data/            state, proposals, history reports, source snapshots
-tests/             tax/ currency/ maintenance/ ui/  (+ golden.json regression lock)
-e2e/               Playwright journeys
-docs/              Sources, adding a country, deployment, maintenance
+  content/         Country-page and homepage copy (numbers read from datasets)
+  seo/             Routes, page metadata, structured data
+  services/        currency/ · storage/ · scenario.ts (share links, reverse calculation)
+  router.tsx       Small path router aware of the deployment base path
+  entry-server.tsx Build-time renderer used by scripts/prerender.mjs
+  components/ pages/ hooks/ state/ calculations/
+tools/tax-admin/   Private tax-administration UI (local only, never built or deployed)
+maintenance/       Local service: source monitoring, change detection, validation, versioning, admin API
+tax-data/          registry.json + immutable <CC>/<year>.<n>.json datasets
+scripts/           prerender, service-worker template, image generation, admin launcher
+tests/  e2e/  docs/
 ```
 
 ## Documentation
 
+- [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) — tokens, typography, components and the reasoning behind them
 - [docs/TAX_SOURCES.md](docs/TAX_SOURCES.md) — every rate used, with its official source and known limitations
-- [docs/ADDING_A_COUNTRY.md](docs/ADDING_A_COUNTRY.md) — add a country with or without the Update Center
-- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — free hosting on Cloudflare Pages or GitHub Pages
-- [docs/MAINTENANCE.md](docs/MAINTENANCE.md) — the Tax Regulation Update Center, local and production modes
+- [docs/MAINTENANCE.md](docs/MAINTENANCE.md) — the private tax-administration tool and review workflow
+- [docs/ADDING_A_COUNTRY.md](docs/ADDING_A_COUNTRY.md) — add a country with or without the admin tool
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — free hosting, pre-rendering and base paths
 
-## Costs
+## Costs and privacy
 
-None. No accounts, API keys, databases or paid services. The only network request from the public site is to Frankfurter for exchange rates. Optional automation uses free GitHub Actions minutes.
+None. No accounts, API keys, databases, analytics or paid services. Fonts are self-hosted; the only request the public site makes is to Frankfurter for exchange rates, carrying a currency code and nothing else.

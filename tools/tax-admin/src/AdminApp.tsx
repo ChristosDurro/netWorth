@@ -1,8 +1,9 @@
 import { AlertTriangle, Check, CheckCircle2, ChevronDown, Download, ExternalLink, FlaskConical, History, Loader2, Plus, RefreshCw, RotateCcw, ShieldCheck, X, XCircle } from 'lucide-react';
+import { DatasetExplorer } from './DatasetExplorer';
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { Flag } from '../components/common/Flag';
-import { Badge, Button, Card, cx, EmptyState, Field, Notice, SectionTitle, Segmented, Select, Switch } from '../components/common/ui';
-import { formatDate, formatDateTime } from '../utils/format';
+import { Flag } from '../../../src/components/common/Flag';
+import { Badge, Button, Card, cx, EmptyState, Field, Notice, SectionTitle, Segmented, Select, Switch } from '../../../src/components/common/ui';
+import { formatDate, formatDateTime } from '../../../src/utils/format';
 
 /* ---------------- API types (mirror maintenance/engine/types.ts) ---------------- */
 
@@ -561,6 +562,8 @@ export default function AdminPage() {
           </table>
         </div>
       </Card>
+
+      <DatasetExplorer countries={status.countries.map((c) => ({ code: c.code, name: c.name }))} api={api} onProposed={() => void refresh()} busy={busy || running} />
 
       <Card className="p-5 sm:p-6">
         <SectionTitle

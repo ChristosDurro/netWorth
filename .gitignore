@@ -6,3 +6,4 @@
 /maintenance/data/.tmp
 *.log
 .DS_Store
+/dist-ssr

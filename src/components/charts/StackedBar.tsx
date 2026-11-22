@@ -15,7 +15,7 @@ export function StackedBar({ segments, total, prefs, label }: { segments: Segmen
   const visible = segments.filter((s) => s.value > 0 && total > 0);
   return (
     <figure className="m-0">
-      <div role="img" aria-label={`${label}: ${visible.map((s) => `${s.label} ${formatPercent(s.value / total, prefs)}`).join(', ')}`} className="flex h-3 w-full gap-[2px] overflow-hidden rounded-full bg-surface-2">
+      <div role="img" aria-label={`${label}: ${visible.map((s) => `${s.label} ${formatPercent(s.value / total, prefs)}`).join(', ')}`} className="flex h-2.5 w-full gap-[2px] overflow-hidden rounded-full bg-surface-2">
         {visible.map((s) => (
           <div key={s.key} className="h-full transition-[width] duration-500 first:rounded-l-full last:rounded-r-full" style={{ width: `${(s.value / total) * 100}%`, background: s.color }} title={`${s.label}: ${formatPercent(s.value / total, prefs)}`} />
         ))}
@@ -25,7 +25,7 @@ export function StackedBar({ segments, total, prefs, label }: { segments: Segmen
           <span key={s.key} className="inline-flex items-center gap-1.5 text-xs text-muted">
             <span className="h-2 w-2 rounded-full" style={{ background: s.color }} aria-hidden="true" />
             {s.label}
-            <span className="num font-medium text-ink">{formatPercent(s.value / total, prefs)}</span>
+            <span className="mono font-medium text-ink">{formatPercent(s.value / total, prefs)}</span>
           </span>
         ))}
       </figcaption>
@@ -33,11 +33,11 @@ export function StackedBar({ segments, total, prefs, label }: { segments: Segmen
   );
 }
 
-/** Colours per deduction category; net pay uses the positive token. */
+/** Colours per deduction category, from the theme's chart tokens. */
 export const SEGMENT_COLORS = {
-  net: 'var(--pos)',
-  incomeTax: 'var(--accent)',
-  social: '#8b5cf6',
-  mandatory: '#f59e0b',
-  optional: '#64748b',
+  net: 'var(--chart-net)',
+  incomeTax: 'var(--chart-income)',
+  social: 'var(--chart-social)',
+  mandatory: 'var(--chart-other)',
+  optional: 'var(--chart-optional)',
 } as const;

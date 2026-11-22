@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { taxRegistry } from '../data/taxData';
 import type { CalcResult, InputField, LocationConfig, PersonalInputs } from '../engine/types';
 import type { CalcDraft } from '../services/storage/models';
+import { grossForNet } from '../services/scenario';
 import { toAnnual } from '../utils/salary';
 
 export function useDebounced<T>(value: T, ms: number): T {
@@ -49,11 +50,25 @@ export interface Calculation {
   error: string | null;
 }
 
-export function calculateDraft(draft: Pick<CalcDraft, 'country' | 'taxYear' | 'amount' | 'frequency' | 'hoursPerWeek' | 'location' | 'mode' | 'personal'>): Calculation {
+type DraftInput = Pick<CalcDraft, 'country' | 'taxYear' | 'amount' | 'frequency' | 'hoursPerWeek' | 'location' | 'mode' | 'personal'> & { direction?: CalcDraft['direction'] };
+
+/**
+ * Gross → net (default), or net → gross: the amount is then the desired take-home pay
+ * (per month = annual ÷ 12, matching how results show monthly net) and the engine
+ * searches for the gross salary that produces it.
+ */
+export function calculateDraft(draft: DraftInput): Calculation {
   try {
     const fields = taxRegistry.getRequiredPersonalInputs(draft.country, draft.taxYear);
     const personal = effectivePersonal(fields, draft.personal, draft.mode);
     const paymentsPerYear = taxRegistry.paymentsPerYear(draft.country, draft.taxYear, personal);
+    if (draft.direction === 'net-to-gross') {
+      const netAnnual = draft.frequency === 'annual' ? draft.amount : draft.amount * 12;
+      if (!(netAnnual > 0)) return { result: null, grossAnnual: 0, paymentsPerYear, error: null };
+      const found = grossForNet({ country: draft.country, taxYear: draft.taxYear, netAnnual, location: draft.location, personal });
+      if (!found) return { result: null, grossAnnual: 0, paymentsPerYear, error: 'No gross salary produces that take-home pay.' };
+      return { result: found.result, grossAnnual: found.grossAnnual, paymentsPerYear, error: null };
+    }
     const grossAnnual = toAnnual(draft.amount, draft.frequency, draft.hoursPerWeek, paymentsPerYear);
     if (grossAnnual <= 0) return { result: null, grossAnnual: 0, paymentsPerYear, error: null };
     const result = taxRegistry.calculateNetSalary({ country: draft.country, taxYear: draft.taxYear, grossAnnual, location: draft.location, personal });
@@ -64,10 +79,10 @@ export function calculateDraft(draft: Pick<CalcDraft, 'country' | 'taxYear' | 'a
 }
 
 export function useCalculation(draft: CalcDraft): Calculation {
-  const amount = useDebounced(draft.amount, 150);
+  const amount = useDebounced(draft.amount, 120);
   return useMemo(
     () => calculateDraft({ ...draft, amount }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [draft.country, draft.taxYear, amount, draft.frequency, draft.hoursPerWeek, draft.location, draft.mode, draft.personal],
+    [draft.country, draft.taxYear, amount, draft.frequency, draft.hoursPerWeek, draft.location, draft.mode, draft.personal, draft.direction],
   );
 }

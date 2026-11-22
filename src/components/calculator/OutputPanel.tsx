@@ -5,22 +5,27 @@ import { CURRENCY_CODES, CURRENCY_NAMES } from '../../services/currency/currenci
 import type { RateQuote } from '../../services/currency/currencyService';
 import type { CalcDraft } from '../../services/storage/models';
 import { formatDate, formatRate, type FormatPrefs } from '../../utils/format';
-import { Badge, Field, Notice, Segmented, Select, Switch, TextInput } from '../common/ui';
+import { Badge, Field, Notice, Segmented, Select, Switch, TextInput, type Tone } from '../common/ui';
 
-export function rateSourceLabel(q: RateQuote): { text: string; tone: 'pos' | 'warn' | 'accent' | 'neutral' } {
+/** One consistent vocabulary for rate freshness, used everywhere a rate is shown. */
+export function rateSourceLabel(q: RateQuote): { text: string; tone: Tone; detail: string } {
   switch (q.source) {
     case 'live':
-      return q.outdated ? { text: 'Outdated', tone: 'warn' } : { text: q.historical ? 'Historical' : 'Latest', tone: 'pos' };
+      return q.outdated
+        ? { text: 'Outdated', tone: 'warn', detail: `Most recent published rate (${formatDate(q.date)}).` }
+        : { text: q.historical ? 'Historical' : 'Latest', tone: q.historical ? 'neutral' : 'pos', detail: q.historical ? `ECB rate of ${formatDate(q.date)}.` : `Fetched just now; ECB rate of ${formatDate(q.date)}.` };
     case 'cache':
-      return q.outdated ? { text: 'Outdated', tone: 'warn' } : { text: q.historical ? 'Historical' : 'Latest · cached', tone: 'pos' };
+      return q.outdated
+        ? { text: 'Outdated', tone: 'warn', detail: `Most recent published rate (${formatDate(q.date)}).` }
+        : { text: q.historical ? 'Historical' : 'Cached', tone: q.historical ? 'neutral' : 'pos', detail: `Fetched in the last 6 hours; ECB rate of ${formatDate(q.date)}.` };
     case 'stale-cache':
-      return { text: 'Offline · last known', tone: 'warn' };
+      return { text: 'Offline · last known', tone: 'warn', detail: `The rate service is unreachable. Last known rate from ${formatDate(q.date)} — not today’s rate.` };
     case 'bundled':
-      return { text: 'Offline · built-in', tone: 'warn' };
+      return { text: 'Offline · built-in', tone: 'warn', detail: `The rate service is unreachable. Built-in fallback rate from ${formatDate(q.date)} — not today’s rate.` };
     case 'manual':
-      return { text: 'Manual rate', tone: 'accent' };
+      return { text: 'Manual rate', tone: 'accent', detail: 'Entered by you.' };
     default:
-      return { text: 'Same currency', tone: 'neutral' };
+      return { text: 'No conversion', tone: 'neutral', detail: 'Same currency.' };
   }
 }
 
@@ -29,10 +34,11 @@ export function OutputPanel({ draft, patch, from, rate, prefs }: { draft: CalcDr
   const same = from === draft.targetCurrency;
   const q = rate.quote;
   const today = new Date().toISOString().slice(0, 10);
+  const label = q ? rateSourceLabel(q) : null;
 
   return (
-    <div className="space-y-5">
-      <Field label="Show results in" htmlFor={`${ids}-cur`}>
+    <div className="space-y-4">
+      <Field label="Show take-home pay in" htmlFor={`${ids}-cur`}>
         <Select id={`${ids}-cur`} value={draft.targetCurrency} onChange={(e) => patch({ targetCurrency: e.target.value })}>
           {CURRENCY_CODES.map((c) => (
             <option key={c} value={c}>
@@ -42,90 +48,35 @@ export function OutputPanel({ draft, patch, from, rate, prefs }: { draft: CalcDr
         </Select>
       </Field>
 
-      {!same && (
-        <>
-          <Switch
-            label="Automatic currency conversion"
-            description="Use the latest ECB reference rate from Frankfurter."
-            checked={draft.autoConvert}
-            onChange={(autoConvert) => patch({ autoConvert })}
-          />
-
-          {draft.autoConvert ? (
-            <div className="space-y-3">
-              <Segmented
-                size="sm"
-                label="Exchange rate date"
-                value={draft.rateDate ? 'historical' : 'latest'}
-                onChange={(v) => patch({ rateDate: v === 'latest' ? null : today })}
-                options={[
-                  { value: 'latest', label: 'Latest rate' },
-                  { value: 'historical', label: 'Historical' },
-                ]}
-              />
-              {draft.rateDate && (
-                <Field label="Rate on date" htmlFor={`${ids}-date`} help="ECB publishes on working days; the closest earlier rate is used.">
-                  <TextInput id={`${ids}-date`} type="date" min="1999-01-04" max={today} value={draft.rateDate} onChange={(e) => e.target.value && patch({ rateDate: e.target.value })} />
-                </Field>
-              )}
-            </div>
-          ) : (
-            <Field label={`Manual rate: 1 ${from} = ? ${draft.targetCurrency}`} htmlFor={`${ids}-manual`} help="Used instead of the published rate. Leave empty to show results only in the employment currency.">
-              <TextInput
-                id={`${ids}-manual`}
-                type="number"
-                inputMode="decimal"
-                min={0}
-                step="any"
-                placeholder="e.g. 0.134"
-                value={draft.manualRate ?? ''}
-                onChange={(e) => {
-                  const v = e.target.valueAsNumber;
-                  patch({ manualRate: Number.isFinite(v) && v > 0 ? v : null });
-                }}
-              />
-            </Field>
-          )}
-        </>
-      )}
-
-      <div className="rounded-xl border border-line bg-surface p-3.5" aria-live="polite">
-        <div className="mb-2 flex items-center justify-between gap-2">
-          <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-muted">Exchange rate</span>
-          {q && <Badge tone={rateSourceLabel(q).tone}>{rateSourceLabel(q).text}</Badge>}
-        </div>
+      <div className="rounded-lg bg-surface-2 px-3.5 py-3" aria-live="polite">
         {same ? (
-          <p className="text-[13px] text-muted">Employment and output currency are both {from}; no conversion needed.</p>
+          <p className="text-[13px] text-muted">Paid in {from} — no conversion needed.</p>
         ) : rate.loading && !q ? (
-          <p className="text-[13px] text-muted">Fetching the latest rate…</p>
-        ) : q ? (
+          <p className="text-[13px] text-muted">Fetching the latest ECB rate…</p>
+        ) : q && label ? (
           <>
-            <p className="num text-[15px] font-semibold text-ink">
-              1 {from} = {formatRate(q.rate, prefs)} {draft.targetCurrency}
-            </p>
-            <p className="num mt-0.5 text-xs text-faint">
-              1 {draft.targetCurrency} = {formatRate(1 / q.rate, prefs)} {from}
-            </p>
-            <p className="mt-2 text-xs leading-relaxed text-faint">
-              {q.source === 'manual' ? 'Entered by you.' : `ECB reference rate of ${formatDate(q.date)} via Frankfurter.`}
-            </p>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="mono text-sm font-medium text-ink">
+                1 {from} = {formatRate(q.rate, prefs)} {draft.targetCurrency}
+              </p>
+              <Badge tone={label.tone}>{label.text}</Badge>
+            </div>
+            <p className="mt-1 text-xs leading-relaxed text-faint">{q.source === 'manual' ? 'Your own rate.' : `ECB reference rate of ${formatDate(q.date)} via Frankfurter.`}</p>
             {q.outdated && (
               <p className="mt-2 flex gap-1.5 text-xs leading-relaxed text-warn">
                 <AlertTriangle size={13} className="mt-0.5 shrink-0" />
-                {q.source === 'bundled' || q.source === 'stale-cache'
-                  ? `The rate service is unreachable, so this is the last known rate from ${formatDate(q.date)} — not today's rate.`
-                  : `This is the most recent published rate, from ${formatDate(q.date)}.`}
+                {label.detail}
               </p>
             )}
             {draft.autoConvert && !q.historical && (
-              <button type="button" onClick={rate.refresh} className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-medium text-accent hover:underline">
+              <button type="button" onClick={rate.refresh} className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-accent hover:underline">
                 <RefreshCw size={12} className={rate.loading ? 'animate-spin' : ''} /> Refresh rate
               </button>
             )}
           </>
         ) : rate.error ? (
           <Notice tone="neg">
-            {rate.error}{' '}
+            {rate.error} Tax results below are unaffected.{' '}
             <button type="button" className="font-medium text-accent underline" onClick={() => patch({ autoConvert: false })}>
               Enter a rate manually
             </button>
@@ -134,6 +85,54 @@ export function OutputPanel({ draft, patch, from, rate, prefs }: { draft: CalcDr
           <p className="text-[13px] text-muted">No conversion — enter a manual rate to see results in {draft.targetCurrency}.</p>
         )}
       </div>
+
+      {!same && (
+        <details className="group" open={!draft.autoConvert || !!draft.rateDate}>
+          <summary className="cursor-pointer text-[13px] font-medium text-muted hover:text-ink">
+            <span className="group-open:hidden">Rate options</span>
+            <span className="hidden group-open:inline">Hide rate options</span>
+          </summary>
+          <div className="mt-3 space-y-4">
+            <Switch label="Automatic currency conversion" description="Use the published ECB reference rate." checked={draft.autoConvert} onChange={(autoConvert) => patch({ autoConvert })} />
+            {draft.autoConvert ? (
+              <>
+                <Segmented
+                  size="sm"
+                  label="Exchange rate date"
+                  value={draft.rateDate ? 'historical' : 'latest'}
+                  onChange={(v) => patch({ rateDate: v === 'latest' ? null : today })}
+                  options={[
+                    { value: 'latest', label: 'Latest rate' },
+                    { value: 'historical', label: 'On a date' },
+                  ]}
+                />
+                {draft.rateDate && (
+                  <Field label="Rate on date" htmlFor={`${ids}-date`} help="ECB publishes on working days; the closest earlier rate is used.">
+                    <TextInput id={`${ids}-date`} type="date" min="1999-01-04" max={today} value={draft.rateDate} onChange={(e) => e.target.value && patch({ rateDate: e.target.value })} />
+                  </Field>
+                )}
+              </>
+            ) : (
+              <Field label={`Manual rate: 1 ${from} = ? ${draft.targetCurrency}`} htmlFor={`${ids}-manual`} help="Use the rate your bank or transfer service quotes you.">
+                <TextInput
+                  id={`${ids}-manual`}
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  step="any"
+                  placeholder="e.g. 0.134"
+                  value={draft.manualRate ?? ''}
+                  onChange={(e) => {
+                    const v = e.target.valueAsNumber;
+                    patch({ manualRate: Number.isFinite(v) && v > 0 ? v : null });
+                  }}
+                />
+              </Field>
+            )}
+            <p className="text-xs leading-relaxed text-faint">ECB reference rates are mid-market rates. Banks and transfer services add a margin, so the amount you actually receive in {draft.targetCurrency} is usually a little lower.</p>
+          </div>
+        </details>
+      )}
     </div>
   );
 }

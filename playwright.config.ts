@@ -1,17 +1,22 @@
 import { defineConfig, devices } from '@playwright/test';
 
-/** End-to-end tests run against the production build, exactly as it would be deployed. */
+/**
+ * End-to-end tests run against the pre-rendered production build, served under
+ * /netWorth/ exactly like the GitHub Pages project site.
+ */
+const BASE = 'http://localhost:5350/netWorth/';
+
 export default defineConfig({
   testDir: 'e2e',
   timeout: 30_000,
   fullyParallel: true,
   reporter: process.env.CI ? [['github'], ['list']] : [['list']],
-  use: { baseURL: 'http://localhost:5350', trace: 'retain-on-failure' },
+  use: { baseURL: BASE, trace: 'retain-on-failure', serviceWorkers: 'block' },
   webServer: {
-    command: 'npx vite build && npx vite preview --port 5350 --strictPort',
-    url: 'http://localhost:5350',
+    command: 'node scripts/build-pages.mjs && npx vite preview --base /netWorth/ --port 5350 --strictPort',
+    url: BASE,
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    timeout: 180_000,
   },
   projects: [
     { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 1000 } } },

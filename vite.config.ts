@@ -1,44 +1,25 @@
 /// <reference types="vitest/config" />
-import fs from 'node:fs';
-import path from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
-const MAINTENANCE_PORT = Number(process.env.NETWORTH_MAINTENANCE_PORT ?? 5341);
-const tokenFile = path.resolve(import.meta.dirname, 'maintenance/data/.admin-token');
-const readToken = (): string | null => {
-  try {
-    return fs.readFileSync(tokenFile, 'utf8').trim();
-  } catch {
-    return null;
-  }
-};
+/**
+ * Public website. Pages use real paths (/calculator, /countries/denmark …) and are
+ * pre-rendered to static HTML by scripts/prerender.mjs, so the site works on any
+ * static host. BASE_PATH is the folder the site is served from: "/" locally and on
+ * a custom domain, "/<repo>/" for a GitHub Pages project site.
+ *
+ * The private tax-administration tool has its own config in tools/tax-admin/ and is
+ * never part of this build.
+ */
+const base = (process.env.BASE_PATH ?? '/').replace(/\/?$/, '/');
 
-// `base: './'` keeps every asset URL relative, so the build works unchanged on
-// GitHub Pages project sites, Cloudflare Pages and any other static host.
 export default defineConfig({
-  base: './',
+  base,
   plugins: [react(), tailwindcss()],
-  server: {
-    port: 5340,
-    strictPort: false,
-    // Dev-only bridge to the local Tax Maintenance service. The admin token is
-    // read from a git-ignored file and added here, server-side, so it never
-    // appears in browser code. Production builds have no proxy and no admin UI.
-    proxy: {
-      '/admin-api': {
-        target: `http://127.0.0.1:${MAINTENANCE_PORT}`,
-        changeOrigin: true,
-        configure: (proxy) => {
-          proxy.on('proxyReq', (req) => {
-            const token = readToken();
-            if (token) req.setHeader('x-networth-admin-token', token);
-          });
-        },
-      },
-    },
-  },
+  server: { port: 5340, strictPort: false },
+  preview: { port: 5350 },
+  build: { chunkSizeWarningLimit: 700 },
   test: {
     globals: true,
     // UI tests opt into jsdom with a `// @vitest-environment jsdom` header.

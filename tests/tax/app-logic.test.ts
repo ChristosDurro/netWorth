@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { bestOutcome, compareCountries, sortOutcomes } from '../../src/calculations/compare';
+import { bestOutcome, compareCountries, gapToBest, sortOutcomes } from '../../src/calculations/compare';
 import { calculateDraft, effectivePersonal } from '../../src/hooks/useCalculation';
 import { DEFAULT_SETTINGS, type CalcDraft } from '../../src/services/storage/models';
 import { savedOps } from '../../src/services/storage/storage';
@@ -8,7 +8,7 @@ import { fromAnnual, parseAmount, toAnnual } from '../../src/utils/salary';
 import { reg } from './helpers';
 
 const table = { rates: { DKK: 7.4752, SEK: 11.095, NOK: 10.574 } };
-const draft: CalcDraft = { country: 'DK', taxYear: 2026, amount: 40000, frequency: 'monthly', hoursPerWeek: 37, location: '', mode: 'simple', personal: {}, targetCurrency: 'EUR', autoConvert: true, manualRate: null, rateDate: null };
+const draft: CalcDraft = { country: 'DK', taxYear: 2026, amount: 40000, frequency: 'monthly', hoursPerWeek: 37, location: '', mode: 'simple', personal: {}, targetCurrency: 'EUR', autoConvert: true, manualRate: null, rateDate: null, direction: 'gross-to-net' };
 
 describe('salary input helpers', () => {
   it.each([
@@ -75,7 +75,10 @@ describe('country comparison', () => {
     const sorted = sortOutcomes(out, 'net-desc');
     expect(sorted[0].netAnnualTarget).toBeGreaterThanOrEqual(sorted[1].netAnnualTarget!);
     expect(bestOutcome(out)?.row.id).toBe(sorted[0].row.id);
-    expect(sortOutcomes(out, 'net-asc')[0].row.id).toBe(sorted[sorted.length - 1].row.id);
+    const byTax = sortOutcomes(out, 'tax-asc');
+    for (let i = 1; i < byTax.length; i++) expect(byTax[i].result!.effectiveTaxRate).toBeGreaterThanOrEqual(byTax[i - 1].result!.effectiveTaxRate);
+    expect(gapToBest(sorted[0], bestOutcome(out))).toBe(0);
+    expect(gapToBest(sorted[1], bestOutcome(out))).toBeLessThan(0);
   });
   it('flags rows with non-default assumptions', () => {
     const out = compareCountries([{ ...rows[0], personal: { churchMember: true }, location: 'copenhagen' }, rows[1]], 2026, 'EUR', table);

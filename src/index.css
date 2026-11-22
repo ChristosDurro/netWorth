@@ -2,23 +2,39 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * Design tokens. Components use only these semantic names (bg-surface, text-muted …),
+ * never raw colours. Every text colour below is checked against every surface for
+ * WCAG AA (4.5:1) in tests/design/contrast.test.ts; --control is ≥3:1 for input borders.
+ */
 :root {
-  --bg: #f5f6f8;
+  --bg: #f5f7fa;
   --surface: #ffffff;
-  --surface-2: #f0f2f5;
-  --line: #e2e5eb;
-  --line-strong: #cfd4dd;
-  --ink: #0e131d;
-  --muted: #5a6373;
-  --faint: #8a93a3;
-  --accent: #0e7490;
-  --accent-soft: rgba(14, 116, 144, 0.1);
+  --surface-2: #eef2f7;
+  --elevated: #e5eaf1;
+  --line: #dde3eb;
+  --line-strong: #b8c4d2;
+  --control: #7d8a9c;
+  --ink: #111827;
+  --muted: #4b5567;
+  --faint: #5f6b7e;
+  --accent: #0c6b85;
+  --accent-hover: #095a70;
+  --accent-soft: rgba(12, 107, 133, 0.09);
   --accent-ink: #ffffff;
-  --pos: #15803d;
-  --neg: #b4232c;
-  --warn: #a15c07;
-  --warn-soft: rgba(161, 92, 7, 0.1);
-  --shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 8px 24px -12px rgba(16, 24, 40, 0.12);
+  --pos: #12703a;
+  --pos-soft: rgba(18, 112, 58, 0.09);
+  --neg: #b91c1c;
+  --neg-soft: rgba(185, 28, 28, 0.08);
+  --warn: #92400e;
+  --warn-soft: rgba(146, 64, 14, 0.08);
+  --chart-net: #16a34a;
+  --chart-income: #2563eb;
+  --chart-social: #7c3aed;
+  --chart-other: #d97706;
+  --chart-optional: #64748b;
+  --shadow: 0 1px 2px rgba(17, 24, 39, 0.04), 0 4px 16px -8px rgba(17, 24, 39, 0.08);
+  --shadow-pop: 0 12px 32px -12px rgba(17, 24, 39, 0.22), 0 2px 6px rgba(17, 24, 39, 0.06);
   color-scheme: light;
 }
 
@@ -26,19 +42,30 @@
   --bg: #090d14;
   --surface: #10161f;
   --surface-2: #151c28;
-  --line: #1f2836;
-  --line-strong: #2c3748;
-  --ink: #f1f4f8;
-  --muted: #8d97a8;
-  --faint: #667083;
+  --elevated: #1b2431;
+  --line: #222c3b;
+  --line-strong: #3a485c;
+  --control: #5e6e85;
+  --ink: #f1f5f9;
+  --muted: #a5b0c0;
+  --faint: #8b97a8;
   --accent: #22d3ee;
+  --accent-hover: #67e8f9;
   --accent-soft: rgba(34, 211, 238, 0.1);
   --accent-ink: #04222a;
   --pos: #4ade80;
+  --pos-soft: rgba(74, 222, 128, 0.1);
   --neg: #f87171;
+  --neg-soft: rgba(248, 113, 113, 0.1);
   --warn: #fbbf24;
-  --warn-soft: rgba(251, 191, 36, 0.08);
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -16px rgba(0, 0, 0, 0.6);
+  --warn-soft: rgba(251, 191, 36, 0.09);
+  --chart-net: #4ade80;
+  --chart-income: #60a5fa;
+  --chart-social: #a78bfa;
+  --chart-other: #fbbf24;
+  --chart-optional: #94a3b8;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-pop: 0 16px 40px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04);
   color-scheme: dark;
 }
 
@@ -46,24 +73,54 @@
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-elevated: var(--elevated);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
+  --color-control: var(--control);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-faint: var(--faint);
   --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
   --color-accent-ink: var(--accent-ink);
   --color-pos: var(--pos);
+  --color-pos-soft: var(--pos-soft);
   --color-neg: var(--neg);
+  --color-neg-soft: var(--neg-soft);
   --color-warn: var(--warn);
   --color-warn-soft: var(--warn-soft);
   --shadow-card: var(--shadow);
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --shadow-pop: var(--shadow-pop);
+  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --animate-enter: enter 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-fade: fade 0.2s ease-out both;
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 html {
   background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -71,13 +128,20 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-feature-settings: 'cv11', 'ss01';
+  font-feature-settings: 'cv11', 'ss01', 'ss03';
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Figures line up in tables and never jitter while typing. */
+/* Figures: tabular so columns line up and digits don't jump while typing. */
 .num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum', 'cv11';
+}
+/* Data in tables, rates and breakdown lines. */
+.mono {
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
@@ -90,7 +154,7 @@ body {
 
 select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238d97a8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b97a8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.6rem center;
 }
@@ -104,6 +168,57 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Long-form content (country pages, methodology, privacy). */
+.prose-nw {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.prose-nw > * + * {
+  margin-top: 0.9em;
+}
+.prose-nw h2 {
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  margin-top: 2.2em;
+}
+.prose-nw h3 {
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-top: 1.6em;
+}
+.prose-nw strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.prose-nw a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-underline-offset: 3px;
+}
+.prose-nw a:hover {
+  text-decoration-color: currentColor;
+}
+.prose-nw ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.prose-nw ul > li + li {
+  margin-top: 0.35em;
+}
+
 /* Grid items default to min-width:auto, so one wide child (a table, a long label in a
    wider system font) would stretch its column and the whole page past the phone screen.
    In the base layer so utilities such as min-w-* still win. */
@@ -114,8 +229,48 @@ input[type='number'] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
-    transition-duration: 0.01ms !important;
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Printing / "Save as PDF": just the content, on white. */
+@media print {
+  :root,
+  .dark {
+    --bg: #fff;
+    --surface: #fff;
+    --surface-2: #f3f4f6;
+    --elevated: #eef0f3;
+    --line: #d9dde3;
+    --line-strong: #b8c0cc;
+    --ink: #111;
+    --muted: #374151;
+    --faint: #4b5563;
+    --accent: #0c6b85;
+    --pos: #12703a;
+    --neg: #b91c1c;
+    --warn: #92400e;
+    --shadow: none;
+    color-scheme: light;
+  }
+  .no-print {
+    display: none !important;
+  }
+  body {
+    font-size: 12px;
+  }
+  main {
+    padding: 0 !important;
+  }
+  section,
+  article,
+  tr {
+    break-inside: avoid;
   }
 }

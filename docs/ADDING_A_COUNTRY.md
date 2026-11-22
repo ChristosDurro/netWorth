@@ -4,7 +4,7 @@ The calculator, comparison and methodology pages discover countries only through
 
 ## Option A — with the Update Center (recommended)
 
-1. `npm run admin`, open http://localhost:5340/#/admin → **Add country** → pick the country.
+1. `npm run admin`, open http://127.0.0.1:5342 → **Add country** → pick the country.
    If it is missing from the list, add its official tax authority to `scripts/make-catalog.mjs` and run `node scripts/make-catalog.mjs`.
 2. The engine creates:
    - `src/countries/<cc>/index.ts` — a module built on the generic model (`src/engine/generic.ts`: progressive brackets, personal allowance, tax credit, flat contributions with ceilings)
@@ -35,3 +35,5 @@ The calculator, comparison and methodology pages discover countries only through
 7. Set the status to `supported` when verified.
 
 A country with status `under-development` is never shown in the public calculator.
+
+To give the country a public page (`/countries/<name>`), add a builder for it in `src/content/countries.ts`: overview sections, FAQ and example salaries. Quote every rate through the dataset rules passed to the builder — never type numbers into the copy. The page, sitemap entry and navigation links appear automatically on the next build.
