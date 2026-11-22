@@ -12,8 +12,8 @@ export function Card({ children, className, as: Tag = 'section', ...rest }: { ch
 
 export function SectionTitle({ children, hint, action }: { children: ReactNode; hint?: ReactNode; action?: ReactNode }) {
   return (
-    <div className="mb-4 flex items-start justify-between gap-3">
-      <div>
+    <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+      <div className="min-w-0">
         <h2 className="text-[13px] font-semibold uppercase tracking-[0.08em] text-muted">{children}</h2>
         {hint && <p className="mt-1 text-sm text-faint">{hint}</p>}
       </div>

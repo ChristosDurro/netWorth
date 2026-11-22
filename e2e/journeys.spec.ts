@@ -109,3 +109,17 @@ test('navigation works on every screen size without horizontal scrolling', async
     expect(overflow).toBeLessThanOrEqual(1);
   }
 });
+
+test('every page fits a phone screen even with a wider system font', async ({ page }) => {
+  // Linux and many Android phones fall back to wider fonts than Windows/macOS. A page
+  // wider than the screen makes the browser zoom out and breaks the fixed bottom bar.
+  await mockRates(page);
+  await page.setViewportSize({ width: 360, height: 780 });
+  for (const route of ['/', '/#/compare', '/#/saved', '/#/settings', '/#/methodology']) {
+    await page.goto(route);
+    await page.addStyleTag({ content: '*{font-family:Verdana,"DejaVu Sans",sans-serif !important}' });
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow, `horizontal overflow on ${route}`).toBeLessThanOrEqual(1);
+  }
+});

@@ -104,6 +104,15 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+/* Grid items default to min-width:auto, so one wide child (a table, a long label in a
+   wider system font) would stretch its column and the whole page past the phone screen.
+   In the base layer so utilities such as min-w-* still win. */
+@layer base {
+  .grid > * {
+    min-width: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     transition-duration: 0.01ms !important;
